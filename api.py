@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-
+from audio_input import load_audio_bytes
 app = FastAPI(title="ChordAssist API", version="0.0.1")
 
 app.add_middleware(
@@ -13,8 +13,8 @@ app.add_middleware(
 def health():
     return {"ok": True}
 
-
-
 @app.post("/analyze-file")
 async def analyze_file(file: UploadFile = File(...)):
-    return {"filename": file.filename, "content_type": file.content_type}
+    raw = await file.read()
+    y, sr = load_audio_bytes(raw, sr=22050)
+    return {"sr": sr, "duration_sec": round(len(y)/sr, 3)}
