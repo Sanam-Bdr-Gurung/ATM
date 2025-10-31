@@ -1,0 +1,14 @@
+# API
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.8
+python-multipart>=0.0.9
+
+# DSP / audio
+numpy>=2.0
+scipy>=1.13
+librosa>=0.10.2
+soundfile>=0.12.1
+numba>=0.59   # librosa dependency; current wheels support 3.13
+
+# (No ML libs yet in Milestone 1)
