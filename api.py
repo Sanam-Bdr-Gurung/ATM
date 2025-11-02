@@ -11,6 +11,7 @@ from notes_baseline import detect_multi_pitch, frames_to_note_events
 from tabs_guitar import map_note_to_string_fret
 from tuning.detune import estimate_concert_detune_cents_from_frames
 from tuning.detect import detect_tuning_class
+import time
 
 app = FastAPI(title="ChordAssist API", version="0.0.1")
 
@@ -23,6 +24,7 @@ app.add_middleware(
 @app.get("/health")
 def health():
     return {"ok": True}
+    
 @app.post("/analyze-file")
 async def analyze_file(file: UploadFile = File(...)):
     t0 = time.perf_counter()
