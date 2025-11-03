@@ -6,7 +6,12 @@ import numpy as np
 class NotesTranscriber(ABC):
     """
     Stable interface for any notes model: given (y, sr) -> list of note events.
-    Each event: {t_on, t_off, midi, freq_hz, conf}
+    Each event: {t_on, t_off, midi, freq_hz, conf} t_on → time the note starts
+
+    t_off → time the note ends
+    midi → note number (0–127)
+    freq_hz → note frequency in Hertz
+    conf → confidence value or how sure the model is
     """
 
     @abstractmethod
