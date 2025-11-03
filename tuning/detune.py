@@ -27,3 +27,23 @@ def estimate_concert_detune_cents_from_frames(pitches_hz_frames, max_samples=400
         return 0.0
     # robust central tendency
     return float(np.median(cents_residuals))
+
+
+
+def estimate_detune_cents_from_events(note_events):
+    """
+    Estimate concert detune (cents) from note events (using freq_hz in each event).
+    Positive => sharp, negative => flat. Robust median; ignores outliers.
+    """
+    cents = []
+    for ev in note_events:
+        hz = float(ev.get("freq_hz", 0.0))
+        if hz <= 0:
+            continue
+        midi_f = librosa.hz_to_midi(hz)
+        nearest = round(midi_f)
+        # ignore huge residuals (wrong octave/partials)
+        r = 100.0 * (midi_f - nearest)
+        if abs(r) <= 50:
+            cents.append(r)
+    return float(np.median(cents)) if cents else 0.0
