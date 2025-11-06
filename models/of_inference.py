@@ -141,3 +141,168 @@ class OFTranscriber(NotesTranscriber):
         mel = self._audio_to_mel(x)       # [1,1,F,Tm]
         onset_logits, frame_logits = self.model(mel)  # [1,Tm,P], [1,Tm,P]
         return self._postprocess(onset_logits, frame_logits, sr=self.sr_model)
+
+
+    @torch.no_grad()
+    def transcribe_chunked(self,
+                        y: np.ndarray, sr: int,
+                        chunk_sec: float = 2.0,
+                        hop_sec: float = 1.0,
+                        onset_filt: int = 3,
+                        frame_filt: int = 5,
+                        th_on_hi: float = 0.5,
+                        th_on_lo: float = 0.3,
+                        th_fr: float = 0.5) -> list:
+        """
+        Pseudo-streaming inference with overlap-add of probabilities.
+        The model is BiGRU (non-causal), so this is for latency smoothing,
+        not strict causality. Good enough to prepare for real streaming later.
+        """
+        x = self._prep_audio(y, sr)  # [1, T]
+        if x.shape[-1] == 0:
+            return []
+
+        # compute full mel once; then slice on time axis
+        mel = self._audio_to_mel(x)  # [1,1,F,Tm]
+        _, _, F, Tm = mel.shape
+        chunk = max(1, int(round((chunk_sec * self.sr_model) / self.hop_length)))  # in mel frames
+        step  = max(1, int(round((hop_sec   * self.sr_model) / self.hop_length)))  # in mel frames
+        overlap = max(0, chunk - step)
+        if chunk <= 1 or step <= 0:
+            # fallback to full
+            onset_logits, frame_logits = self.model(mel)
+            hop_t = self.hop_length / float(self.sr_model)
+            return _logit_to_events(onset_logits[0], frame_logits[0], hop_t,
+                                    self.midi_low, onset_filt, frame_filt, th_on_hi, th_on_lo, th_fr)
+
+        onset_chunks, frame_chunks, lengths = [], [], []
+        for t0 in range(0, Tm, step):
+            t1 = min(Tm, t0 + chunk)
+            m_slice = mel[:, :, :, t0:t1]  # [1,1,F,L]
+            if m_slice.shape[-1] == 0:
+                continue
+            on, fr = self.model(m_slice)   # [1,L,P]
+            onset_chunks.append(on[0].cpu().numpy())
+            frame_chunks.append(fr[0].cpu().numpy())
+            lengths.append(m_slice.shape[-1])
+
+        if not onset_chunks:
+            return []
+
+        # stitch with overlap-add averaging
+        P = onset_chunks[0].shape[1]
+        T_full = Tm
+        onset_full = _overlap_add_probs(onset_chunks, lengths, T_full, overlap)
+        frame_full = _overlap_add_probs(frame_chunks, lengths, T_full, overlap)
+
+        hop_t = self.hop_length / float(self.sr_model)
+        return _logit_to_events(torch.from_numpy(onset_full),
+                                torch.from_numpy(frame_full),
+                                hop_t, self.midi_low,
+                                onset_filt, frame_filt, th_on_hi, th_on_lo, th_fr)
+
+
+def _median_filter_1d(x: np.ndarray, k: int) -> np.ndarray:
+    if k <= 1: return x
+    k = int(k) if int(k) % 2 == 1 else int(k) + 1  # force odd
+    from collections import deque
+    # simple per-column filter; for probabilities we can use numpy's pad+sliding
+    import numpy as _np
+    pad = k // 2
+    xp = _np.pad(x, ((pad, pad), (0,0)), mode="edge")
+    out = _np.empty_like(x)
+    for i in range(x.shape[0]):
+        window = xp[i:i+k]
+        out[i] = _np.median(window, axis=0)
+    return out
+
+def _overlap_add_probs(chunks, lengths, T_full, overlap):
+    """
+    chunks: list of np arrays [T_chunk, P]
+    lengths: list of int effective lengths (exclude right padding)
+    T_full: total frames in concatenated timeline
+    overlap: number of frames overlapped between chunks
+    """
+    P = chunks[0].shape[1]
+    acc = np.zeros((T_full, P), dtype=np.float32)
+    wgt = np.zeros((T_full, P), dtype=np.float32)
+
+    t = 0
+    for arr, L in zip(chunks, lengths):
+        # arr shape [T_chunk, P]
+        end = min(t + L, T_full)
+        seg = arr[: (end - t)]
+        acc[t:end] += seg
+        wgt[t:end] += 1.0
+        # advance by (L - overlap) frames
+        t += max(1, L - overlap)
+
+    wgt[wgt == 0] = 1.0
+    return acc / wgt
+
+def _hysteresis(onset_prob: np.ndarray, frame_prob: np.ndarray,
+                th_on_hi=0.5, th_on_lo=0.3, th_fr=0.5):
+    """
+    onset_prob, frame_prob: [T, P] in [0,1]
+    Returns onset_mask [T,P], frame_mask [T,P].
+    Onset hysteresis reduces spurious starts.
+    """
+    T, P = onset_prob.shape
+    onset_mask = np.zeros((T,P), dtype=np.uint8)
+    was_high = np.zeros(P, dtype=np.uint8)
+    for t in range(T):
+        hi = onset_prob[t] >= th_on_hi
+        lo = onset_prob[t] >= th_on_lo
+        fire = (hi | (was_high & lo))
+        onset_mask[t] = fire.astype(np.uint8)
+        was_high = fire.astype(np.uint8)
+
+    frame_mask = (frame_prob >= th_fr).astype(np.uint8)
+    return onset_mask, frame_mask
+
+def _logit_to_events(onset_logits, frame_logits, hop_t, midi_low, onset_filt=0, frame_filt=0,
+                     th_on_hi=0.5, th_on_lo=0.3, th_fr=0.5):
+    onset_prob = torch.sigmoid(onset_logits).cpu().numpy()
+    frame_prob = torch.sigmoid(frame_logits).cpu().numpy()
+
+    if onset_filt > 1:
+        onset_prob = _median_filter_1d(onset_prob, onset_filt)
+    if frame_filt > 1:
+        frame_prob = _median_filter_1d(frame_prob, frame_filt)
+
+    onset_mask, frame_mask = _hysteresis(onset_prob, frame_prob, th_on_hi, th_on_lo, th_fr)
+
+    T, P = onset_mask.shape
+    events = []
+    active = {}
+
+    for t in range(T):
+        for p in range(P):
+            midi = midi_low + p
+            if onset_mask[t, p]:
+                active[midi] = t
+            elif frame_mask[t, p] == 0:
+                if midi in active:
+                    t_on = active.pop(midi)
+                    if t > t_on:
+                        events.append({
+                            "t_on": round(t_on * hop_t, 4),
+                            "t_off": round(t * hop_t, 4),
+                            "midi": int(midi),
+                            "freq_hz": float(440.0 * (2.0 ** ((midi - 69)/12.0))),
+                            "conf": 1.0
+                        })
+    # close leftovers
+    if active:
+        t_last = T - 1
+        for m, t_on in active.items():
+            if t_last > t_on:
+                events.append({
+                    "t_on": round(t_on * hop_t, 4),
+                    "t_off": round(t_last * hop_t, 4),
+                    "midi": int(m),
+                    "freq_hz": float(440.0 * (2.0 ** ((m - 69)/12.0))),
+                    "conf": 1.0
+                })
+    events.sort(key=lambda e: e["t_on"])
+    return events
