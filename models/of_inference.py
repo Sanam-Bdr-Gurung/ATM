@@ -158,12 +158,21 @@ class OFTranscriber(NotesTranscriber):
         The model is BiGRU (non-causal), so this is for latency smoothing,
         not strict causality. Good enough to prepare for real streaming later.
         """
+        MIN_L = 4  # minimum time frames to run the model
         x = self._prep_audio(y, sr)  # [1, T]
+        
         if x.shape[-1] == 0:
             return []
-
+         
         # compute full mel once; then slice on time axis
         mel = self._audio_to_mel(x)  # [1,1,F,Tm]
+        if mel.shape[-1] < MIN_L:
+            # fallback to full (or just return empty list)
+            onset_logits, frame_logits = self.model(mel)
+            hop_t = self.hop_length / float(self.sr_model)
+            return _logit_to_events(onset_logits[0], frame_logits[0],
+                                    hop_t, self.midi_low,
+                                    onset_filt, frame_filt, th_on_hi, th_on_lo, th_fr)
         _, _, F, Tm = mel.shape
         chunk = max(1, int(round((chunk_sec * self.sr_model) / self.hop_length)))  # in mel frames
         step  = max(1, int(round((hop_sec   * self.sr_model) / self.hop_length)))  # in mel frames
@@ -176,11 +185,12 @@ class OFTranscriber(NotesTranscriber):
                                     self.midi_low, onset_filt, frame_filt, th_on_hi, th_on_lo, th_fr)
 
         onset_chunks, frame_chunks, lengths = [], [], []
+       
         for t0 in range(0, Tm, step):
             t1 = min(Tm, t0 + chunk)
             m_slice = mel[:, :, :, t0:t1]  # [1,1,F,L]
-            if m_slice.shape[-1] == 0:
-                continue
+            if m_slice.shape[-1] < MIN_L:
+                continue  # skip tiny tail slice
             on, fr = self.model(m_slice)   # [1,L,P]
             onset_chunks.append(on[0].cpu().numpy())
             frame_chunks.append(fr[0].cpu().numpy())
