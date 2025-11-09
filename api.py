@@ -19,7 +19,8 @@ from typing import Optional, Literal
 from models.of_inference import OFTranscriber
 from util_log import safe_call
 
-
+def tmark(): return time.perf_counter()
+def telapsed(t0): return (time.perf_counter() - t0) * 1000.0
 OF_MODEL: Optional[OFTranscriber] = None
 def get_of_model() -> Optional[OFTranscriber]:
     global OF_MODEL
@@ -68,20 +69,23 @@ app.add_middleware(
 def health():
     return {"ok": True}
  
-
 @app.post("/analyze-file")
 async def analyze_file(
     file: UploadFile = File(...),
-    mode: Literal["chunked", "full"] = Query("chunked")  # default chunked
+    mode: Literal["chunked", "full"] = Query("chunked"),  # default chunked
+    chords: bool = Query(False) 
 ):
-    import time
-    t0 = time.perf_counter()
+    # ---- overall timer ----
+    t_all = tmark()
 
     # -------- Load audio --------
+    t0 = tmark()
     raw = await file.read()
     y, sr = load_audio_bytes(raw, sr=22050)
+    t_io = telapsed(t0)
 
     # -------- Notes (prefer PyTorch model; fallback to baseline) --------
+    t0 = tmark()
     notes_model = get_of_model()
     used_baseline = False
     note_events = None
@@ -91,8 +95,8 @@ async def analyze_file(
             if mode == "chunked":
                 return notes_model.transcribe_chunked(
                     y, sr,
-                    chunk_sec=2.0,    # you can tweak later
-                    hop_sec=1.0,      # you can tweak later
+                    chunk_sec=1.0,    # was 2.0 tweak later
+                    hop_sec=0.5,      # was 1.0 tweak later
                     onset_filt=3,
                     frame_filt=5,
                     th_on_hi=0.55,
@@ -101,8 +105,6 @@ async def analyze_file(
                 )
             else:
                 return notes_model.transcribe(y, sr)
-
-        # safe-call so exceptions never 500 your API
         note_events = safe_call("OFTranscriber inference", _run_of, fallback=None)
 
     if note_events is None:
@@ -111,8 +113,10 @@ async def analyze_file(
         mp = detect_multi_pitch(y, sr, hop_length=1024, top_k=3)
         note_events = frames_to_note_events(mp, min_dur=0.08)
         used_baseline = True
+    t_notes = telapsed(t0)
 
     # -------- Tuning detection (events or frames) --------
+    t0 = tmark()
     if used_baseline:
         detune_cents = estimate_concert_detune_cents_from_frames(mp["pitches_hz_frames"])
     else:
@@ -125,46 +129,57 @@ async def analyze_file(
         "concert_detune_cents": round(detune_cents, 2),
         "confidence": round(float(tuning_info["confidence"]), 3),
     }
+    t_tuning = telapsed(t0)
 
     # -------- Chords (baseline templates) --------
-    chroma, times = chroma_from_audio(y, sr, hop_length=1024)
-    chord_labels = match_chords(chroma)
-    chord_segs = group_labels(chord_labels, list(times), min_hold_sec=0.4)
-    chords = []
-    for s, e, lab in chord_segs:
-        human = (lab[:-1] + " Minor") if lab.endswith("m") else (lab + " Major")
-        chords.append({
-            "t_start": float(s),
-            "t_end": float(e),
-            "label": lab,
-            "conf": 0.6,  # placeholder
-            "tts": f"{human} from {round(s,2)} to {round(e,2)} seconds",
-        })
+    t0 = tmark()
+    chords_out = []
+    if chords:
+        chroma, times = chroma_from_audio(y, sr, hop_length=1024)
+        chord_labels = match_chords(chroma)
+        chord_segs = group_labels(chord_labels, list(times), min_hold_sec=0.4)
+        for s, e, lab in chord_segs:
+            human = (lab[:-1] + " Minor") if lab.endswith("m") else (lab + " Major")
+            chords_out.append({
+                "t_start": float(s),
+                "t_end": float(e),
+                "label": lab,
+                "conf": 0.6,
+                "tts": f"{human} from {round(s,2)} to {round(e,2)} seconds",
+            })
+    t_chords = telapsed(t0) if chords else 0.0
 
     # -------- Tabs (tuning-aware) --------
+    t0 = tmark()
     tabs = []
     open_midi = tuning_info["string_open_midi"]
     for ev in note_events:
         m = map_note_to_string_fret(ev["midi"], open_midi=open_midi, max_fret=20)
         if m:
             tabs.append({"t_on": ev["t_on"], "string": m["string"], "fret": m["fret"]})
+    t_tabs = telapsed(t0)
 
     # -------- TTS & latency --------
+    t0 = tmark()
     tts_msgs = []
     if tuning_block["confidence"] >= 0.6:
         tts_msgs.append(f"Detected {tuning_block['name']} tuning.")
     else:
         tts_msgs.append(f"Likely {tuning_block['name']} tuning.")
-    if chords: tts_msgs.append(f"Detected {len(chords)} chord segments.")
-    if note_events: tts_msgs.append(f"Detected {len(note_events)} notes.")
+    if chords and chords_out:
+        tts_msgs.append(f"Detected {len(chords_out)} chord segments.")
+    if note_events:
+        tts_msgs.append(f"Detected {len(note_events)} notes.")
+    # (no separate timer for TTS strings—they're trivial)
 
-    latency_ms = (time.perf_counter() - t0) * 1000.0
+    latency_ms = telapsed(t_all)
 
+    # Response
     return {
         "instrument_hint": "guitar",
         "tuning": tuning_block,
         "notes": note_events,
-        "chords": chords,
+        "chords": chords_out,   # <-- use guarded list
         "render": {
             "guitar_tabs": tabs,
             "piano_roll": [],
@@ -172,5 +187,13 @@ async def analyze_file(
         },
         "tts": tts_msgs,
         "latency_ms": round(latency_ms, 2),
-        "mode": mode
+        "mode": mode,
+        "timing_ms": {
+            "io": round(t_io, 2),
+            "notes": round(t_notes, 2),
+            "tuning": round(t_tuning, 2),
+            "chords": round(t_chords, 2),  # 0.0 when skipped
+            "tabs": round(t_tabs, 2),
+            "total": round(latency_ms, 2)
         }
+    }
