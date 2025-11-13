@@ -44,8 +44,16 @@ def get_of_model() -> Optional[OFTranscriber]:
 
         # If it's a safetensors file, pass path anyway; of_inference will handle it
         ckpt_arg = str(ckpt_path) if ckpt_path else None
+        
+        dev = "cpu"
+        try:
+            import torch
+            if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+                dev = "mps"
+        except:
+            pass
 
-        OF_MODEL = OFTranscriber(device="cpu", checkpoint_path=ckpt_arg)
+        OF_MODEL = OFTranscriber(device=dev, checkpoint_path=ckpt_arg,n_mels=128,hop_length=1024,midi_low=21, midi_high=108)
         if ckpt_arg:
             print(f"[INFO] OFTranscriber initialized with checkpoint: {ckpt_arg}")
         else:
@@ -96,7 +104,7 @@ async def analyze_file(
                 return notes_model.transcribe_chunked(
                     y, sr,
                     chunk_sec=1.0,    # was 2.0 tweak later
-                    hop_sec=0.5,      # was 1.0 tweak later
+                    hop_sec=0,      # was 1.0 tweak later
                     onset_filt=3,
                     frame_filt=5,
                     th_on_hi=0.55,

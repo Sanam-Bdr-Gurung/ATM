@@ -18,8 +18,8 @@ class OFTranscriber(NotesTranscriber):
         fmin: float = 30.0,
         fmax: float = 8000.0,
         n_pitches: int = 88,      # MIDI 21..108 (A0..C8) by default
-        midi_low: int = 21,
-        midi_high: int = 108,
+        midi_low: int = 21,  # <-- A0
+        midi_high: int = 108,# <-- C8 (inclusive)
         onset_thresh: float = 0.5,
         frame_thresh: float = 0.5,
         checkpoint_path: Optional[str] = None
@@ -43,6 +43,13 @@ class OFTranscriber(NotesTranscriber):
         self.model = OnsetsAndFrames(n_mels=n_mels, hidden=128, gru_layers=2, n_pitches=n_pitches).to(self.device)
         self.model.eval()
 
+        # (optional) dynamic quantization on CPU
+        if self.device.type == "cpu":
+            import torch.nn as nn
+            self.model = torch.quantization.quantize_dynamic(
+                self.model, {nn.GRU, nn.Linear}, dtype=torch.qint8
+            )
+
         if checkpoint_path:
             try:
                 if checkpoint_path.endswith(".safetensors"):
@@ -57,7 +64,19 @@ class OFTranscriber(NotesTranscriber):
                 else:
                     ckpt = torch.load(checkpoint_path, map_location=self.device)
                     state = ckpt.get("state_dict", ckpt)
-                self.model.load_state_dict(state, strict=False)
+
+                # strip "module." prefixes if present
+                fixed = {}
+                for k, v in state.items():
+                    fixed[k.replace("module.", "")] = v
+                state = fixed
+                
+                missing, unexpected = self.model.load_state_dict(state, strict=False)
+                print("[INFO] Loaded checkpoint with strict=False")
+                if missing:
+                    print("[WARN] Missing keys:", missing[:10], "...")
+                if unexpected:
+                    print("[WARN] Unexpected keys:", unexpected[:10], "...")
             except Exception as e:
                 # Don't kill the server—log and continue with random weights
                 import traceback
