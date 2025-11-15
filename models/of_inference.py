@@ -43,13 +43,22 @@ class OFTranscriber(NotesTranscriber):
         self.model = OnsetsAndFrames(n_mels=n_mels, hidden=128, gru_layers=2, n_pitches=n_pitches).to(self.device)
         self.model.eval()
 
-        # (optional) dynamic quantization on CPU
-        if self.device.type == "cpu":
-            import torch.nn as nn
-            self.model = torch.quantization.quantize_dynamic(
-                self.model, {nn.GRU, nn.Linear}, dtype=torch.qint8
-            )
-
+        # Optional dynamic quantization (DISABLED for now; Mac / PyTorch 3.13 build has no QEngine)
+        # If you ever want to re-enable:
+        #   - Make sure torch.backends.quantized.engine != "none"
+        #   - And that your build supports quantized ops on CPU.
+        """
+        import torch.nn as nn
+        import torch
+        if self.device.type == "cpu" and torch.backends.quantized.engine != "none":
+            try:
+                self.model = torch.quantization.quantize_dynamic(
+                    self.model, {nn.GRU, nn.Linear}, dtype=torch.qint8
+                )
+                print("[INFO] Dynamic quantization enabled for GRU/Linear.")
+            except Exception as e:
+                print("[WARN] Dynamic quantization failed, running in float32:", repr(e))
+        """
         if checkpoint_path:
             try:
                 if checkpoint_path.endswith(".safetensors"):
@@ -70,7 +79,29 @@ class OFTranscriber(NotesTranscriber):
                 for k, v in state.items():
                     fixed[k.replace("module.", "")] = v
                 state = fixed
-                
+                # 2) OPTIONAL: slice heads if we are using a smaller guitar range *slice or remap to specific guitar range
+                # want_low, want_high = 40, 88  # guitar-ish range (E2–E6)
+                # if self.midi_low == want_low and self.midi_high == want_high:
+                #     def slice_last_dim(t, low=want_low, high=want_high):
+                #         # checkpoint is assumed to cover MIDI 21–108 (88 pitches)
+                #         # indices 0..87 -> MIDI 21..108
+                #         start = low - 21
+                #         end = high - 21 + 1
+                #         if t.ndim == 2:  # [out_dim, in_dim]
+                #             return t[:, start:end]
+                #         else:            # [out_dim]
+                #             return t[start:end]
+                #     for head_name in ["heads.onset", "heads.frame"]:
+                #         W_key = f"{head_name}.weight"
+                #         b_key = f"{head_name}.bias"
+                #         W = state.get(W_key, None)
+                #         B = state.get(b_key, None)
+                #         if W is not None and B is not None and W.shape[0] == 88 and B.shape[0] == 88:
+                #             state[W_key] = slice_last_dim(W)
+                #             state[b_key] = slice_last_dim(B)
+                #             print(f"[INFO] Sliced checkpoint head for {head_name} to MIDI {want_low}-{want_high}")
+
+                # 3) Now load into the model
                 missing, unexpected = self.model.load_state_dict(state, strict=False)
                 print("[INFO] Loaded checkpoint with strict=False")
                 if missing:

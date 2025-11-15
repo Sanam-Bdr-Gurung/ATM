@@ -53,7 +53,14 @@ def get_of_model() -> Optional[OFTranscriber]:
         except:
             pass
 
-        OF_MODEL = OFTranscriber(device=dev, checkpoint_path=ckpt_arg,n_mels=128,hop_length=1024,midi_low=21, midi_high=108)
+        OF_MODEL = OFTranscriber(
+            device=dev,
+            checkpoint_path=ckpt_arg,   # your resilient pick
+            n_mels=128,
+            hop_length=1024,
+            midi_low=21,                # 88-key piano range
+            midi_high=108
+        )
         if ckpt_arg:
             print(f"[INFO] OFTranscriber initialized with checkpoint: {ckpt_arg}")
         else:
@@ -94,33 +101,38 @@ async def analyze_file(
 
     # -------- Notes (prefer PyTorch model; fallback to baseline) --------
     t0 = tmark()
-    notes_model = get_of_model()
+    #termporarily disabled : Temporarily disable the PyTorch model and always use the baseline note detector until we have a real checkpoint.
+    # notes_model = get_of_model()
     used_baseline = False
     note_events = None
+    #termporarily disabled : Temporarily disable the PyTorch model and always use the baseline note detector until we have a real checkpoint.
+    # if notes_model is not None:
+    #     def _run_of():
+    #         if mode == "chunked":
+    #             return notes_model.transcribe_chunked(
+    #                 y, sr,
+    #                 chunk_sec=1.0,    # was 2.0 tweak later
+    #                 hop_sec=0,      # was 1.0 tweak later
+    #                 onset_filt=3,
+    #                 frame_filt=5,
+    #                 th_on_hi=0.55,
+    #                 th_on_lo=0.30,
+    #                 th_fr=0.50,
+    #             )
+    #         else:
+    #             return notes_model.transcribe(y, sr)
+    #     note_events = safe_call("OFTranscriber inference", _run_of, fallback=None)
+    # if note_events is None:
+    #     # Baseline path
+    #     from notes_baseline import detect_multi_pitch, frames_to_note_events
+    #     mp = detect_multi_pitch(y, sr, hop_length=1024, top_k=3)
+    #     note_events = frames_to_note_events(mp, min_dur=0.08)
+    #     used_baseline = True
 
-    if notes_model is not None:
-        def _run_of():
-            if mode == "chunked":
-                return notes_model.transcribe_chunked(
-                    y, sr,
-                    chunk_sec=1.0,    # was 2.0 tweak later
-                    hop_sec=0,      # was 1.0 tweak later
-                    onset_filt=3,
-                    frame_filt=5,
-                    th_on_hi=0.55,
-                    th_on_lo=0.30,
-                    th_fr=0.50,
-                )
-            else:
-                return notes_model.transcribe(y, sr)
-        note_events = safe_call("OFTranscriber inference", _run_of, fallback=None)
-
-    if note_events is None:
-        # Baseline path
-        from notes_baseline import detect_multi_pitch, frames_to_note_events
-        mp = detect_multi_pitch(y, sr, hop_length=1024, top_k=3)
-        note_events = frames_to_note_events(mp, min_dur=0.08)
-        used_baseline = True
+    from notes_baseline import detect_multi_pitch, frames_to_note_events
+    mp = detect_multi_pitch(y, sr, hop_length=1024, top_k=3)
+    note_events = frames_to_note_events(mp, min_dur=0.08)
+    used_baseline = True
     t_notes = telapsed(t0)
 
     # -------- Tuning detection (events or frames) --------
