@@ -18,6 +18,114 @@ from pathlib import Path
 from typing import Optional, Literal
 from models.of_inference import OFTranscriber
 from util_log import safe_call
+from tabs_guitar_dp import dp_tab_mapping
+
+NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F",
+              "F#", "G", "G#", "A", "A#", "B"]
+
+def midi_to_name(m: int) -> str:
+    if m < 0 or m > 127:
+        return f"midi{m}"
+    name = NOTE_NAMES[m % 12]
+    octave = (m // 12) - 1
+    return f"{name}{octave}"     
+
+def postprocess_notes(
+    note_events,
+    midi_low: int = 40,     # E2
+    midi_high: int = 88,    # up to ~E6
+    min_dur: float = 0.10,  # seconds
+    merge_gap: float = 0.03 # seconds, merge if gap smaller than this
+):
+    """
+    Simple, cheap cleanup pass for baseline note_events:
+      - keep only notes in guitar pitch range
+      - drop very short notes (< min_dur)
+      - merge nearly-contiguous notes of same pitch
+    """
+    if not note_events:
+        return []
+
+    # 1) filter by pitch + duration
+    filtered = []
+    for ev in note_events:
+        t_on = float(ev.get("t_on", 0.0))
+        t_off = float(ev.get("t_off", t_on))
+        dur = t_off - t_on
+        midi = int(ev.get("midi", 0))
+
+        if midi < midi_low or midi > midi_high:
+            continue
+        if dur < min_dur:
+            continue
+
+        filtered.append({
+            **ev,
+            "t_on": t_on,
+            "t_off": t_off,
+            "midi": midi,
+        })
+
+    if not filtered:
+        return []
+
+    # 2) sort by onset then pitch
+    filtered.sort(key=lambda e: (e["t_on"], e["midi"]))
+
+    # 3) merge close same-pitch notes
+    merged = [filtered[0]]
+    for ev in filtered[1:]:
+        last = merged[-1]
+        same_pitch = (ev["midi"] == last["midi"])
+        gap = ev["t_on"] - last["t_off"]
+
+        if same_pitch and 0.0 <= gap <= merge_gap:
+            # merge into last
+            last["t_off"] = max(last["t_off"], ev["t_off"])
+            # keep max confidence if present
+            if "conf" in ev or "conf" in last:
+                last_conf = float(last.get("conf", 0.0))
+                ev_conf = float(ev.get("conf", 0.0))
+                last["conf"] = max(last_conf, ev_conf)
+        else:
+            merged.append(ev)
+
+    return merged
+
+def collapse_harmonics(note_events, window: float = 0.08):
+    """
+    For monophonic/debug use:
+    In each small time window, keep only the lowest MIDI note.
+    Assumes most higher notes in the cluster are harmonics.
+    """
+    if not note_events:
+        return []
+
+    # Sort by onset, then midi
+    evs = sorted(note_events, key=lambda e: (float(e["t_on"]), int(e["midi"])))
+
+    collapsed = []
+    cluster = [evs[0]]
+
+    def flush_cluster():
+        if not cluster:
+            return
+        # pick lowest midi in cluster
+        best = min(cluster, key=lambda e: int(e["midi"]))
+        collapsed.append(best)
+
+    for ev in evs[1:]:
+        prev = cluster[-1]
+        if (ev["t_on"] - prev["t_on"]) <= window:
+            # still in same cluster
+            cluster.append(ev)
+        else:
+            # new cluster
+            flush_cluster()
+            cluster = [ev]
+
+    flush_cluster()
+    return collapsed
 
 def tmark(): return time.perf_counter()
 def telapsed(t0): return (time.perf_counter() - t0) * 1000.0
@@ -143,12 +251,36 @@ async def analyze_file(
         detune_cents = estimate_detune_cents_from_events(note_events)
 
     tuning_info = detect_tuning_class(note_events, max_fret=20)
+    # tuning_block = {
+    #     "name": tuning_info["name"],
+    #     "string_open_midi": tuning_info["string_open_midi"],
+    #     "concert_detune_cents": round(detune_cents, 2),
+    #     "confidence": round(float(tuning_info["confidence"]), 3),
+    # }
+    # TEMP: force standard E for debugging
     tuning_block = {
-        "name": tuning_info["name"],
-        "string_open_midi": tuning_info["string_open_midi"],
-        "concert_detune_cents": round(detune_cents, 2),
-        "confidence": round(float(tuning_info["confidence"]), 3),
+        "name": "Standard E (forced)",
+        "string_open_midi": [40, 45, 50, 55, 59, 64],
+        "concert_detune_cents": 0.0,
+        "confidence": 1.0,
     }
+    # --- NEW: postprocess for guitar range + cleaner notes ---
+    note_events = postprocess_notes(
+        note_events,
+        midi_low=40,   # E2
+        midi_high=88,  # ~E6
+        min_dur=0.10,  # a bit stricter than 0.08
+        merge_gap=0.03
+    )
+    # TEMP: assume mostly monophonic, collapse harmonics
+    note_events = collapse_harmonics(note_events, window=0.08)
+    # ---- Debug: print first 25 notes + tuning ----
+    print("=== DEBUG NOTES ===")
+    print("TUNING PRED:", tuning_block)
+    for ev in note_events[:25]:
+        m = int(ev["midi"])
+        print(f"t={ev['t_on']:.3f}s  midi={m}  {midi_to_name(m)}")
+    print("=== END DEBUG ===")
     t_tuning = telapsed(t0)
 
     # -------- Chords (baseline templates) --------
@@ -169,15 +301,11 @@ async def analyze_file(
             })
     t_chords = telapsed(t0) if chords else 0.0
 
-    # -------- Tabs (tuning-aware) --------
-    t0 = tmark()
-    tabs = []
+    # -------- Tabs (tuning-aware, DP smoothing) --------
+    t0_tabs = tmark()
     open_midi = tuning_info["string_open_midi"]
-    for ev in note_events:
-        m = map_note_to_string_fret(ev["midi"], open_midi=open_midi, max_fret=20)
-        if m:
-            tabs.append({"t_on": ev["t_on"], "string": m["string"], "fret": m["fret"]})
-    t_tabs = telapsed(t0)
+    tabs = dp_tab_mapping(note_events, open_midi=open_midi, max_fret=20)
+    t_tabs = telapsed(t0_tabs)
 
     # -------- TTS & latency --------
     t0 = tmark()
