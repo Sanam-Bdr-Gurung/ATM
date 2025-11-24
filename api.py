@@ -205,6 +205,10 @@ async def analyze_file(
     t0 = tmark()
     raw = await file.read()
     y, sr = load_audio_bytes(raw, sr=22050)
+
+    # Duration in seconds (for evaluation / thesis reporting)
+    audio_duration_sec = len(y) / float(sr)
+
     t_io = telapsed(t0)
 
     # -------- Notes (prefer PyTorch model; fallback to baseline) --------
@@ -343,5 +347,6 @@ async def analyze_file(
             "chords": round(t_chords, 2),  # 0.0 when skipped
             "tabs": round(t_tabs, 2),
             "total": round(latency_ms, 2)
-        }
+        },
+        "audio_duration_sec": round(audio_duration_sec, 3),  # ⬅️ NEW
     }
