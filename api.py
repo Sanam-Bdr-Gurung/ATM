@@ -196,8 +196,16 @@ def health():
 async def analyze_file(
     file: UploadFile = File(...),
     mode: Literal["chunked", "full"] = Query("chunked"),  # default chunked
-    chords: bool = Query(False) 
-):
+    backend: Literal["baseline", "of"] = Query("baseline"),
+    chords: bool = Query(False)):
+    # ---- backend sanity ----
+    if backend == "of":
+        # For now OFTranscriber is temporarily disabled,
+        # so we always fall back to baseline.
+        print("[INFO] backend=of requested but OFTranscriber is disabled; using baseline instead.")
+        backend_effective = "baseline"
+    else:
+        backend_effective = "baseline"
     # ---- overall timer ----
     t_all = tmark()
 
@@ -348,5 +356,7 @@ async def analyze_file(
             "tabs": round(t_tabs, 2),
             "total": round(latency_ms, 2)
         },
-        "audio_duration_sec": round(audio_duration_sec, 3),  # ⬅️ NEW
+        "audio_duration_sec": round(audio_duration_sec, 3), 
+        "backend_requested": backend,
+        "backend_effective": backend_effective
     }

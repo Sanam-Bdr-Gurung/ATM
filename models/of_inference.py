@@ -43,22 +43,7 @@ class OFTranscriber(NotesTranscriber):
         self.model = OnsetsAndFrames(n_mels=n_mels, hidden=128, gru_layers=2, n_pitches=n_pitches).to(self.device)
         self.model.eval()
 
-        # Optional dynamic quantization (DISABLED for now; Mac / PyTorch 3.13 build has no QEngine)
-        # If you ever want to re-enable:
-        #   - Make sure torch.backends.quantized.engine != "none"
-        #   - And that your build supports quantized ops on CPU.
-        """
-        import torch.nn as nn
-        import torch
-        if self.device.type == "cpu" and torch.backends.quantized.engine != "none":
-            try:
-                self.model = torch.quantization.quantize_dynamic(
-                    self.model, {nn.GRU, nn.Linear}, dtype=torch.qint8
-                )
-                print("[INFO] Dynamic quantization enabled for GRU/Linear.")
-            except Exception as e:
-                print("[WARN] Dynamic quantization failed, running in float32:", repr(e))
-        """
+        
         if checkpoint_path:
             try:
                 if checkpoint_path.endswith(".safetensors"):
@@ -113,6 +98,32 @@ class OFTranscriber(NotesTranscriber):
                 import traceback
                 print("[WARN] Failed to load checkpoint:", repr(e))
                 traceback.print_exc()
+                
+        # ---- SAFE dynamic quantization (optional) ----
+        # On your Mac, quantization engine is likely "none" / "NoQEngine",
+        # so this will just log and keep the float32 model.
+        import torch.nn as nn
+
+        qengine = None
+        try:
+            if hasattr(torch.backends, "quantized"):
+                qengine = torch.backends.quantized.engine
+        except Exception:
+            qengine = None
+
+        if self.device.type == "cpu" and qengine and qengine not in ("none", "NoQEngine"):
+            try:
+                print(f"[INFO] Enabling dynamic quantization (engine={qengine})...")
+                self.model = torch.quantization.quantize_dynamic(
+                    self.model,
+                    {nn.GRU, nn.Linear},
+                    dtype=torch.qint8,
+                )
+                print("[INFO] Dynamic quantization enabled successfully.")
+            except Exception as e:
+                print("[WARN] Dynamic quantization failed; using float32 instead:", repr(e))
+        else:
+            print(f"[INFO] Quantization engine={qengine!r}; skipping dynamic quantization (float32 model).")
 
     def _prep_audio(self, y: np.ndarray, sr: int) -> torch.Tensor:
         x = torch.tensor(y, dtype=torch.float32, device=self.device).unsqueeze(0)  # [1,T]
