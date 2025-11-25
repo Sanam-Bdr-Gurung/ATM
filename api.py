@@ -198,14 +198,20 @@ async def analyze_file(
     mode: Literal["chunked", "full"] = Query("chunked"),  # default chunked
     backend: Literal["baseline", "of"] = Query("baseline"),
     chords: bool = Query(False)):
-    # ---- backend sanity ----
+     # ---- backend sanity / model selection ----
+    backend_effective = "baseline"
+    notes_model: Optional[OFTranscriber] = None
+
     if backend == "of":
-        # For now OFTranscriber is temporarily disabled,
-        # so we always fall back to baseline.
-        print("[INFO] backend=of requested but OFTranscriber is disabled; using baseline instead.")
-        backend_effective = "baseline"
+        notes_model = get_of_model()
+        if notes_model is not None:
+            print("[INFO] backend=of requested, using OFTranscriber.")
+            backend_effective = "of"
+        else:
+            print("[WARN] backend=of requested but OFTranscriber unavailable; using baseline.")
     else:
         backend_effective = "baseline"
+
     # ---- overall timer ----
     t_all = tmark()
 
@@ -219,45 +225,42 @@ async def analyze_file(
 
     t_io = telapsed(t0)
 
-    # -------- Notes (prefer PyTorch model; fallback to baseline) --------
+    # -------- Notes (OF vs baseline) --------
     t0 = tmark()
-    #termporarily disabled : Temporarily disable the PyTorch model and always use the baseline note detector until we have a real checkpoint.
-    # notes_model = get_of_model()
     used_baseline = False
     note_events = None
-    #termporarily disabled : Temporarily disable the PyTorch model and always use the baseline note detector until we have a real checkpoint.
-    # if notes_model is not None:
-    #     def _run_of():
-    #         if mode == "chunked":
-    #             return notes_model.transcribe_chunked(
-    #                 y, sr,
-    #                 chunk_sec=1.0,    # was 2.0 tweak later
-    #                 hop_sec=0,      # was 1.0 tweak later
-    #                 onset_filt=3,
-    #                 frame_filt=5,
-    #                 th_on_hi=0.55,
-    #                 th_on_lo=0.30,
-    #                 th_fr=0.50,
-    #             )
-    #         else:
-    #             return notes_model.transcribe(y, sr)
-    #     note_events = safe_call("OFTranscriber inference", _run_of, fallback=None)
-    # if note_events is None:
-    #     # Baseline path
-    #     from notes_baseline import detect_multi_pitch, frames_to_note_events
-    #     mp = detect_multi_pitch(y, sr, hop_length=1024, top_k=3)
-    #     note_events = frames_to_note_events(mp, min_dur=0.08)
-    #     used_baseline = True
+    mp = None  # only set for baseline path
 
-    from notes_baseline import detect_multi_pitch, frames_to_note_events
-    mp = detect_multi_pitch(y, sr, hop_length=1024, top_k=3)
-    note_events = frames_to_note_events(mp, min_dur=0.08)
-    used_baseline = True
+    if backend_effective == "of" and notes_model is not None:
+        # Use PyTorch Onsets & Frames backend
+        def _run_of():
+            if mode == "chunked":
+                return notes_model.transcribe_chunked(
+                    y, sr,
+                    chunk_sec=1.0,    # you can tweak later
+                    hop_sec=0.5,
+                    onset_filt=3,
+                    frame_filt=5,
+                    th_on_hi=0.55,
+                    th_on_lo=0.30,
+                    th_fr=0.50,
+                )
+            else:
+                return notes_model.transcribe(y, sr)
+
+        note_events = safe_call("OFTranscriber inference", _run_of, fallback=None)
+
+    # Fallback or baseline path
+    if note_events is None:
+        mp = detect_multi_pitch(y, sr, hop_length=1024, top_k=3)
+        note_events = frames_to_note_events(mp, min_dur=0.08)
+        used_baseline = True
+
     t_notes = telapsed(t0)
 
     # -------- Tuning detection (events or frames) --------
     t0 = tmark()
-    if used_baseline:
+    if used_baseline and mp is not None:
         detune_cents = estimate_concert_detune_cents_from_frames(mp["pitches_hz_frames"])
     else:
         detune_cents = estimate_detune_cents_from_events(note_events)
