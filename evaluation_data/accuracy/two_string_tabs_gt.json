@@ -1,0 +1,15 @@
+[
+    {"t_on": 0.45, "string": 2, "fret": 10},
+    {"t_on": 0.86, "string": 1, "fret": 9},
+    {"t_on": 1.24, "string": 1, "fret": 12},
+    {"t_on": 1.66, "string": 2, "fret": 9},
+    {"t_on": 2.08, "string": 1, "fret": 7},
+    {"t_on": 2.50, "string": 1, "fret": 11},
+    {"t_on": 2.93, "string": 2, "fret": 7},
+    {"t_on": 3.34, "string": 1, "fret": 5},
+    {"t_on": 3.73, "string": 1, "fret": 9},
+    {"t_on": 4.16, "string": 2, "fret": 5},
+    {"t_on": 4.58, "string": 1, "fret": 4},
+    {"t_on": 4.94, "string": 1, "fret": 7}
+  ]
+  

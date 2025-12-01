@@ -1,0 +1,11 @@
+[
+    { "t_on": 1.01, "string": 1, "fret": 0 },  
+    { "t_on": 1.85, "string": 1, "fret": 1 }, 
+    { "t_on": 2.66, "string": 1, "fret": 3 }, 
+    { "t_on": 3.43, "string": 1, "fret": 5 }, 
+    { "t_on": 4.21, "string": 1, "fret": 7 }, 
+    { "t_on": 4.98, "string": 1, "fret": 8 },
+    { "t_on": 5.77, "string": 1, "fret": 10 },
+    { "t_on": 6.62, "string": 1, "fret": 12 }  
+  ]
+  

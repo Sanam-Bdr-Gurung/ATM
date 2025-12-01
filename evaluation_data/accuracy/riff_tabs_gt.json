@@ -1,0 +1,24 @@
+[
+    {"t_on": 0.40, "string": 6, "fret": 1},
+    {"t_on": 0.63, "string": 6, "fret": 3},
+    {"t_on": 0.82, "string": 5, "fret": 1},
+    {"t_on": 1.24, "string": 6, "fret": 3},
+    {"t_on": 2.90, "string": 6, "fret": 1},
+    {"t_on": 3.09, "string": 6, "fret": 3},
+    {"t_on": 3.31, "string": 5, "fret": 1},
+    {"t_on": 3.71, "string": 4, "fret": 3},
+    {"t_on": 4.41, "string": 4, "fret": 1},
+    {"t_on": 5.15, "string": 5, "fret": 3},
+    {"t_on": 5.25, "string": 5, "fret": 5},
+    {"t_on": 5.58, "string": 5, "fret": 3},
+    {"t_on": 6.75, "string": 5, "fret": 1},
+    {"t_on": 7.14, "string": 5, "fret": 3},
+    {"t_on": 7.42, "string": 5, "fret": 5},
+    {"t_on": 7.56, "string": 5, "fret": 3},
+    {"t_on": 8.84, "string": 5, "fret":1},
+    {"t_on": 9.06, "string": 5, "fret": 3},
+    {"t_on": 9.25, "string": 5, "fret": 5},
+    {"t_on": 9.67, "string": 5, "fret": 5},
+    {"t_on": 10.08, "string": 6, "fret": 3}
+  ]
+  
