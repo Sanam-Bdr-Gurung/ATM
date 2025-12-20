@@ -56,9 +56,17 @@ class OFTranscriber(NotesTranscriber):
                         )
                     state = safe_load(checkpoint_path, device=self.device)
                 else:
-                    ckpt = torch.load(checkpoint_path, map_location=self.device)
+                    # IMPORTANT: weights_only=False because this checkpoint stores a full model object.
+                    # Only do this because you downloaded the file yourself and trust its source.
+                    ckpt = torch.load(checkpoint_path, map_location=self.device, weights_only=False)
                     state = ckpt.get("state_dict", ckpt)
 
+                    # If it's a plain dict (or Lightning-style checkpoint)
+                    if isinstance(ckpt, dict):
+                        state = ckpt.get("state_dict", ckpt)
+                    else:
+                        # If it's a full nn.Module (like OnsetsAndFrames instance)
+                        state = ckpt.state_dict()
                 # strip "module." prefixes if present
                 fixed = {}
                 for k, v in state.items():
@@ -228,12 +236,24 @@ class OFTranscriber(NotesTranscriber):
         # compute full mel once; then slice on time axis
         mel = self._audio_to_mel(x)  # [1,1,F,Tm]
         if mel.shape[-1] < MIN_L:
-            # fallback to full (or just return empty list)
-            onset_logits, frame_logits = self.model(mel)
+            onset_logits, frame_logits = self.model(mel)  # [1,T,P]
             hop_t = self.hop_length / float(self.sr_model)
-            return _logit_to_events(onset_logits[0], frame_logits[0],
-                                    hop_t, self.midi_low,
-                                    onset_filt, frame_filt, th_on_hi, th_on_lo, th_fr)
+            return _logit_to_events(
+                onset_logits[0],
+                frame_logits[0],
+                hop_t,
+                self.midi_low,
+                onset_filt,
+                frame_filt,
+                th_on_hi,
+                th_on_lo,
+                th_fr,
+            )
+            # --- TEMP SAFETY: if chunked produces nothing, fall back to full ---
+            if not events:
+                print("[WARN] Chunked OFTranscriber produced 0 events; falling back to full transcribe()")
+                return self.transcribe(y, sr)
+            return events
         _, _, F, Tm = mel.shape
         chunk = max(1, int(round((chunk_sec * self.sr_model) / self.hop_length)))  # in mel frames
         step  = max(1, int(round((hop_sec   * self.sr_model) / self.hop_length)))  # in mel frames

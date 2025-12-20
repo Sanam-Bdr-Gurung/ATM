@@ -54,9 +54,7 @@ def main():
     t0 = time.perf_counter()
     tr = OFTranscriber(
         device="cpu",           # you can try "mps" later if stable
-        checkpoint_path=None,   # we'll plug a real file later
-        n_mels=229,
-        hop_length=512,
+        checkpoint_path="checkpoints/of_pretrained.pt",  # relative path
         midi_low=21,
         midi_high=108,
     )

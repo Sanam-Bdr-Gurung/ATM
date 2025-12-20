@@ -164,15 +164,17 @@ def get_of_model() -> Optional[OFTranscriber]:
         OF_MODEL = OFTranscriber(
             device=dev,
             checkpoint_path=ckpt_arg,   # your resilient pick
-            n_mels=128,
-            hop_length=1024,
+            sr_model=16000,      # typical O&F training SR; safe choice
+            n_mels=229,
+            n_fft=2048,
+            hop_length=512,
             midi_low=21,                # 88-key piano range
             midi_high=108
         )
         if ckpt_arg:
             print(f"[INFO] OFTranscriber initialized with checkpoint: {ckpt_arg}")
         else:
-            print("[INFO] OFTranscriber initialized WITHOUT checkpoint (random weights).")
+            print("[INFO] OFTranscriber initialized with NO checkpoint path.")
     except Exception as e:
         print("[WARN] Could not init OFTranscriber:", repr(e))
         traceback.print_exc()
