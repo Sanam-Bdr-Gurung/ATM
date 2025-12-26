@@ -1,0 +1,6 @@
+.venv/
+checkpoints/
+*.pt
+*.wav
+data/
+datasets/
