@@ -3,9 +3,17 @@ from typing import List, Dict, Tuple, Optional
 import numpy as np
 import torch, torchaudio
 import torch.nn.functional as F
-
-from models.of_model import OnsetsAndFrames
+from onsets_and_frames.constants import N_MELS as OF_N_MELS
+from onsets_and_frames.transcriber import OnsetsAndFrames as OFOrig
 from models.notes_interface import NotesTranscriber, midi_to_hz
+import onsets_and_frames.mel as of_mel
+
+
+
+# piano range A0–C8 used in Onsets & Frames
+OF_N_PITCHES = 88
+OF_MIN_MIDI = 21
+OF_MAX_MIDI = OF_MIN_MIDI + OF_N_PITCHES - 1
 
 class OFTranscriber(NotesTranscriber):
     def __init__(
@@ -28,19 +36,17 @@ class OFTranscriber(NotesTranscriber):
         self.sr_model = sr_model
         self.n_mels = n_mels
         self.hop_length = hop_length
-        self.midi_low = midi_low
-        self.midi_high = midi_high
-        self.n_pitches = n_pitches
+        self.n_pitches = OF_N_PITCHES
+        self.midi_low = OF_MIN_MIDI
+        self.midi_high = OF_MAX_MIDI
         self.onset_thresh = onset_thresh
         self.frame_thresh = frame_thresh
 
-        self.melspec = torchaudio.transforms.MelSpectrogram(
-            sample_rate=sr_model, n_fft=n_fft, hop_length=hop_length,
-            f_min=fmin, f_max=fmax, n_mels=n_mels, center=True, power=2.0
-        ).to(self.device)
-        self.amplog = torch.log
+            # Use original Onsets & Frames mel front-end
+        of_mel.melspectrogram.to(self.device)
+        self.of_melspec = of_mel.melspectrogram
 
-        self.model = OnsetsAndFrames(n_mels=n_mels, hidden=128, gru_layers=2, n_pitches=n_pitches).to(self.device)
+        self.model = OFOrig( input_features=OF_N_MELS,output_features=OF_N_PITCHES, model_complexity=48,).to(self.device)
         self.model.eval()
 
         
@@ -55,52 +61,44 @@ class OFTranscriber(NotesTranscriber):
                             "Run: pip install safetensors"
                         )
                     state = safe_load(checkpoint_path, device=self.device)
+                    # We still need an OFOrig() instance in this case
+                    self.model = OFOrig(OF_N_MELS, OF_N_PITCHES).to(self.device)
+                    fixed = {k.replace("module.", ""): v for k, v in state.items()}
+                    missing, unexpected = self.model.load_state_dict(fixed, strict=False)
+                    print("[INFO] Loaded safetensors checkpoint with strict=False")
+                    if missing:
+                        print("[WARN] Missing keys:", missing[:10], "...")
+                    if unexpected:
+                        print("[WARN] Unexpected keys:", unexpected[:10], "...")
                 else:
+                    import torch.nn as nn
                     # IMPORTANT: weights_only=False because this checkpoint stores a full model object.
                     # Only do this because you downloaded the file yourself and trust its source.
-                    ckpt = torch.load(checkpoint_path, map_location=self.device, weights_only=False)
-                    state = ckpt.get("state_dict", ckpt)
+                    ckpt = torch.load(
+                        checkpoint_path,
+                        map_location=self.device,
+                        weights_only=False,
+                    )
 
-                    # If it's a plain dict (or Lightning-style checkpoint)
-                    if isinstance(ckpt, dict):
+                    if isinstance(ckpt, nn.Module):
+                        # Directly use the loaded model (original OnsetsAndFrames)
+                        self.model = ckpt.to(self.device)
+                        self.model.eval()
+                        print("[INFO] Loaded full nn.Module checkpoint (OnsetsAndFrames).")
+                    elif isinstance(ckpt, dict):
+                        # Fallback: treat as state_dict or Lightning-style dict
                         state = ckpt.get("state_dict", ckpt)
+                        self.model = OFOrig(OF_N_MELS, OF_N_PITCHES).to(self.device)
+                        fixed = {k.replace("module.", ""): v for k, v in state.items()}
+                        missing, unexpected = self.model.load_state_dict(fixed, strict=False)
+                        print("[INFO] Loaded dict checkpoint with strict=False")
+                        if missing:
+                            print("[WARN] Missing keys:", missing[:10], "...")
+                        if unexpected:
+                            print("[WARN] Unexpected keys:", unexpected[:10], "...")
                     else:
-                        # If it's a full nn.Module (like OnsetsAndFrames instance)
-                        state = ckpt.state_dict()
-                # strip "module." prefixes if present
-                fixed = {}
-                for k, v in state.items():
-                    fixed[k.replace("module.", "")] = v
-                state = fixed
-                # 2) OPTIONAL: slice heads if we are using a smaller guitar range *slice or remap to specific guitar range
-                # want_low, want_high = 40, 88  # guitar-ish range (E2–E6)
-                # if self.midi_low == want_low and self.midi_high == want_high:
-                #     def slice_last_dim(t, low=want_low, high=want_high):
-                #         # checkpoint is assumed to cover MIDI 21–108 (88 pitches)
-                #         # indices 0..87 -> MIDI 21..108
-                #         start = low - 21
-                #         end = high - 21 + 1
-                #         if t.ndim == 2:  # [out_dim, in_dim]
-                #             return t[:, start:end]
-                #         else:            # [out_dim]
-                #             return t[start:end]
-                #     for head_name in ["heads.onset", "heads.frame"]:
-                #         W_key = f"{head_name}.weight"
-                #         b_key = f"{head_name}.bias"
-                #         W = state.get(W_key, None)
-                #         B = state.get(b_key, None)
-                #         if W is not None and B is not None and W.shape[0] == 88 and B.shape[0] == 88:
-                #             state[W_key] = slice_last_dim(W)
-                #             state[b_key] = slice_last_dim(B)
-                #             print(f"[INFO] Sliced checkpoint head for {head_name} to MIDI {want_low}-{want_high}")
+                        print(f"[WARN] Unexpected checkpoint type: {type(ckpt)}, using random init.")
 
-                # 3) Now load into the model
-                missing, unexpected = self.model.load_state_dict(state, strict=False)
-                print("[INFO] Loaded checkpoint with strict=False")
-                if missing:
-                    print("[WARN] Missing keys:", missing[:10], "...")
-                if unexpected:
-                    print("[WARN] Unexpected keys:", unexpected[:10], "...")
             except Exception as e:
                 # Don't kill the server—log and continue with random weights
                 import traceback
@@ -140,12 +138,25 @@ class OFTranscriber(NotesTranscriber):
         return x
 
     def _audio_to_mel(self, x: torch.Tensor) -> torch.Tensor:
-        # x: [1, T]
-        S = self.melspec(x) + 1e-10              # [1, F, T]
-        logS = self.amplog(S)                    # ln power
-        logS = (logS - logS.mean()) / (logS.std() + 1e-8)  # simple norm
-        logS = logS.unsqueeze(1)                 # [1, 1, F, T]
-        return logS
+        """
+        Use original Onsets & Frames mel front-end.
+
+        x: [1, T] float32, assumed in [-1, 1]
+        returns: [1, T_frames, OF_N_MELS]  (time-major)
+        """
+        if x.dim() != 2:
+            x = x.view(1, -1)
+
+        # O&F melspectrogram expects (B, T) and returns (B, n_mels, frames)
+        mel = self.of_melspec(x)  # [B, n_mels, frames]
+
+        # Transpose to [B, frames, n_mels] so it matches OnsetsAndFrames.forward
+        if mel.dim() == 3:
+            mel = mel.transpose(1, 2).contiguous()  # [B, T_frames, n_mels]
+
+        return mel
+
+
 
     def _postprocess(self, onset_logits: torch.Tensor, frame_logits: torch.Tensor, sr: int) -> List[Dict]:
         """
@@ -203,94 +214,62 @@ class OFTranscriber(NotesTranscriber):
         # sort by onset
         events.sort(key=lambda e: e["t_on"])
         return events
-
+        
     @torch.no_grad()
     def transcribe(self, y: np.ndarray, sr: int) -> List[Dict]:
-        x = self._prep_audio(y, sr)       # [1,T']
-        mel = self._audio_to_mel(x)       # [1,1,F,Tm]
-        onset_logits, frame_logits = self.model(mel)  # [1,Tm,P], [1,Tm,P]
+        # 1) audio -> tensor
+        x = self._prep_audio(y, sr)       # [1, T']
+        # 2) tensor -> mel (your torchaudio-based frontend)
+        mel = self._audio_to_mel(x)       # shape adapted for OFOrig
+
+        # 3) run original Onsets & Frames model
+        outputs = self.model(mel)
+
+        # Original O&F variations:
+        # - (onset, offset, frame, velocity)
+        # - (onset, offset, frame, velocity, something_extra)
+        # We only care about onset + frame.
+        if isinstance(outputs, (list, tuple)):
+            if len(outputs) >= 3:
+                onset_logits = outputs[0]
+                frame_logits = outputs[2]
+            elif len(outputs) == 2:
+                onset_logits, frame_logits = outputs
+            else:
+                raise RuntimeError(
+                    f"Unexpected number of outputs from O&F model: {len(outputs)}"
+                )
+        else:
+            raise RuntimeError(
+                "Onsets & Frames model returned a non-tuple output; "
+                "expected (onset, offset, frame, ...)."
+            )
+
         return self._postprocess(onset_logits, frame_logits, sr=self.sr_model)
 
 
+
     @torch.no_grad()
-    def transcribe_chunked(self,
-                        y: np.ndarray, sr: int,
-                        chunk_sec: float = 2.0,
-                        hop_sec: float = 1.0,
-                        onset_filt: int = 3,
-                        frame_filt: int = 5,
-                        th_on_hi: float = 0.5,
-                        th_on_lo: float = 0.3,
-                        th_fr: float = 0.5) -> list:
+    def transcribe_chunked(
+        self,
+        y: np.ndarray,
+        sr: int,
+        chunk_sec: float = 2.0,
+        hop_sec: float = 1.0,
+        onset_filt: int = 3,
+        frame_filt: int = 5,
+        th_on_hi: float = 0.5,
+        th_on_lo: float = 0.3,
+        th_fr: float = 0.5,
+    ) -> list:
         """
-        Pseudo-streaming inference with overlap-add of probabilities.
-        The model is BiGRU (non-causal), so this is for latency smoothing,
-        not strict causality. Good enough to prepare for real streaming later.
+        TEMP: for now, just fall back to full-mode transcription.
+
+        This keeps your API shape identical and avoids crashes while
+        we get the core model working. Later you can re-introduce a
+        proper overlap-add chunked implementation.
         """
-        MIN_L = 4  # minimum time frames to run the model
-        x = self._prep_audio(y, sr)  # [1, T]
-        
-        if x.shape[-1] == 0:
-            return []
-         
-        # compute full mel once; then slice on time axis
-        mel = self._audio_to_mel(x)  # [1,1,F,Tm]
-        if mel.shape[-1] < MIN_L:
-            onset_logits, frame_logits = self.model(mel)  # [1,T,P]
-            hop_t = self.hop_length / float(self.sr_model)
-            return _logit_to_events(
-                onset_logits[0],
-                frame_logits[0],
-                hop_t,
-                self.midi_low,
-                onset_filt,
-                frame_filt,
-                th_on_hi,
-                th_on_lo,
-                th_fr,
-            )
-            # --- TEMP SAFETY: if chunked produces nothing, fall back to full ---
-            if not events:
-                print("[WARN] Chunked OFTranscriber produced 0 events; falling back to full transcribe()")
-                return self.transcribe(y, sr)
-            return events
-        _, _, F, Tm = mel.shape
-        chunk = max(1, int(round((chunk_sec * self.sr_model) / self.hop_length)))  # in mel frames
-        step  = max(1, int(round((hop_sec   * self.sr_model) / self.hop_length)))  # in mel frames
-        overlap = max(0, chunk - step)
-        if chunk <= 1 or step <= 0:
-            # fallback to full
-            onset_logits, frame_logits = self.model(mel)
-            hop_t = self.hop_length / float(self.sr_model)
-            return _logit_to_events(onset_logits[0], frame_logits[0], hop_t,
-                                    self.midi_low, onset_filt, frame_filt, th_on_hi, th_on_lo, th_fr)
-
-        onset_chunks, frame_chunks, lengths = [], [], []
-       
-        for t0 in range(0, Tm, step):
-            t1 = min(Tm, t0 + chunk)
-            m_slice = mel[:, :, :, t0:t1]  # [1,1,F,L]
-            if m_slice.shape[-1] < MIN_L:
-                continue  # skip tiny tail slice
-            on, fr = self.model(m_slice)   # [1,L,P]
-            onset_chunks.append(on[0].cpu().numpy())
-            frame_chunks.append(fr[0].cpu().numpy())
-            lengths.append(m_slice.shape[-1])
-
-        if not onset_chunks:
-            return []
-
-        # stitch with overlap-add averaging
-        P = onset_chunks[0].shape[1]
-        T_full = Tm
-        onset_full = _overlap_add_probs(onset_chunks, lengths, T_full, overlap)
-        frame_full = _overlap_add_probs(frame_chunks, lengths, T_full, overlap)
-
-        hop_t = self.hop_length / float(self.sr_model)
-        return _logit_to_events(torch.from_numpy(onset_full),
-                                torch.from_numpy(frame_full),
-                                hop_t, self.midi_low,
-                                onset_filt, frame_filt, th_on_hi, th_on_lo, th_fr)
+        return self.transcribe(y, sr)
 
 
 def _median_filter_1d(x: np.ndarray, k: int) -> np.ndarray:
