@@ -4,3 +4,8 @@ checkpoints/
 *.wav
 data/
 datasets/
+
+# Ignore large artifacts
+checkpoints/
+*.pt
+*.wav
