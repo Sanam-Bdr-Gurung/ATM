@@ -16,3 +16,6 @@ basic-pitch==0.4.0
 
 # Explicit macOS inference runtime pin
 coremltools==9.0; platform_system == "Darwin"
+
+# CoreML conversion compatibility
+scikit-learn==1.5.1; platform_system == "Darwin"

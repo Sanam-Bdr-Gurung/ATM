@@ -1,11 +1,28 @@
+# Python environments
 .venv/
+venv/
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# macOS
+.DS_Store
+
+# Model checkpoints and generated artifacts
 checkpoints/
 *.pt
+*.pth
+*.ckpt
+*.safetensors
+*.mid
+*.midi
+
+# Local audio and datasets
 *.wav
 data/
 datasets/
-
-# Ignore large artifacts
-checkpoints/
-*.pt
-*.wav
