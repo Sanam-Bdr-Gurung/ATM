@@ -26,3 +26,7 @@ checkpoints/
 *.wav
 data/
 datasets/
+
+
+# Generated evaluation and smoke-test outputs
+evaluation_results/
