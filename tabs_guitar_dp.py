@@ -116,7 +116,7 @@ def dp_tab_mapping(
         ev = evs[ev_idx]
         tabs.append({
             "t_on": float(ev["t_on"]),
-            "string": int(s_idx + 1),  # keep your 1..6 convention
+            "string": int(len(open_midi) - s_idx),
             "fret": int(fret),
         })
 

@@ -40,9 +40,9 @@ class BasicPitchTranscriber(NotesTranscriber):
         self,
         midi_low: int = 40,
         midi_high: int = 88,
-        onset_threshold: float = 0.5,
-        frame_threshold: float = 0.3,
-        minimum_note_length_ms: float = 80.0,
+        onset_threshold: float = 0.6,
+        frame_threshold: float = 0.4,
+        minimum_note_length_ms: float = 100.0,
     ) -> None:
         if not 0 <= midi_low <= 127:
             raise ValueError("midi_low must be between 0 and 127.")

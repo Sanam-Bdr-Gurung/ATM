@@ -102,9 +102,9 @@ def transcribe_with_basic_pitch(
             _BASIC_PITCH_MODEL = BasicPitchTranscriber(
                 midi_low=GUITAR_MIDI_LOW,
                 midi_high=GUITAR_MIDI_HIGH,
-                onset_threshold=0.5,
-                frame_threshold=0.3,
-                minimum_note_length_ms=80.0,
+                onset_threshold=0.6,
+                frame_threshold=0.4,
+                minimum_note_length_ms=100.0,
             )
 
         note_events = _BASIC_PITCH_MODEL.transcribe(y, sr)
