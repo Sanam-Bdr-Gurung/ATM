@@ -1,59 +1,180 @@
 # ChordAssist
 
-A guitar-focused, accessibility-first transcription prototype for the thesis:
+ChordAssist is an AI-assisted chord-recognition prototype developed for the thesis:
 
-**AI-Powered Real-Time Guitar Transcription System with Audio Feedback and Flutter Interface for Visually Impaired Musicians**
+**AI-Assisted Recognition of Prevailing Chords from Polyphonic Audio with a Voice-Accessible Flutter Interface**
 
-> Current implementation status: low-latency, file-based guitar transcription.  
-> Continuous live/WebSocket streaming has not yet been implemented or evaluated.
+## Project Goal
 
-## Current Scope
+The system analyzes uploaded or recorded musical audio and estimates the prevailing chord progression over time.
 
-ChordAssist currently focuses on:
+Supported input may include:
 
-- guitar-only audio;
-- Standard E tuning assumed for tablature;
-- Spotify Basic Pitch as the pretrained neural note-transcription backend;
-- the existing DSP note detector retained as an experimental baseline;
-- chord recognition as the primary user-facing output;
-- notes and simple guitar tablature as secondary outputs;
-- a FastAPI backend;
-- a future accessible Flutter client with spoken feedback.
+* solo guitar recordings;
+* mobile-microphone recordings;
+* guitar with vocals;
+* professionally mastered polyphonic music;
+* music containing guitar, bass, piano, drums, vocals, or other supporting instruments.
 
-The following features are intentionally deferred:
+The system estimates the overall harmony represented by the combined audio. It does not identify which instrument produced each note and does not isolate guitar from a full mix.
 
-- automatic tuning detection;
-- alternate tunings;
-- piano and violin output;
-- instrument classification;
-- source separation;
-- training a model from scratch;
-- on-device inference;
-- continuous live streaming.
+## Primary Output
 
-## Repository Status
+The required output is a stable time-aligned chord progression containing:
 
-The active migration branch is:
+* chord label;
+* readable chord name;
+* start time;
+* end time;
+* confidence score;
+* spoken progression.
 
-```text
-migrate-basic-pitch-backend
+Example:
+
+```json
+{
+  "segments": [
+    {
+      "start": 0.5,
+      "end": 2.7,
+      "label": "C:maj7",
+      "display": "C major seventh",
+      "confidence": 0.86
+    }
+  ],
+  "progression": ["C:maj7"]
+}
 ```
 
-The current backend supports:
+Individual note events may be used internally but are not a required user-facing result.
 
-- `GET /health`
-- `POST /analyze-file`
-- `backend=basic_pitch`
-- `backend=baseline`
-- optional chroma/template chord analysis
-- Standard E tab mapping
-- latency and real-time-factor fields
+Guitar tablature, string estimation, fret estimation, and exact recovery of an original guitar performance are outside the active thesis scope.
 
-The old Onsets-and-Frames checkpoint route has been abandoned because it was piano-oriented and incompatible with the project's current Python/PyTorch environment. Its experimental history remains available through Git history and the thesis context documents.
+## Research Comparison
 
-## Environment
+The thesis compares two chord-recognition approaches.
 
-The currently verified development environment is:
+### Basic Pitch method
+
+```text
+Audio
+  → Basic Pitch note events
+  → time-windowed pitch-class evidence
+  → chord classification
+  → confidence gating
+  → temporal smoothing
+  → chord timeline
+```
+
+### Traditional method
+
+```text
+Audio
+  → chroma or harmonic pitch-class features
+  → chord classification
+  → confidence gating
+  → temporal smoothing
+  → chord timeline
+```
+
+Both approaches will use the same:
+
+* chord vocabulary;
+* ground-truth annotations;
+* evaluation recordings;
+* output format;
+* confidence rules;
+* temporal smoothing;
+* evaluation metrics.
+
+## Proposed Chord Vocabulary
+
+The planned vocabulary includes:
+
+* major;
+* minor;
+* suspended second;
+* suspended fourth;
+* diminished;
+* augmented;
+* dominant seventh;
+* major seventh;
+* minor seventh;
+* half-diminished seventh;
+* diminished seventh;
+* added ninth;
+* dominant ninth;
+* major ninth;
+* minor ninth;
+* `N` for no chord;
+* `X` for ambiguous harmony.
+
+The final required vocabulary may be reduced if development evaluation shows that some advanced qualities cannot be supported reliably.
+
+## Evaluation Data
+
+The evaluation is divided into three groups.
+
+### Development set
+
+Researcher-recorded guitar chord progressions captured using a mobile microphone.
+
+These recordings may be used for:
+
+* algorithm development;
+* threshold selection;
+* window-size selection;
+* confidence tuning;
+* smoothing adjustments.
+
+### Held-out controlled set
+
+Separate guitar recordings created after the algorithm and parameters are fixed.
+
+These recordings must not be used for tuning.
+
+### Real-world robustness case
+
+One professionally mastered commercial-song excerpt containing a manually verified chord progression.
+
+The commercial audio will be stored locally and excluded from the public repository. Its result will be reported separately as an exploratory real-world case.
+
+### Legacy note recordings
+
+Earlier single-note guitar recordings are retained only as historical development or Basic Pitch regression material. They are not part of the primary chord-accuracy evaluation.
+
+## Evaluation Metrics
+
+Planned measures include:
+
+* root accuracy;
+* triad-family accuracy;
+* seventh-chord accuracy;
+* exact chord accuracy;
+* time-weighted chord accuracy;
+* no-chord precision and recall;
+* ambiguous-duration percentage;
+* chord-boundary timing error;
+* unnecessary chord-change count;
+* processing latency;
+* real-time factor.
+
+## Current Implementation Status
+
+The repository currently contains:
+
+* a FastAPI backend;
+* audio decoding and preprocessing;
+* a Spotify Basic Pitch CoreML adapter;
+* an older DSP note detector;
+* a temporary chroma/template chord detector;
+* API and adapter smoke-test utilities.
+
+The current API remains transitional. It still contains guitar-range filtering, note output, Standard E metadata, and tablature generation from the previous scope. These paths will be removed or refactored during the chord-first migration.
+
+The current chord implementation supports only a limited traditional chroma/template path and has not yet been replaced by the final shared chord engine.
+
+## Verified Environment
 
 ```text
 macOS on Apple Silicon
@@ -62,11 +183,7 @@ Basic Pitch 0.4.0
 CoreML runtime
 ```
 
-Other operating systems and inference runtimes have not yet been formally validated.
-
 ## Setup
-
-From the repository root:
 
 ```bash
 python3.10 -m venv .venv
@@ -77,176 +194,59 @@ python -m pip install -r requirements.txt
 python -m pip check
 ```
 
-Expected Basic Pitch warnings about missing TensorFlow, ONNX Runtime, and TFLite Runtime are non-blocking on the verified macOS setup because CoreML is used.
-
-## Verify the Basic Pitch Adapter
-
-Run the standalone model test with a guitar recording:
+## Verify Basic Pitch
 
 ```bash
-python eval/debug_basic_pitch.py evaluation_data/<path-to-audio>.wav
+python eval/debug_basic_pitch.py path/to/audio.wav
 ```
 
-A local smoke-test clip may also be used:
-
-```bash
-python eval/debug_basic_pitch.py data/mini_eval/clip.wav
-```
-
-The `data/` directory and WAV artifacts may be excluded from Git, depending on the repository ignore rules.
+This command verifies model loading and note-event extraction. Its results are adapter diagnostics rather than the final chord evaluation.
 
 ## Run the API
-
-Start the FastAPI development server:
 
 ```bash
 uvicorn api:app --reload
 ```
 
-Check health:
+The API contract will be simplified after the new Basic Pitch-derived and chroma-derived chord paths are implemented.
 
-```bash
-curl -s http://127.0.0.1:8000/health | python -m json.tool
-```
-
-Before the first neural request, `basic_pitch_loaded` should be `false`. After the first Basic Pitch request, it should become `true`.
-
-## Analyze a Guitar Recording
-
-Basic Pitch notes without chord analysis:
-
-```bash
-curl -s -X POST \
-  "http://127.0.0.1:8000/analyze-file?backend=basic_pitch&mode=full&chords=false" \
-  -F "file=@evaluation_data/<path-to-audio>.wav" \
-  | python -m json.tool
-```
-
-DSP baseline:
-
-```bash
-curl -s -X POST \
-  "http://127.0.0.1:8000/analyze-file?backend=baseline&mode=full&chords=false" \
-  -F "file=@evaluation_data/<path-to-audio>.wav" \
-  | python -m json.tool
-```
-
-Basic Pitch notes with the temporary chroma/template chord detector:
-
-```bash
-curl -s -X POST \
-  "http://127.0.0.1:8000/analyze-file?backend=basic_pitch&mode=full&chords=true" \
-  -F "file=@evaluation_data/<path-to-audio>.wav" \
-  | python -m json.tool
-```
-
-`mode=chunked` is currently accepted only for API compatibility. The response explicitly reports `mode_effective=full`.
-
-## Run the Reusable API Smoke Test
-
-Keep the API running in one terminal, then run:
-
-```bash
-python eval/smoke_api.py evaluation_data/<path-to-audio>.wav
-```
-
-For the local mini-evaluation clip:
-
-```bash
-python eval/smoke_api.py data/mini_eval/clip.wav
-```
-
-The script verifies:
-
-- health before and after model initialization;
-- Basic Pitch response structure;
-- chronological note events;
-- guitar MIDI range;
-- fixed Standard E metadata;
-- warm model reuse;
-- DSP baseline response;
-- chord-enabled response;
-- removal of piano/violin placeholders.
-
-It also records:
-
-- Git branch and commit;
-- Python, platform, architecture, and Basic Pitch version;
-- audio SHA-256 and file size;
-- server timing fields;
-- client-observed request timing;
-- note, tab, and chord counts.
-
-Generated smoke-test outputs are written beneath `evaluation_results/smoke/`. They are regression evidence, not final thesis benchmark results.
-
-## Evaluation Data
-
-The project evaluation audio is stored under `evaluation_data/`.
-
-The current clips were recorded by the researcher using a guitar. Before final thesis evaluation, document:
-
-- guitar type and fret count;
-- recording device or microphone;
-- recording environment;
-- original sample rate, channel count, and file format;
-- clip duration and musical content;
-- how note, chord, and tab ground truth were annotated.
-
-Do not mix development smoke clips with the final reported evaluation set without clearly labeling them.
-
-## Current Evaluation Direction
-
-The thesis evaluation will compare the DSP baseline and Basic Pitch using the same annotated recordings.
-
-Planned measures include:
-
-- note precision, recall, and F1;
-- onset tolerance and, where practical, offset-aware note metrics;
-- chord segment accuracy;
-- tab string, fret, and full-position accuracy;
-- cold-start and warm latency;
-- mean, median, and P95 latency;
-- real-time factor;
-- accessibility and usability observations.
-
-Single smoke-test timings must not be reported as final benchmark results.
-
-## Project Structure
+## Active Development Branch
 
 ```text
-api.py                              FastAPI service
-audio_input.py                      Audio decoding/preprocessing
-models/basic_pitch_inference.py     Basic Pitch adapter
-models/notes_interface.py           Stable note-event interface
-notes_baseline.py                   DSP note baseline
-features.py                         Audio/chroma features
-chord_match.py                      Temporary chord templates
-segmentation.py                     Chord-label segmentation
-tabs_guitar_dp.py                   Standard-tuning tab mapping
-eval/debug_basic_pitch.py           Standalone Basic Pitch debug run
-eval/smoke_api.py                   Reusable API regression smoke test
-eval/note_f1.py                     Note-event evaluation
-eval/tab_accuracy_gt.py             Tab evaluation
-evaluation_data/                    Researcher-recorded evaluation material
-docs/THESIS_MASTER_CONTEXT.md       Durable project decisions and scope
-docs/THESIS_PROGRESS_LOG.md         Verified checkpoint log
+feature/chord-first-recognition
 ```
 
-## Documentation Discipline
+## Explicitly Excluded
 
-At every meaningful checkpoint:
+The required thesis does not include:
 
-1. run the relevant verification commands;
-2. save machine-readable outputs where appropriate;
-3. add a concise interpretation to `docs/THESIS_PROGRESS_LOG.md`;
-4. update `docs/THESIS_MASTER_CONTEXT.md` when scope, architecture, metrics, or major limitations change;
-5. commit and push the checkpoint before starting the next milestone.
+* guitar tablature;
+* fret or string estimation;
+* source separation;
+* instrument identification;
+* exact guitar-part extraction;
+* automatic guitar tuning detection;
+* musical notation generation;
+* melody transcription as a primary output;
+* training Basic Pitch from scratch;
+* recognition of every possible jazz chord;
+* continuous live streaming before file-based validation.
 
-## Current Limitations
+## Planned Development Order
 
-- Chords are still produced by the older chroma/template method, not yet from Basic Pitch note groups.
-- No-chord/silence gating is not yet complete.
-- Tab mapping is approximate and does not yet enforce physically valid unique-string assignments for simultaneous chord notes.
-- The allowed MIDI range and supported fret count must be finalized before formal tab evaluation.
-- Audio preprocessing must be locked before comparing model accuracy.
-- True continuous streaming has not been implemented.
+1. Reset documentation and remove tab-focused evaluation code.
+2. Remove tablature and guitar-only assumptions from the API.
+3. Define the shared chord vocabulary and label format.
+4. Implement shared chord scoring and uncertainty handling.
+5. Build the Basic Pitch note-event feature path.
+6. Refactor the traditional chroma comparison path.
+7. Create and annotate the small chord development dataset.
+8. Tune only on development recordings.
+9. Evaluate on held-out guitar recordings.
+10. Evaluate one commercial mixed-audio robustness case.
+11. Integrate the final API with the accessible Flutter interface.
+
+## Documentation
+
+* `docs/THESIS_MASTER_CONTEXT.md` contains the current authoritative thesis scope and architecture.
+* `docs/THESIS_PROGRESS_LOG.md` preserves verified implementation checkpoints and experimental history.

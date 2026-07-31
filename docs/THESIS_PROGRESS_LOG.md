@@ -291,3 +291,60 @@ Planned work:
 - Report mean, median, standard deviation, and P95.
 - Produce thesis-ready result tables and a concise interpretation.
 
+---
+
+## 2026-07-31 — Checkpoint 4A: Chord-first thesis scope reset
+
+### Decision
+
+The thesis scope was revised from guitar note transcription with secondary chord and tablature output to prevailing-chord recognition from solo-guitar and polyphonic audio.
+
+### Final primary output
+
+* Time-aligned chord segments
+* Human-readable chord names
+* Confidence scores
+* Complete chord progression
+* Accessible spoken output
+
+### Experimental comparison
+
+The thesis will compare:
+
+1. Chord recognition derived from Basic Pitch note events.
+2. Chord recognition derived from traditional chroma features.
+
+Both approaches will use a shared chord vocabulary, output format, uncertainty policy, smoothing procedure, dataset, and evaluation metrics.
+
+### Input interpretation
+
+The system estimates overall harmony from the combined audio.
+
+It does not identify which instrument produced each note and does not perform source separation.
+
+### Scope removed
+
+* Guitar tablature
+* String and fret estimation
+* Exact original guitar-part recovery
+* Automatic tuning detection
+* Instrument identification
+* Note transcription as a primary user-facing result
+
+### Dataset decision
+
+* Existing single-note recordings are reclassified as legacy regression material.
+* Three new guitar recordings will be used for development.
+* Two separate guitar recordings will be reserved for held-out evaluation.
+* One commercial mixed-audio excerpt will be evaluated separately as an exploratory real-world robustness case.
+* Commercial audio will not be committed to the public repository.
+
+### Branch
+
+```text
+feature/chord-first-recognition
+```
+
+### Next checkpoint
+
+Refactor the API to remove Standard E, guitar-only, note-output, and tablature assumptions while retaining Basic Pitch note events internally for chord recognition.

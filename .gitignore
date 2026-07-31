@@ -30,3 +30,5 @@ datasets/
 
 # Generated evaluation and smoke-test outputs
 evaluation_results/
+# Copyrighted or private real-world evaluation audio
+evaluation_data/real_world/private_audio/
