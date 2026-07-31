@@ -11,7 +11,8 @@ from basic_pitch import ICASSP_2022_MODEL_PATH
 from basic_pitch.inference import Model, predict
 
 from models.notes_interface import NotesTranscriber, midi_to_hz
-
+DEFAULT_MIDI_LOW = 21
+DEFAULT_MIDI_HIGH = 108
 
 class BasicPitchTranscriber(NotesTranscriber):
     """
@@ -38,8 +39,8 @@ class BasicPitchTranscriber(NotesTranscriber):
 
     def __init__(
         self,
-        midi_low: int = 40,
-        midi_high: int = 88,
+        midi_low: int = DEFAULT_MIDI_LOW,
+        midi_high: int = DEFAULT_MIDI_HIGH,
         onset_threshold: float = 0.6,
         frame_threshold: float = 0.4,
         minimum_note_length_ms: float = 100.0,

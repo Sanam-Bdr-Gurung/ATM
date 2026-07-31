@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
-"""
-Reusable ChordAssist FastAPI regression smoke test.
+"""Regression smoke test for the chord-first ChordAssist API.
 
-This script is intentionally not a final benchmark. It verifies the API contract,
-records reproducibility metadata, and saves raw JSON responses for later review.
-
-The FastAPI server must already be running.
+This verifies the transitional chroma-only API contract. It is not a final
+accuracy or latency benchmark.
 """
 
 from __future__ import annotations
@@ -20,28 +17,14 @@ import sys
 import time
 import uuid
 from datetime import datetime, timezone
-from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
 from urllib.request import Request, urlopen
-
-
-STANDARD_E_OPEN_MIDI = [40, 45, 50, 55, 59, 64]
-GUITAR_MIDI_LOW = 40
-GUITAR_MIDI_HIGH = 88
 
 
 class SmokeTestError(RuntimeError):
     """Raised when the API smoke test cannot complete."""
-
-
-def package_version(package_name: str) -> str | None:
-    try:
-        return version(package_name)
-    except PackageNotFoundError:
-        return None
 
 
 def git_value(*args: str) -> str | None:
@@ -55,8 +38,7 @@ def git_value(*args: str) -> str | None:
     except (OSError, subprocess.CalledProcessError):
         return None
 
-    value = completed.stdout.strip()
-    return value or None
+    return completed.stdout.strip() or None
 
 
 def sha256_file(path: Path) -> str:
@@ -88,7 +70,7 @@ def json_request(
     except URLError as exc:
         raise SmokeTestError(
             f"Could not reach {request.full_url}: {exc.reason}. "
-            "Confirm that uvicorn is running."
+            "Confirm that Uvicorn is running."
         ) from exc
 
     elapsed_ms = (time.perf_counter() - started) * 1000.0
@@ -123,7 +105,11 @@ def get_json(
         method="GET",
         headers={"Accept": "application/json"},
     )
-    return json_request(request, timeout_seconds=timeout_seconds)
+
+    return json_request(
+        request,
+        timeout_seconds=timeout_seconds,
+    )
 
 
 def encode_multipart_file(
@@ -132,10 +118,12 @@ def encode_multipart_file(
     field_name: str = "file",
 ) -> tuple[bytes, str]:
     boundary = f"----ChordAssistBoundary{uuid.uuid4().hex}"
+
     content_type = (
         mimetypes.guess_type(audio_path.name)[0]
         or "application/octet-stream"
     )
+
     audio_bytes = audio_path.read_bytes()
 
     body = b"".join(
@@ -159,22 +147,12 @@ def analyze_audio(
     base_url: str,
     audio_path: Path,
     *,
-    backend: str,
-    chords: bool,
     timeout_seconds: float,
 ) -> tuple[dict[str, Any], float]:
-    query = urlencode(
-        {
-            "backend": backend,
-            "mode": "full",
-            "chords": str(chords).lower(),
-        }
-    )
-    url = f"{base_url}/analyze-file?{query}"
     body, content_type = encode_multipart_file(audio_path)
 
     request = Request(
-        url,
+        f"{base_url}/analyze-file",
         data=body,
         method="POST",
         headers={
@@ -184,44 +162,103 @@ def analyze_audio(
         },
     )
 
-    return json_request(request, timeout_seconds=timeout_seconds)
-
-
-def assert_common_response(response: dict[str, Any]) -> None:
-    assert response["instrument_hint"] == "guitar"
-
-    tuning = response["tuning"]
-    assert tuning["name"] == "Standard E"
-    assert tuning["source"] == "fixed_assumption"
-    assert tuning["string_open_midi"] == STANDARD_E_OPEN_MIDI
-
-    assert response["mode_requested"] == "full"
-    assert response["mode_effective"] == "full"
-
-    assert "tuning" not in response["timing_ms"]
-    assert "guitar_tabs" in response["render"]
-    assert "piano_roll" not in response["render"]
-    assert "violin_fingerings" not in response["render"]
-
-    notes = response["notes"]
-    assert isinstance(notes, list)
-    assert notes, "The transcription response contained no notes."
-
-    assert all(
-        float(note["t_on"]) < float(note["t_off"])
-        for note in notes
+    return json_request(
+        request,
+        timeout_seconds=timeout_seconds,
     )
 
-    assert all(
-        GUITAR_MIDI_LOW <= int(note["midi"]) <= GUITAR_MIDI_HIGH
-        for note in notes
-    )
 
-    assert all(
-        float(notes[index]["t_on"])
-        <= float(notes[index + 1]["t_on"])
-        for index in range(len(notes) - 1)
-    )
+def assert_health(response: dict[str, Any]) -> None:
+    assert response["ok"] is True
+    assert response["service"] == "chordassist"
+    assert response["scope"] == "prevailing_chord_recognition"
+    assert response["available_methods"] == ["chroma"]
+    assert response["planned_methods"] == ["basic_pitch"]
+    assert response["basic_pitch_adapter_available"] is True
+
+
+def assert_chord_response(response: dict[str, Any]) -> None:
+    required_keys = {
+        "segments",
+        "progression",
+        "tts",
+        "method",
+        "engine_status",
+        "audio_duration_sec",
+        "latency_ms",
+        "real_time_factor",
+        "timing_ms",
+    }
+
+    assert required_keys.issubset(response)
+
+    # Old scope fields must no longer appear.
+    forbidden_keys = {
+        "instrument_hint",
+        "tuning",
+        "notes",
+        "render",
+        "backend_requested",
+        "backend_effective",
+        "backend_runtime",
+    }
+
+    assert forbidden_keys.isdisjoint(response)
+
+    assert response["method"] == "chroma_template_baseline"
+    assert response["engine_status"] == "temporary_baseline"
+
+    duration = float(response["audio_duration_sec"])
+    assert duration > 0.0
+
+    segments = response["segments"]
+    progression = response["progression"]
+    tts_messages = response["tts"]
+
+    assert isinstance(segments, list)
+    assert isinstance(progression, list)
+    assert isinstance(tts_messages, list)
+    assert tts_messages
+
+    assert progression == [
+        segment["label"]
+        for segment in segments
+    ]
+
+    previous_start = -1.0
+
+    for segment in segments:
+        assert {
+            "start",
+            "end",
+            "label",
+            "display",
+            "confidence",
+        }.issubset(segment)
+
+        start = float(segment["start"])
+        end = float(segment["end"])
+
+        assert 0.0 <= start < end
+        assert end <= duration + 0.01
+        assert start >= previous_start
+        assert isinstance(segment["label"], str)
+        assert segment["label"]
+        assert isinstance(segment["display"], str)
+        assert segment["display"]
+
+        previous_start = start
+
+    timing = response["timing_ms"]
+
+    assert {
+        "io",
+        "chord_analysis",
+        "total",
+    }.issubset(timing)
+
+    assert "notes" not in timing
+    assert "tabs" not in timing
 
 
 def summarize_response(
@@ -230,19 +267,17 @@ def summarize_response(
     client_elapsed_ms: float,
 ) -> dict[str, Any]:
     return {
-        "backend": response.get("backend_effective"),
-        "runtime": response.get("backend_runtime"),
+        "method": response.get("method"),
+        "engine_status": response.get("engine_status"),
         "audio_duration_sec": response.get("audio_duration_sec"),
-        "note_count": len(response.get("notes", [])),
-        "tab_count": len(
-            response.get("render", {}).get("guitar_tabs", [])
-        ),
-        "chord_count": len(response.get("chords", [])),
-        "server_total_ms": response.get("timing_ms", {}).get("total"),
+        "segment_count": len(response.get("segments", [])),
+        "progression": response.get("progression", []),
         "server_io_ms": response.get("timing_ms", {}).get("io"),
-        "server_notes_ms": response.get("timing_ms", {}).get("notes"),
-        "server_chords_ms": response.get("timing_ms", {}).get("chords"),
-        "server_tabs_ms": response.get("timing_ms", {}).get("tabs"),
+        "server_chord_analysis_ms": response.get(
+            "timing_ms",
+            {},
+        ).get("chord_analysis"),
+        "server_total_ms": response.get("timing_ms", {}).get("total"),
         "server_real_time_factor": response.get("real_time_factor"),
         "client_elapsed_ms": round(client_elapsed_ms, 2),
     }
@@ -258,46 +293,58 @@ def write_json(path: Path, value: Any) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Verify the ChordAssist FastAPI contract and record a "
-            "reproducible smoke-test summary."
+            "Verify the transitional chord-first FastAPI contract and "
+            "save reproducible regression evidence."
         )
     )
+
     parser.add_argument(
         "audio",
         type=Path,
-        help="Path to a guitar audio file.",
+        help="Path to an audio file.",
     )
+
     parser.add_argument(
         "--base-url",
         default="http://127.0.0.1:8000",
-        help="FastAPI base URL. Default: %(default)s",
     )
+
     parser.add_argument(
         "--output-root",
         type=Path,
         default=Path("evaluation_results/smoke"),
-        help="Directory under which a timestamped result folder is created.",
     )
+
     parser.add_argument(
         "--timeout",
         type=float,
         default=180.0,
-        help="Per-request timeout in seconds. Default: %(default)s",
     )
+
     args = parser.parse_args()
 
     audio_path = args.audio.expanduser().resolve()
+
     if not audio_path.is_file():
-        raise SystemExit(f"Audio file does not exist: {audio_path}")
+        raise SystemExit(
+            f"Audio file does not exist: {audio_path}"
+        )
 
     base_url = args.base_url.rstrip("/")
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+    timestamp = datetime.now(timezone.utc).strftime(
+        "%Y%m%dT%H%M%SZ"
+    )
+
     output_dir = args.output_root / timestamp
     output_dir.mkdir(parents=True, exist_ok=False)
 
     metadata = {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
-        "purpose": "API regression smoke test; not a final benchmark",
+        "purpose": (
+            "Chord-first API regression smoke test; "
+            "not a final benchmark"
+        ),
         "base_url": base_url,
         "git_branch": git_value("branch", "--show-current"),
         "git_commit": git_value("rev-parse", "HEAD"),
@@ -305,143 +352,89 @@ def main() -> int:
         "python_version": sys.version,
         "platform": platform.platform(),
         "architecture": platform.machine(),
-        "basic_pitch_version": package_version("basic-pitch"),
-        "coremltools_version": package_version("coremltools"),
         "audio_path": str(audio_path),
         "audio_filename": audio_path.name,
         "audio_size_bytes": audio_path.stat().st_size,
         "audio_sha256": sha256_file(audio_path),
     }
 
-    health_before, health_before_client_ms = get_json(
+    health, health_client_ms = get_json(
         f"{base_url}/health",
         timeout_seconds=args.timeout,
     )
 
-    assert health_before["ok"] is True
-    assert health_before["instrument"] == "guitar"
-    assert set(health_before["supported_backends"]) == {
-        "baseline",
-        "basic_pitch",
-    }
-    assert health_before["default_backend"] == "basic_pitch"
+    assert_health(health)
 
-    basic_first, basic_first_client_ms = analyze_audio(
+    first, first_client_ms = analyze_audio(
         base_url,
         audio_path,
-        backend="basic_pitch",
-        chords=False,
         timeout_seconds=args.timeout,
     )
-    assert_common_response(basic_first)
-    assert basic_first["backend_requested"] == "basic_pitch"
-    assert basic_first["backend_effective"] == "basic_pitch"
-    assert basic_first["backend_runtime"] == "COREML"
-    assert basic_first["chord_backend"] is None
 
-    basic_warm, basic_warm_client_ms = analyze_audio(
+    assert_chord_response(first)
+
+    repeated, repeated_client_ms = analyze_audio(
         base_url,
         audio_path,
-        backend="basic_pitch",
-        chords=False,
         timeout_seconds=args.timeout,
     )
-    assert_common_response(basic_warm)
-    assert basic_warm["backend_effective"] == "basic_pitch"
-    assert basic_warm["backend_runtime"] == "COREML"
 
-    baseline, baseline_client_ms = analyze_audio(
-        base_url,
-        audio_path,
-        backend="baseline",
-        chords=False,
-        timeout_seconds=args.timeout,
-    )
-    assert_common_response(baseline)
-    assert baseline["backend_requested"] == "baseline"
-    assert baseline["backend_effective"] == "baseline"
-    assert baseline["backend_runtime"] == "DSP"
+    assert_chord_response(repeated)
 
-    with_chords, chords_client_ms = analyze_audio(
-        base_url,
-        audio_path,
-        backend="basic_pitch",
-        chords=True,
-        timeout_seconds=args.timeout,
-    )
-    assert_common_response(with_chords)
-    assert with_chords["backend_effective"] == "basic_pitch"
-    assert with_chords["chord_backend"] == "chroma_template"
-    assert isinstance(with_chords["chords"], list)
-
-    health_after, health_after_client_ms = get_json(
-        f"{base_url}/health",
-        timeout_seconds=args.timeout,
-    )
-    assert health_after["ok"] is True
-    assert health_after["basic_pitch_loaded"] is True
+    # The temporary chroma implementation should be deterministic.
+    assert first["progression"] == repeated["progression"]
 
     responses = {
-        "health_before": health_before,
-        "basic_pitch_first": basic_first,
-        "basic_pitch_warm": basic_warm,
-        "baseline": baseline,
-        "basic_pitch_with_chords": with_chords,
-        "health_after": health_after,
-    }
-
-    client_timings_ms = {
-        "health_before": round(health_before_client_ms, 2),
-        "basic_pitch_first": round(basic_first_client_ms, 2),
-        "basic_pitch_warm": round(basic_warm_client_ms, 2),
-        "baseline": round(baseline_client_ms, 2),
-        "basic_pitch_with_chords": round(chords_client_ms, 2),
-        "health_after": round(health_after_client_ms, 2),
+        "health": health,
+        "first_analysis": first,
+        "repeated_analysis": repeated,
     }
 
     summary = {
         "metadata": metadata,
-        "health": {
-            "basic_pitch_loaded_before": health_before[
-                "basic_pitch_loaded"
-            ],
-            "basic_pitch_loaded_after": health_after[
-                "basic_pitch_loaded"
-            ],
-        },
+        "health_client_ms": round(health_client_ms, 2),
         "results": {
-            "basic_pitch_first": summarize_response(
-                basic_first,
-                client_elapsed_ms=basic_first_client_ms,
+            "first_analysis": summarize_response(
+                first,
+                client_elapsed_ms=first_client_ms,
             ),
-            "basic_pitch_warm": summarize_response(
-                basic_warm,
-                client_elapsed_ms=basic_warm_client_ms,
-            ),
-            "baseline": summarize_response(
-                baseline,
-                client_elapsed_ms=baseline_client_ms,
-            ),
-            "basic_pitch_with_chords": summarize_response(
-                with_chords,
-                client_elapsed_ms=chords_client_ms,
+            "repeated_analysis": summarize_response(
+                repeated,
+                client_elapsed_ms=repeated_client_ms,
             ),
         },
-        "client_timings_ms": client_timings_ms,
+        "deterministic_progression": (
+            first["progression"] == repeated["progression"]
+        ),
         "assertions_passed": True,
     }
 
     for name, response in responses.items():
-        write_json(output_dir / f"{name}.json", response)
+        write_json(
+            output_dir / f"{name}.json",
+            response,
+        )
 
-    write_json(output_dir / "summary.json", summary)
+    write_json(
+        output_dir / "summary.json",
+        summary,
+    )
 
-    print("ChordAssist API smoke test passed.")
+    print("ChordAssist chord-first API smoke test passed.")
     print(f"Audio: {audio_path}")
-    print(f"Git: {metadata['git_branch']} @ {metadata['git_commit']}")
+    print(
+        f"Git: {metadata['git_branch']} "
+        f"@ {metadata['git_commit']}"
+    )
+    print(f"Git dirty: {metadata['git_dirty']}")
     print(f"Results: {output_dir.resolve()}")
     print()
-    print(json.dumps(summary["results"], indent=2))
+    print(
+        json.dumps(
+            summary["results"],
+            indent=2,
+        )
+    )
 
     return 0
 
@@ -450,6 +443,8 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except AssertionError as exc:
-        raise SystemExit(f"Smoke-test assertion failed: {exc}") from exc
+        raise SystemExit(
+            f"Smoke-test assertion failed: {exc}"
+        ) from exc
     except SmokeTestError as exc:
         raise SystemExit(str(exc)) from exc
