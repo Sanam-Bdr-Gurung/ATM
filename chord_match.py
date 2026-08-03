@@ -1,32 +1,217 @@
+from __future__ import annotations
+
+from typing import Sequence
+
 import numpy as np
-from chord_templates import CHORD_TEMPLATES, CHORD_NAMES
 
-def match_chords(chroma):
+from chord_engine import (
+    ChordPrediction,
+    classify_pitch_class_vector,
+)
+from chord_templates import (
+    CHORD_NAMES,
+    CHORD_TEMPLATES,
+)
+
+
+def _validate_chroma(
+    chroma: Sequence[Sequence[float]] | np.ndarray,
+) -> np.ndarray:
+    matrix = np.asarray(
+        chroma,
+        dtype=np.float64,
+    )
+
+    if matrix.ndim != 2:
+        raise ValueError(
+            "Chroma must be a two-dimensional matrix."
+        )
+
+    if matrix.shape[0] != 12:
+        raise ValueError(
+            "Chroma must have shape (12, frame_count)."
+        )
+
+    if not np.all(np.isfinite(matrix)):
+        raise ValueError(
+            "Chroma contains NaN or infinite values."
+        )
+
+    if np.any(matrix < 0.0):
+        raise ValueError(
+            "Chroma cannot contain negative values."
+        )
+
+    return matrix
+
+
+def _validate_frame_activity(
+    frame_activity: Sequence[float] | np.ndarray,
+    frame_count: int,
+) -> np.ndarray:
+    activity = np.asarray(
+        frame_activity,
+        dtype=np.float64,
+    ).reshape(-1)
+
+    if activity.size != frame_count:
+        raise ValueError(
+            "frame_activity must contain one value per chroma frame."
+        )
+
+    if not np.all(np.isfinite(activity)):
+        raise ValueError(
+            "frame_activity contains NaN or infinite values."
+        )
+
+    if np.any(activity < 0.0):
+        raise ValueError(
+            "frame_activity cannot contain negative values."
+        )
+
+    return activity
+
+
+def infer_activity_threshold(
+    frame_activity: Sequence[float] | np.ndarray,
+    *,
+    relative_floor: float = 0.08,
+    absolute_floor: float = 1e-8,
+) -> float:
+    if not 0.0 <= relative_floor <= 1.0:
+        raise ValueError(
+            "relative_floor must be between 0 and 1."
+        )
+
+    if absolute_floor < 0.0:
+        raise ValueError(
+            "absolute_floor cannot be negative."
+        )
+
+    activity = np.asarray(
+        frame_activity,
+        dtype=np.float64,
+    ).reshape(-1)
+
+    if activity.size == 0:
+        return absolute_floor
+
+    positive = activity[
+        activity > absolute_floor
+    ]
+
+    if positive.size == 0:
+        return absolute_floor
+
+    reference_activity = float(
+        np.percentile(
+            positive,
+            95,
+        )
+    )
+
+    return max(
+        absolute_floor,
+        relative_floor * reference_activity,
+    )
+
+
+def classify_chroma_frames(
+    chroma: Sequence[Sequence[float]] | np.ndarray,
+    *,
+    frame_activity: Sequence[float] | np.ndarray | None = None,
+    activity_threshold: float | None = None,
+    relative_activity_floor: float = 0.08,
+    minimum_score: float = 0.62,
+    ambiguity_margin: float = 0.035,
+) -> tuple[list[ChordPrediction], float]:
     """
-    Match chroma frames (12-note energy vectors) to the closest chord template.
+    Classify each chroma frame through the shared chord engine.
 
-    Args:
-        chroma: np.ndarray of shape (12, T)
-                Each column is a chroma vector for a time frame (12 pitch classes × T frames).
-
-    Returns:
-        A list of predicted chord names (length = T), one for each time frame.
+    Activity is used only for silence/no-chord gating. Chord identity is
+    determined from the 12-dimensional chroma vector.
     """
+    matrix = _validate_chroma(chroma)
+    frame_count = matrix.shape[1]
 
-    # Step 1️⃣: Normalize each chroma column (frame) to unit length.
-    # This removes differences in overall loudness so only the *relative* pitch
-    # distribution matters when matching to chords.
-    denom = np.linalg.norm(chroma, axis=0, keepdims=True) + 1e-9  # avoid division by zero
-    norm = chroma / denom  # normalized chroma (12 × T)
+    if frame_count == 0:
+        return [], 0.0
 
-    # Step 2️⃣: Compute similarity between each frame and every chord template.
-    # CHORD_TEMPLATES → shape (24, 12)  → 24 chord profiles (12 major + 12 minor)
-    # norm → shape (12, T)
-    # Matrix multiplication gives → (24, T): similarity scores for each chord vs each frame
-    scores = CHORD_TEMPLATES @ norm
+    if frame_activity is None:
+        activity = np.sum(
+            matrix,
+            axis=0,
+        )
+    else:
+        activity = _validate_frame_activity(
+            frame_activity,
+            frame_count,
+        )
 
-    # Step 3️⃣: Find the index of the best-matching chord for each frame
-    idx = scores.argmax(axis=0)
+    if activity_threshold is None:
+        resolved_threshold = infer_activity_threshold(
+            activity,
+            relative_floor=relative_activity_floor,
+        )
+    else:
+        resolved_threshold = float(
+            activity_threshold
+        )
 
-    # Step 4️⃣: Convert chord indices to their names (like "C", "Am", "F#")
-    return [CHORD_NAMES[i] for i in idx]
+        if resolved_threshold < 0.0:
+            raise ValueError(
+                "activity_threshold cannot be negative."
+            )
+
+    predictions: list[ChordPrediction] = []
+    silence_vector = np.zeros(
+        12,
+        dtype=np.float64,
+    )
+
+    for frame_index in range(frame_count):
+        if activity[frame_index] <= resolved_threshold:
+            prediction = classify_pitch_class_vector(
+                silence_vector
+            )
+        else:
+            prediction = classify_pitch_class_vector(
+                matrix[:, frame_index],
+                minimum_score=minimum_score,
+                ambiguity_margin=ambiguity_margin,
+            )
+
+        predictions.append(prediction)
+
+    return predictions, resolved_threshold
+
+
+def match_chords(chroma: np.ndarray) -> list[str]:
+    """
+    Legacy major/minor matcher retained temporarily for the current API.
+
+    The API will stop using this function after the new chroma adapter and
+    segmentation layer have passed isolated tests.
+    """
+    matrix = _validate_chroma(chroma)
+
+    if matrix.shape[1] == 0:
+        return []
+
+    denominator = (
+        np.linalg.norm(
+            matrix,
+            axis=0,
+            keepdims=True,
+        )
+        + 1e-9
+    )
+
+    normalized = matrix / denominator
+    scores = CHORD_TEMPLATES @ normalized
+    indices = scores.argmax(axis=0)
+
+    return [
+        CHORD_NAMES[index]
+        for index in indices
+    ]
