@@ -8,10 +8,6 @@ from chord_engine import (
     ChordPrediction,
     classify_pitch_class_vector,
 )
-from chord_templates import (
-    CHORD_NAMES,
-    CHORD_TEMPLATES,
-)
 
 
 def _validate_chroma(
@@ -184,34 +180,3 @@ def classify_chroma_frames(
         predictions.append(prediction)
 
     return predictions, resolved_threshold
-
-
-def match_chords(chroma: np.ndarray) -> list[str]:
-    """
-    Legacy major/minor matcher retained temporarily for the current API.
-
-    The API will stop using this function after the new chroma adapter and
-    segmentation layer have passed isolated tests.
-    """
-    matrix = _validate_chroma(chroma)
-
-    if matrix.shape[1] == 0:
-        return []
-
-    denominator = (
-        np.linalg.norm(
-            matrix,
-            axis=0,
-            keepdims=True,
-        )
-        + 1e-9
-    )
-
-    normalized = matrix / denominator
-    scores = CHORD_TEMPLATES @ normalized
-    indices = scores.argmax(axis=0)
-
-    return [
-        CHORD_NAMES[index]
-        for index in indices
-    ]

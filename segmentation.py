@@ -9,61 +9,6 @@ from chord_engine import (
     humanize_chord_label,
 )
 
-
-def group_labels(
-    labels: list[str],
-    times: list[float],
-    min_hold_sec: float = 0.3,
-) -> list[tuple[float, float, str]]:
-    """
-    Legacy grouping function retained temporarily for the current API.
-    """
-    if not labels:
-        return []
-
-    segments: list[tuple[float, float, str]] = []
-    current_label = labels[0]
-    start = times[0]
-
-    for index in range(1, len(labels)):
-        if labels[index] == current_label:
-            continue
-
-        end = times[index]
-
-        if (
-            segments
-            and end - start < min_hold_sec
-        ):
-            previous_start, _, previous_label = segments[-1]
-            segments[-1] = (
-                previous_start,
-                end,
-                previous_label,
-            )
-        else:
-            segments.append(
-                (
-                    start,
-                    end,
-                    current_label,
-                )
-            )
-
-        current_label = labels[index]
-        start = times[index]
-
-    segments.append(
-        (
-            start,
-            times[-1],
-            current_label,
-        )
-    )
-
-    return segments
-
-
 def _validate_inputs(
     predictions: Sequence[ChordPrediction],
     times: Sequence[float] | np.ndarray,

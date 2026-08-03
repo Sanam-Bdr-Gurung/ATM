@@ -175,6 +175,7 @@ def assert_health(response: dict[str, Any]) -> None:
     assert response["available_methods"] == ["chroma"]
     assert response["planned_methods"] == ["basic_pitch"]
     assert response["basic_pitch_adapter_available"] is True
+    assert response["chord_engine_status"] == "shared_core_chord_engine_v1"
 
 
 def assert_chord_response(response: dict[str, Any]) -> None:
@@ -188,6 +189,7 @@ def assert_chord_response(response: dict[str, Any]) -> None:
         "latency_ms",
         "real_time_factor",
         "timing_ms",
+        "analysis",
     }
 
     assert required_keys.issubset(response)
@@ -205,8 +207,8 @@ def assert_chord_response(response: dict[str, Any]) -> None:
 
     assert forbidden_keys.isdisjoint(response)
 
-    assert response["method"] == "chroma_template_baseline"
-    assert response["engine_status"] == "temporary_baseline"
+    assert response["method"] == "chroma_shared_engine"
+    assert response["engine_status"] == "shared_core_v1"
 
     duration = float(response["audio_duration_sec"])
     assert duration > 0.0
@@ -220,10 +222,16 @@ def assert_chord_response(response: dict[str, Any]) -> None:
     assert isinstance(tts_messages, list)
     assert tts_messages
 
-    assert progression == [
+    expected_progression = [
         segment["label"]
         for segment in segments
+        if segment["label"] != "N"
     ]
+
+    assert progression == expected_progression, (
+        f"Progression mismatch: expected {expected_progression}, "
+        f"received {progression}"
+    )
 
     previous_start = -1.0
 
@@ -246,6 +254,9 @@ def assert_chord_response(response: dict[str, Any]) -> None:
         assert segment["label"]
         assert isinstance(segment["display"], str)
         assert segment["display"]
+
+        confidence = float(segment["confidence"])
+        assert 0.0 <= confidence <= 1.0
 
         previous_start = start
 

@@ -1,33 +1,148 @@
-import numpy as np
+from __future__ import annotations
+
+from dataclasses import dataclass
+
 import librosa
+import numpy as np
 
-def chroma_from_audio(y, sr, hop_length=1024):
+
+@dataclass(frozen=True)
+class ChromaFeatures:
+    chroma: np.ndarray
+    times: np.ndarray
+    frame_activity: np.ndarray
+    hop_length: int
+    frame_length: int
+
+
+def _validate_audio(
+    y: np.ndarray,
+    sr: int,
+) -> np.ndarray:
+    if sr <= 0:
+        raise ValueError(
+            "Audio sample rate must be positive."
+        )
+
+    audio = np.asarray(
+        y,
+        dtype=np.float32,
+    )
+
+    audio = np.squeeze(audio)
+
+    if audio.ndim != 1:
+        raise ValueError(
+            "Expected a one-dimensional mono waveform."
+        )
+
+    if audio.size == 0:
+        raise ValueError(
+            "Cannot extract chroma from empty audio."
+        )
+
+    if not np.all(np.isfinite(audio)):
+        raise ValueError(
+            "Audio contains NaN or infinite values."
+        )
+
+    return np.ascontiguousarray(
+        audio,
+        dtype=np.float32,
+    )
+
+
+def chroma_from_audio(
+    y: np.ndarray,
+    sr: int,
+    *,
+    hop_length: int = 1024,
+    frame_length: int = 4096,
+    harmonic_margin: float = 3.0,
+) -> ChromaFeatures:
     """
-    Compute a chromagram (12-note pitch energy representation) from an audio signal.
+    Extract traditional chroma evidence and frame activity.
 
-    Args:
-        y: Audio waveform as a 1D NumPy array.
-        sr: Sample rate of the audio (samples per second).
-        hop_length: Step size (in samples) between consecutive STFT frames.
-                    Controls time resolution — smaller = finer time detail.
-
-    Returns:
-        chroma: 12 x T matrix showing pitch class (C, C#, D, …, B) intensity over time.
-        times:  1D array mapping each frame to its time in seconds.
+    Harmonic-percussive separation is used only to emphasize pitched
+    harmonic content. This does not perform instrument source separation.
     """
+    if hop_length <= 0:
+        raise ValueError(
+            "hop_length must be positive."
+        )
 
-    # Step 1️⃣: Perform a Short-Time Fourier Transform (STFT)
-    # Breaks the audio into overlapping chunks and computes frequency content for each.
-    # np.abs() keeps only the magnitude (energy), discarding phase information.
-    S = np.abs(librosa.stft(y, n_fft=4096, hop_length=hop_length))
+    if frame_length <= 0:
+        raise ValueError(
+            "frame_length must be positive."
+        )
 
-    # Step 2️⃣: Compute the chromagram from the STFT magnitude
-    # Maps the frequencies into 12 chroma bins (one for each musical note class).
-    chroma = librosa.feature.chroma_stft(S=S, sr=sr)
+    if harmonic_margin <= 0.0:
+        raise ValueError(
+            "harmonic_margin must be positive."
+        )
 
-    # Step 3️⃣: Convert frame indices to actual time in seconds
-    # This lets you plot or align chroma values along a real timeline.
-    times = librosa.frames_to_time(range(chroma.shape[1]), sr=sr, hop_length=hop_length)
+    audio = _validate_audio(
+        y,
+        sr,
+    )
 
-    # Step 4️⃣: Return both the chroma features and corresponding times
-    return chroma, times
+    harmonic_audio = librosa.effects.harmonic(
+        audio,
+        margin=harmonic_margin,
+    )
+
+    spectrum = np.abs(
+        librosa.stft(
+            harmonic_audio,
+            n_fft=frame_length,
+            hop_length=hop_length,
+            center=True,
+        )
+    )
+
+    chroma = librosa.feature.chroma_stft(
+        S=spectrum,
+        sr=sr,
+        n_fft=frame_length,
+        hop_length=hop_length,
+        norm=2,
+    )
+
+    frame_activity = librosa.feature.rms(
+        y=harmonic_audio,
+        frame_length=frame_length,
+        hop_length=hop_length,
+        center=True,
+    )[0]
+
+    frame_count = min(
+        chroma.shape[1],
+        frame_activity.size,
+    )
+
+    chroma = np.asarray(
+        chroma[:, :frame_count],
+        dtype=np.float64,
+    )
+
+    frame_activity = np.asarray(
+        frame_activity[:frame_count],
+        dtype=np.float64,
+    )
+
+    times = librosa.frames_to_time(
+        np.arange(frame_count),
+        sr=sr,
+        hop_length=hop_length,
+    )
+
+    return ChromaFeatures(
+        chroma=chroma,
+        times=np.asarray(
+            times,
+            dtype=np.float64,
+        ),
+        frame_activity=frame_activity,
+        hop_length=hop_length,
+        frame_length=frame_length,
+    )
