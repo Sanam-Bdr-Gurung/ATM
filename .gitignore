@@ -32,3 +32,6 @@ datasets/
 evaluation_results/
 # Copyrighted or private real-world evaluation audio
 evaluation_data/real_world/private_audio/
+
+# Copyrighted/private exploratory chord audio
+evaluation_data/chords/exploratory/private_audio/

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "clip_id": "dev_clean_01",
+  "split": "development",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 12.0,
+  "recording_notes": "Clean guitar recording with approximately four chord regions.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 0.5,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 0.5,
+      "end": 3.5,
+      "label": "C:maj"
+    },
+    {
+      "start": 3.5,
+      "end": 6.5,
+      "label": "G:maj"
+    },
+    {
+      "start": 6.5,
+      "end": 9.5,
+      "label": "A:min"
+    },
+    {
+      "start": 9.5,
+      "end": 12.0,
+      "label": "F:maj"
+    }
+  ]
+}
