@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "clip_id": "dev_clean_01",
+  "split": "development",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 22.523356,
+  "recording_notes": "Clean guitar recording with approximately four chord regions.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.15,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 3.15,
+      "end": 6.51,
+      "label": "C:maj"
+    },
+    {
+      "start": 6.51,
+      "end": 7.27,
+      "label": "N",
+      "notes": "Muted transition between chords"
+    },
+    {
+      "start": 7.27,
+      "end": 11.22,
+      "label": "G:maj"
+    },
+    {
+      "start": 11.22,
+      "end": 11.78,
+      "label": "N",
+      "notes": "Muted transition between chords"
+    },
+    {
+      "start": 11.78,
+      "end": 15.65,
+      "label": "A:min"
+    },
+    {
+      "start": 15.65,
+      "end": 16.64,
+      "label": "N",
+      "notes": "Muted transition between chords"
+    },
+    {
+      "start": 16.64,
+      "end": 20.74,
+      "label": "E:min"
+    },
+    {
+      "start": 20.74,
+      "end": 22.523356,
+      "label": "N",
+      "notes": "Silence and decay after the final chord"
+    }
+  ]
+}
