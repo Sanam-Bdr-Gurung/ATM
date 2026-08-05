@@ -22,6 +22,13 @@
       "audio_path": "audio/dev_extended_03.wav",
       "annotation_path": "annotations/dev_extended_03.json",
       "include_in_primary_metrics": true
+    },
+    {
+      "clip_id": "dev_arpeggiated_04",
+      "split": "development",
+      "audio_path": "audio/dev_arpeggiated_04.wav",
+      "annotation_path": "annotations/dev_arpeggiated_04.json",
+      "include_in_primary_metrics": true
     }
   ]
 }
