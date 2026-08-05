@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "clip_id": "dev_extended_03",
+  "split": "development",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 13.862313,
+  "recording_notes": "Standard-tuned guitar recording containing suspended, dominant seventh and major seventh chord qualities.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.20,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 2.20,
+      "end": 4.04,
+      "label": "D:sus2"
+    },
+    {
+      "start": 4.04,
+      "end": 6.15,
+      "label": "D:sus4"
+    },
+    {
+      "start": 6.15,
+      "end": 8.41,
+      "label": "G:7"
+    },
+    {
+      "start": 8.41,
+      "end": 12.30,
+      "label": "C:maj7"
+    },
+    {
+      "start": 12.30,
+      "end": 13.862313,
+      "label": "N",
+      "notes": "Silence and decay after the final chord"
+    }
+  ]
+}

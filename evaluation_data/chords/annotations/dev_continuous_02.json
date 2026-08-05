@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "clip_id": "dev_continuous_02",
+  "split": "development",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 15.418050,
+  "recording_notes": "Continuous standard-tuned guitar progression containing D major, A major, B minor and G major without intentional muted gaps.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.57,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 2.57,
+      "end": 4.36,
+      "label": "D:maj"
+    },
+    {
+      "start": 4.36,
+      "end": 6.39,
+      "label": "A:maj"
+    },
+    {
+      "start": 6.39,
+      "end": 8.45,
+      "label": "B:min"
+    },
+    {
+      "start": 8.45,
+      "end": 13.41,
+      "label": "G:maj"
+    },
+    {
+      "start": 13.41,
+      "end": 15.418050,
+      "label": "N",
+      "notes": "Silence and decay after the final chord"
+    }
+  ]
+}
