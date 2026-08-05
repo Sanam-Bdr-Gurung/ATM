@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "clip_id": "dev_voicing_07",
+  "split": "development",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 16.764807,
+  "recording_notes": "Standard-tuned guitar playing F major, D minor, A minor and C dominant seventh using compact or partial-barre voicings, held strums and natural transitions.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 1.99,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 1.99,
+      "end": 4.23,
+      "label": "F:maj"
+    },
+    {
+      "start": 4.23,
+      "end": 6.66,
+      "label": "D:min"
+    },
+    {
+      "start": 6.66,
+      "end": 9.50,
+      "label": "A:min"
+    },
+    {   
+      "start": 9.50,
+      "end": 15.02,
+      "label": "C:7"
+    },
+    {
+      "start": 15.02,
+      "end": 16.764807,
+      "label": "N",
+      "notes": "Final chord decay followed by silence"
+    }
+  ]
+}
