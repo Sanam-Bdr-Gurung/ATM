@@ -91,7 +91,7 @@ def chroma_from_audio(
         margin=harmonic_margin,
     )
 
-    spectrum = np.abs(
+    magnitude_spectrogram = np.abs(
         librosa.stft(
             harmonic_audio,
             n_fft=frame_length,
@@ -100,8 +100,12 @@ def chroma_from_audio(
         )
     )
 
+    power_spectrogram = np.square(
+        magnitude_spectrogram
+    )
+
     chroma = librosa.feature.chroma_stft(
-        S=spectrum,
+        S=power_spectrogram,
         sr=sr,
         n_fft=frame_length,
         hop_length=hop_length,
