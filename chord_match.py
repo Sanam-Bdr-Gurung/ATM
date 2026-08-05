@@ -4,6 +4,11 @@ from typing import Sequence
 
 import numpy as np
 
+from chord_config import (
+    DEFAULT_AMBIGUITY_MARGIN,
+    DEFAULT_MINIMUM_SCORE,
+)
+
 from chord_engine import (
     ChordPrediction,
     classify_pitch_class_vector,
@@ -118,8 +123,12 @@ def classify_chroma_frames(
     frame_activity: Sequence[float] | np.ndarray | None = None,
     activity_threshold: float | None = None,
     relative_activity_floor: float = 0.08,
-    minimum_score: float = 0.62,
-    ambiguity_margin: float = 0.035,
+    minimum_score: float = (
+        DEFAULT_MINIMUM_SCORE
+    ),
+    ambiguity_margin: float = (
+        DEFAULT_AMBIGUITY_MARGIN
+    ),
 ) -> tuple[list[ChordPrediction], float]:
     """
     Classify each chroma frame through the shared chord engine.

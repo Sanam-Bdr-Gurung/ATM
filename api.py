@@ -15,6 +15,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.concurrency import run_in_threadpool
 
 from audio_input import load_audio_bytes
+from chord_config import (
+    DEFAULT_AMBIGUITY_MARGIN as AMBIGUITY_MARGIN,
+    DEFAULT_MINIMUM_SCORE as MINIMUM_SCORE,
+    DEFAULT_MINIMUM_SEGMENT_DURATION_SEC as MINIMUM_SEGMENT_DURATION_SEC,
+    SELECTED_CONFIG_ID,
+    selected_chord_configuration,
+)
 from chord_engine import ChordPrediction
 from chord_match import classify_chroma_frames
 from features import chroma_from_audio
@@ -30,10 +37,6 @@ MethodName = Literal[
     "chroma",
     "basic_pitch",
 ]
-
-MINIMUM_SCORE: Final[float] = 0.62
-AMBIGUITY_MARGIN: Final[float] = 0.035
-MINIMUM_SEGMENT_DURATION_SEC: Final[float] = 0.4
 
 CHROMA_HOP_LENGTH: Final[int] = 1024
 CHROMA_FRAME_LENGTH: Final[int] = 4096
@@ -133,6 +136,9 @@ def analyze_with_chroma(
 
     analysis = {
         "feature_source": "traditional_chroma",
+        "configuration_id": (
+            SELECTED_CONFIG_ID
+        ),
         "frame_count": len(predictions),
         "activity_threshold": round(
             float(activity_threshold),
@@ -298,6 +304,9 @@ def analyze_with_basic_pitch(
         "feature_source": (
             "basic_pitch_note_events"
         ),
+        "configuration_id": (
+            SELECTED_CONFIG_ID
+        ),
         "basic_pitch_runtime": runtime_name,
         "model_was_loaded_before_request": (
             model_was_loaded
@@ -413,6 +422,9 @@ def health() -> dict:
         ),
         "basic_pitch_loaded": (
             _BASIC_PITCH_MODEL is not None
+        ),
+        "selected_configuration": (
+            selected_chord_configuration()
         ),
     }
 

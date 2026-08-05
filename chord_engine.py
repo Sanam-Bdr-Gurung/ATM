@@ -5,6 +5,11 @@ from typing import Final, Sequence
 
 import numpy as np
 
+from chord_config import (
+    DEFAULT_AMBIGUITY_MARGIN,
+    DEFAULT_MINIMUM_SCORE,
+)
+
 
 PITCH_CLASS_NAMES: Final[tuple[str, ...]] = (
     "C",
@@ -326,8 +331,12 @@ def classify_pitch_class_vector(
     *,
     bass_pitch_class: int | None = None,
     no_chord_activity: float = 1e-8,
-    minimum_score: float = 0.62,
-    ambiguity_margin: float = 0.035,
+    minimum_score: float = (
+        DEFAULT_MINIMUM_SCORE
+    ),
+    ambiguity_margin: float = (
+        DEFAULT_AMBIGUITY_MARGIN
+    ),
 ) -> ChordPrediction:
     if no_chord_activity < 0.0:
         raise ValueError(

@@ -4,6 +4,10 @@ from typing import Sequence
 
 import numpy as np
 
+from chord_config import (
+    DEFAULT_MINIMUM_SEGMENT_DURATION_SEC,
+)
+
 from chord_engine import (
     ChordPrediction,
     humanize_chord_label,
@@ -238,7 +242,9 @@ def segment_chord_predictions(
     times: Sequence[float] | np.ndarray,
     *,
     audio_duration_sec: float,
-    min_hold_sec: float = 0.4,
+    min_hold_sec: float = (
+        DEFAULT_MINIMUM_SEGMENT_DURATION_SEC
+    ),
 ) -> list[dict[str, object]]:
     if not predictions:
         return []

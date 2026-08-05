@@ -5,6 +5,11 @@ from typing import Sequence
 
 import numpy as np
 
+from chord_config import (
+    DEFAULT_AMBIGUITY_MARGIN,
+    DEFAULT_MINIMUM_SCORE,
+)
+
 from chord_engine import (
     ChordPrediction,
     classify_pitch_class_vector,
@@ -438,8 +443,12 @@ def classify_note_event_frames(
     *,
     activity_threshold: float | None = None,
     relative_activity_floor: float = 0.05,
-    minimum_score: float = 0.62,
-    ambiguity_margin: float = 0.035,
+    minimum_score: float = (
+        DEFAULT_MINIMUM_SCORE
+    ),
+    ambiguity_margin: float = (
+        DEFAULT_AMBIGUITY_MARGIN
+    ),
 ) -> tuple[list[ChordPrediction], float]:
     frame_count = (
         features.pitch_class_frames.shape[1]
