@@ -36,6 +36,13 @@
       "audio_path": "audio/dev_seventh_05.wav",
       "annotation_path": "annotations/dev_seventh_05.json",
       "include_in_primary_metrics": true
+    },
+    {
+      "clip_id": "dev_repeated_06",
+      "split": "development",
+      "audio_path": "audio/dev_repeated_06.wav",
+      "annotation_path": "annotations/dev_repeated_06.json",
+      "include_in_primary_metrics": true
     }
   ]
 }

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "clip_id": "dev_repeated_06",
+  "split": "development",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 22.221497,
+  "recording_notes": "Standard-tuned guitar playing A major, E major, F-sharp minor and D major with two or three steady repeated strums per chord and natural transitions.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.18,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 2.18,
+      "end": 6.00,
+      "label": "A:maj"
+    },
+    {
+      "start": 6.00,
+      "end": 9.87,
+      "label": "E:maj"
+    },
+    {
+      "start": 9.87,
+      "end": 13.75,
+      "label": "F#:min"
+    },
+    {
+      "start": 13.75,
+      "end": 20.06,
+      "label": "D:maj"
+    },
+    {
+      "start": 20.06,
+      "end": 22.221497,
+      "label": "N",
+      "notes": "Final chord decay followed by silence"
+    }
+  ]
+}
