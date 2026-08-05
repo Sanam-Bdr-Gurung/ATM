@@ -29,6 +29,13 @@
       "audio_path": "audio/dev_arpeggiated_04.wav",
       "annotation_path": "annotations/dev_arpeggiated_04.json",
       "include_in_primary_metrics": true
+    },
+    {
+      "clip_id": "dev_seventh_05",
+      "split": "development",
+      "audio_path": "audio/dev_seventh_05.wav",
+      "annotation_path": "annotations/dev_seventh_05.json",
+      "include_in_primary_metrics": true
     }
   ]
 }
