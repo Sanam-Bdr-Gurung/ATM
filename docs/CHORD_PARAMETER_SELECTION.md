@@ -64,3 +64,13 @@ The `0.40`- and `0.60`-second configurations achieved identical measured develop
 | Basic Pitch | Boundary F1 | 47.6% | 50.8% |
 
 These figures are development-set observations and must not be presented as held-out performance.
+
+## Provisional-status update
+
+The initial parameter selection used three development clips and is therefore
+treated as a pilot selection. Five additional development recordings were
+pre-registered before further model analysis.
+
+The same 18-configuration grid, parameter values and ranking utility will be
+rerun once using all eight development clips. That second selection will be
+the final frozen configuration used for held-out evaluation.
