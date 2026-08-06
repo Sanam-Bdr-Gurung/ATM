@@ -1,0 +1,171 @@
+{
+  "analysis": {
+    "activity_threshold": 0.14215,
+    "ambiguity_margin": 0.02,
+    "basic_pitch_runtime": "COREML",
+    "bass_relative_weight": 0.15,
+    "classification_ms": 196.85,
+    "classified_chord_frames": 283,
+    "configuration_id": "development_8clip_grid_20260806",
+    "feature_extraction_ms": 1.52,
+    "feature_source": "basic_pitch_note_events",
+    "frame_count": 348,
+    "frame_step_sec": 0.04643991,
+    "minimum_note_confidence": 0.05,
+    "minimum_score": 0.58,
+    "minimum_segment_duration_sec": 0.6,
+    "model_configuration": {
+      "frame_threshold": 0.4,
+      "midi_high": 108,
+      "midi_low": 21,
+      "minimum_note_length_ms": 100.0,
+      "onset_threshold": 0.6
+    },
+    "model_inference_ms": 134.44,
+    "model_was_loaded_before_request": true,
+    "no_chord_frames": 40,
+    "note_event_count": 34,
+    "relative_activity_floor": 0.05,
+    "segmentation_ms": 0.36,
+    "uncertain_frames": 25,
+    "window_sec": 0.75
+  },
+  "audio_duration_sec": 16.138,
+  "engine_status": "shared_core_v1",
+  "latency_ms": 334.54,
+  "method": "basic_pitch",
+  "progression": [
+    "G:maj",
+    "G:maj7",
+    "B:min",
+    "G:maj7",
+    "C:maj7",
+    "C:maj",
+    "D:7",
+    "A:sus4",
+    "X",
+    "A:sus4"
+  ],
+  "real_time_factor": 0.0207,
+  "segments": [
+    {
+      "confidence": 1.0,
+      "display": "No chord",
+      "end": 1.8576,
+      "frame_count": 40,
+      "label": "N",
+      "mean_margin": 0.0,
+      "mean_score": 0.0,
+      "start": 0.0
+    },
+    {
+      "confidence": 0.8595,
+      "display": "G major",
+      "end": 4.2725,
+      "frame_count": 52,
+      "label": "G:maj",
+      "mean_margin": 0.08,
+      "mean_score": 0.9867,
+      "start": 1.8576
+    },
+    {
+      "confidence": 0.6917,
+      "display": "G major seventh",
+      "end": 4.3654,
+      "frame_count": 2,
+      "label": "G:maj7",
+      "mean_margin": 0.0502,
+      "mean_score": 0.8109,
+      "start": 4.2725
+    },
+    {
+      "confidence": 0.91,
+      "display": "B minor",
+      "end": 6.5945,
+      "frame_count": 48,
+      "label": "B:min",
+      "mean_margin": 0.1001,
+      "mean_score": 0.9955,
+      "start": 4.3654
+    },
+    {
+      "confidence": 0.823,
+      "display": "G major seventh",
+      "end": 6.6873,
+      "frame_count": 2,
+      "label": "G:maj7",
+      "mean_margin": 0.1228,
+      "mean_score": 0.8245,
+      "start": 6.5945
+    },
+    {
+      "confidence": 0.6698,
+      "display": "C major seventh",
+      "end": 6.7802,
+      "frame_count": 2,
+      "label": "C:maj7",
+      "mean_margin": 0.0641,
+      "mean_score": 0.7506,
+      "start": 6.6873
+    },
+    {
+      "confidence": 0.82,
+      "display": "C major",
+      "end": 9.1951,
+      "frame_count": 52,
+      "label": "C:maj",
+      "mean_margin": 0.0754,
+      "mean_score": 0.9421,
+      "start": 6.7802
+    },
+    {
+      "confidence": 0.8465,
+      "display": "D dominant seventh",
+      "end": 13.5605,
+      "frame_count": 94,
+      "label": "D:7",
+      "mean_margin": 0.1589,
+      "mean_score": 0.8912,
+      "start": 9.1951
+    },
+    {
+      "confidence": 0.8468,
+      "display": "A suspended fourth",
+      "end": 14.7679,
+      "frame_count": 26,
+      "label": "A:sus4",
+      "mean_margin": 0.0956,
+      "mean_score": 0.9165,
+      "start": 13.5605
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 15.5109,
+      "frame_count": 16,
+      "label": "X",
+      "mean_margin": 0.0,
+      "mean_score": 0.9012,
+      "start": 14.7679
+    },
+    {
+      "confidence": 0.8658,
+      "display": "A suspended fourth",
+      "end": 16.1379,
+      "frame_count": 14,
+      "label": "A:sus4",
+      "mean_margin": 0.1009,
+      "mean_score": 0.9302,
+      "start": 15.5109
+    }
+  ],
+  "timing_ms": {
+    "chord_analysis": 333.37,
+    "io": 1.15,
+    "total": 334.54
+  },
+  "tts": [
+    "Detected 10 harmonic segments.",
+    "The detected progression is G major, G major seventh, B minor, G major seventh, C major seventh, C major, D dominant seventh, A suspended fourth, Uncertain chord, A suspended fourth."
+  ]
+}

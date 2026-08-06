@@ -1,0 +1,88 @@
+{
+  "accuracy": {
+    "exact_time_weighted": 0.465736,
+    "harmonic_exact_time_weighted": 0.509863,
+    "root_time_weighted": 0.590835,
+    "triad_family_time_weighted": 0.540072
+  },
+  "ambiguity": {
+    "prediction_x_on_reference_chord_rate": 0.369721,
+    "prediction_x_rate_evaluable": 0.401234
+  },
+  "boundaries": {
+    "f1": 0.140351,
+    "false_change_count": 48,
+    "matched_count": 4,
+    "matches": [
+      {
+        "absolute_error_sec": 0.0295,
+        "predicted_sec": 1.9505,
+        "reference_sec": 1.98
+      },
+      {
+        "absolute_error_sec": 0.0042,
+        "predicted_sec": 11.4242,
+        "reference_sec": 11.42
+      },
+      {
+        "absolute_error_sec": 0.0188,
+        "predicted_sec": 21.4088,
+        "reference_sec": 21.39
+      },
+      {
+        "absolute_error_sec": 0.0668,
+        "predicted_sec": 30.7432,
+        "reference_sec": 30.81
+      }
+    ],
+    "mean_absolute_error_sec": 0.029825,
+    "median_absolute_error_sec": 0.02415,
+    "missed_change_count": 1,
+    "precision": 0.076923,
+    "predicted_count": 52,
+    "recall": 0.8,
+    "reference_count": 5,
+    "tolerance_sec": 0.25
+  },
+  "confusion_duration_sec": {
+    "A:maj -> A:add9": 0.2322,
+    "A:maj -> A:maj": 9.0093,
+    "A:maj -> A:sus2": 0.0668,
+    "A:maj -> A:sus4": 0.0188,
+    "A:maj -> X": 0.0929,
+    "D:add9 -> A:sus4": 0.1205,
+    "D:add9 -> D:add9": 4.7834,
+    "D:add9 -> D:maj": 0.9753,
+    "D:add9 -> D:maj7": 0.0042,
+    "D:add9 -> D:sus2": 1.9505,
+    "D:add9 -> N": 0.6966,
+    "D:add9 -> X": 1.4395,
+    "E:sus4 -> A:sus2": 0.0725,
+    "E:sus4 -> B:sus4": 0.4181,
+    "E:sus4 -> E:sus4": 2.0899,
+    "E:sus4 -> X": 8.6995,
+    "F#:min -> C#:sus4": 0.0929,
+    "F#:min -> D:maj7": 0.1815,
+    "F#:min -> F#:min": 4.568,
+    "F#:min -> X": 4.5976,
+    "N -> E:sus4": 1.1146,
+    "N -> F#:min": 0.0295,
+    "N -> N": 0.4644,
+    "N -> X": 3.188892
+  },
+  "duration_sec": 44.907392,
+  "durations": {
+    "evaluable_sec": 44.907392,
+    "predicted_x_sec": 18.018392,
+    "reference_chord_sec": 40.11
+  },
+  "no_chord": {
+    "f1": 0.155881,
+    "false_negative_sec": 4.332992,
+    "false_positive_sec": 0.6966,
+    "precision": 0.4,
+    "recall": 0.096803,
+    "true_positive_sec": 0.4644
+  },
+  "schema_version": 1
+}

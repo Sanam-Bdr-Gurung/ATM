@@ -1,0 +1,147 @@
+{
+  "clip_count": 4,
+  "clip_ids": [
+    "held_arpeggiated_02",
+    "held_extended_03",
+    "held_mixed_04",
+    "held_standard_01"
+  ],
+  "latency": {
+    "client_elapsed_ms": {
+      "maximum": 998.59,
+      "mean": 644.295,
+      "median": 619.58,
+      "minimum": 339.43
+    },
+    "real_time_factor": {
+      "maximum": 0.0293,
+      "mean": 0.0235,
+      "median": 0.022,
+      "minimum": 0.0207
+    },
+    "server_chord_analysis_ms": {
+      "maximum": 990.59,
+      "mean": 637.885,
+      "median": 613.79,
+      "minimum": 333.37
+    },
+    "server_total_ms": {
+      "maximum": 993.41,
+      "mean": 639.88,
+      "median": 615.785,
+      "minimum": 334.54
+    }
+  },
+  "latency_note": "The first request after server startup may include lazy CoreML model-loading overhead. Use a dedicated repeated benchmark for final latency claims.",
+  "method": "basic_pitch",
+  "metrics": {
+    "accuracy": {
+      "exact_time_weighted": 0.61062,
+      "harmonic_exact_time_weighted": 0.6671,
+      "root_time_weighted": 0.752875,
+      "triad_family_time_weighted": 0.729112
+    },
+    "ambiguity": {
+      "prediction_x_on_reference_chord_rate": 0.198709,
+      "prediction_x_rate_evaluable": 0.24046
+    },
+    "boundaries": {
+      "error_sample_count": 16,
+      "f1": 0.296296,
+      "false_change_count": 72,
+      "matched_count": 16,
+      "mean_absolute_error_sec": 0.065125,
+      "median_absolute_error_sec": 0.05905,
+      "missed_change_count": 4,
+      "precision": 0.181818,
+      "predicted_count": 88,
+      "recall": 0.8,
+      "reference_count": 20
+    },
+    "clip_count": 4,
+    "confusion_duration_sec": {
+      "A:7 -> A:7": 0.6415,
+      "A:7 -> A:maj": 4.1192,
+      "A:7 -> X": 0.1393,
+      "A:maj -> A:add9": 0.2322,
+      "A:maj -> A:maj": 9.0093,
+      "A:maj -> A:sus2": 0.0668,
+      "A:maj -> A:sus4": 0.0188,
+      "A:maj -> X": 0.0929,
+      "A:min -> A:min": 3.8545,
+      "A:min -> A:min7": 0.0393,
+      "A:min -> X": 0.6262,
+      "A:sus4 -> A:sus4": 2.76,
+      "B:min -> B:min": 2.2291,
+      "B:min -> C:maj": 0.0098,
+      "B:min -> C:maj7": 0.0929,
+      "B:min -> G:maj7": 0.1082,
+      "C:maj -> A:min7": 0.0072,
+      "C:maj -> C:maj": 6.7179,
+      "C:maj -> D:7": 0.1049,
+      "D:7 -> A:sus4": 1.1495,
+      "D:7 -> D:7": 4.2605,
+      "D:add9 -> A:sus4": 0.1205,
+      "D:add9 -> D:add9": 4.7834,
+      "D:add9 -> D:maj": 0.9753,
+      "D:add9 -> D:maj7": 0.0042,
+      "D:add9 -> D:sus2": 1.9505,
+      "D:add9 -> N": 0.6966,
+      "D:add9 -> X": 1.4395,
+      "D:maj7 -> A:sus4": 0.152,
+      "D:maj7 -> D:maj7": 2.9721,
+      "D:maj7 -> E:min7": 0.1559,
+      "E:7 -> E:7": 7.1982,
+      "E:7 -> E:sus4": 0.0464,
+      "E:7 -> F:maj7": 0.2637,
+      "E:7 -> X": 2.0217,
+      "E:min7 -> A:7": 0.0087,
+      "E:min7 -> D:sus2": 0.418,
+      "E:min7 -> E:min7": 2.6305,
+      "E:min7 -> X": 0.0928,
+      "E:sus4 -> A:sus2": 0.0725,
+      "E:sus4 -> B:sus4": 0.4181,
+      "E:sus4 -> E:sus4": 2.0899,
+      "E:sus4 -> X": 8.6995,
+      "F#:min -> C#:sus4": 0.0929,
+      "F#:min -> D:maj7": 0.1815,
+      "F#:min -> F#:min": 4.568,
+      "F#:min -> X": 4.5976,
+      "F:maj -> C:maj": 0.2847,
+      "F:maj -> F:maj": 3.8081,
+      "F:maj -> F:maj7": 0.1079,
+      "F:maj -> F:sus2": 0.0465,
+      "F:maj -> X": 0.0928,
+      "G:maj -> G:maj": 2.2425,
+      "G:maj -> G:maj7": 0.0775,
+      "N -> A:maj": 1.9644,
+      "N -> A:sus4": 0.745068,
+      "N -> E:sus4": 1.1146,
+      "N -> F#:min": 0.0295,
+      "N -> G:maj": 0.1724,
+      "N -> N": 6.037204,
+      "N -> X": 8.110637
+    },
+    "duration_sec": 107.763809,
+    "durations": {
+      "evaluable_sec": 107.763809,
+      "predicted_x_sec": 25.912937,
+      "reference_chord_sec": 89.59
+    },
+    "macro_clip_average": {
+      "exact_time_weighted": 0.652995,
+      "harmonic_exact_time_weighted": 0.717878,
+      "root_time_weighted": 0.815379,
+      "triad_family_time_weighted": 0.801666
+    },
+    "no_chord": {
+      "f1": 0.484768,
+      "false_negative_sec": 12.136605,
+      "false_positive_sec": 0.6966,
+      "precision": 0.896552,
+      "recall": 0.332193,
+      "true_positive_sec": 6.037204
+    },
+    "schema_version": 1
+  }
+}

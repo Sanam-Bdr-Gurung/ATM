@@ -1,0 +1,12 @@
+{
+  "annotation_author": "Sanam Gurung",
+  "annotation_path": "/Users/terma/Documents/sanam/thesis/chordassist/backend/evaluation_data/chords/annotations/held_mixed_04.json",
+  "audio_path": "/Users/terma/Documents/sanam/thesis/chordassist/backend/evaluation_data/chords/audio/held_mixed_04.wav",
+  "audio_sha256": "c5baeef118c30a45f7ce11117a1040e2f0bae77c9ed4954a816f569e662c6783",
+  "clip_id": "held_mixed_04",
+  "duration_sec": 44.907392,
+  "include_in_primary_metrics": true,
+  "reference_segment_count": 6,
+  "source": "self_recorded_guitar",
+  "split": "held_out"
+}

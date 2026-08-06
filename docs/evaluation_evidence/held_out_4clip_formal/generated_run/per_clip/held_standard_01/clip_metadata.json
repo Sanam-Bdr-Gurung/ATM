@@ -1,0 +1,12 @@
+{
+  "annotation_author": "Sanam Gurung",
+  "annotation_path": "/Users/terma/Documents/sanam/thesis/chordassist/backend/evaluation_data/chords/annotations/held_standard_01.json",
+  "audio_path": "/Users/terma/Documents/sanam/thesis/chordassist/backend/evaluation_data/chords/audio/held_standard_01.wav",
+  "audio_sha256": "612fb61dc5a29d4d3a587524edac47c68e19734ab941ed92608751fa699ddf15",
+  "clip_id": "held_standard_01",
+  "duration_sec": 16.137868,
+  "include_in_primary_metrics": true,
+  "reference_segment_count": 6,
+  "source": "self_recorded_guitar",
+  "split": "held_out"
+}

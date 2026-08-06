@@ -1,0 +1,431 @@
+{
+  "analysis": {
+    "activity_threshold": 0.01037548,
+    "ambiguity_margin": 0.02,
+    "classification_ms": 256.86,
+    "classified_chord_frames": 164,
+    "configuration_id": "development_8clip_grid_20260806",
+    "feature_extraction_ms": 641.12,
+    "feature_source": "traditional_chroma",
+    "frame_count": 397,
+    "frame_length": 4096,
+    "harmonic_margin": 3.0,
+    "hop_length": 1024,
+    "minimum_score": 0.58,
+    "minimum_segment_duration_sec": 0.6,
+    "no_chord_frames": 126,
+    "relative_activity_floor": 0.08,
+    "segmentation_ms": 3.45,
+    "uncertain_frames": 107
+  },
+  "audio_duration_sec": 18.39,
+  "engine_status": "shared_core_v1",
+  "latency_ms": 903.53,
+  "method": "chroma",
+  "progression": [
+    "A:maj7",
+    "A:sus2",
+    "A:sus4",
+    "X",
+    "A:maj7",
+    "F#:min",
+    "X",
+    "D:maj7",
+    "X",
+    "A:maj7",
+    "X",
+    "X",
+    "E:maj7",
+    "X",
+    "B:min",
+    "X",
+    "E:min7",
+    "X",
+    "E:min7",
+    "X",
+    "D:sus2",
+    "X",
+    "X",
+    "A:maj7",
+    "X",
+    "A:sus2",
+    "X",
+    "G:maj7",
+    "X",
+    "A:maj7",
+    "X",
+    "C#:min"
+  ],
+  "real_time_factor": 0.0491,
+  "segments": [
+    {
+      "confidence": 1.0,
+      "display": "No chord",
+      "end": 2.1827,
+      "frame_count": 47,
+      "label": "N",
+      "mean_margin": 0.0,
+      "mean_score": 0.0,
+      "start": 0.0
+    },
+    {
+      "confidence": 0.4894,
+      "display": "A major seventh",
+      "end": 2.5078,
+      "frame_count": 7,
+      "label": "A:maj7",
+      "mean_margin": 0.1354,
+      "mean_score": 0.6304,
+      "start": 2.1827
+    },
+    {
+      "confidence": 0.5019,
+      "display": "A suspended second",
+      "end": 2.5542,
+      "frame_count": 1,
+      "label": "A:sus2",
+      "mean_margin": 0.0281,
+      "mean_score": 0.6068,
+      "start": 2.5078
+    },
+    {
+      "confidence": 0.4434,
+      "display": "A suspended fourth",
+      "end": 2.8793,
+      "frame_count": 7,
+      "label": "A:sus4",
+      "mean_margin": 0.0251,
+      "mean_score": 0.6235,
+      "start": 2.5542
+    },
+    {
+      "confidence": 0.0223,
+      "display": "Uncertain chord",
+      "end": 4.9691,
+      "frame_count": 45,
+      "label": "X",
+      "mean_margin": 0.0155,
+      "mean_score": 0.6014,
+      "start": 2.8793
+    },
+    {
+      "confidence": 0.7016,
+      "display": "A major seventh",
+      "end": 5.2941,
+      "frame_count": 7,
+      "label": "A:maj7",
+      "mean_margin": 0.182,
+      "mean_score": 0.6369,
+      "start": 4.9691
+    },
+    {
+      "confidence": 0.5422,
+      "display": "F# minor",
+      "end": 5.387,
+      "frame_count": 2,
+      "label": "F#:min",
+      "mean_margin": 0.0322,
+      "mean_score": 0.6513,
+      "start": 5.2941
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 5.4335,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.0058,
+      "mean_score": 0.6591,
+      "start": 5.387
+    },
+    {
+      "confidence": 0.7441,
+      "display": "D major seventh",
+      "end": 7.8948,
+      "frame_count": 53,
+      "label": "D:maj7",
+      "mean_margin": 0.1432,
+      "mean_score": 0.6878,
+      "start": 5.4335
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 7.9412,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.0115,
+      "mean_score": 0.5502,
+      "start": 7.8948
+    },
+    {
+      "confidence": 0.6411,
+      "display": "A major seventh",
+      "end": 7.9877,
+      "frame_count": 1,
+      "label": "A:maj7",
+      "mean_margin": 0.1109,
+      "mean_score": 0.6084,
+      "start": 7.9412
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 8.0805,
+      "frame_count": 2,
+      "label": "X",
+      "mean_margin": 0.1001,
+      "mean_score": 0.5242,
+      "start": 7.9877
+    },
+    {
+      "confidence": 1.0,
+      "display": "No chord",
+      "end": 8.2199,
+      "frame_count": 3,
+      "label": "N",
+      "mean_margin": 0.0,
+      "mean_score": 0.0,
+      "start": 8.0805
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 8.2663,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.016,
+      "mean_score": 0.4926,
+      "start": 8.2199
+    },
+    {
+      "confidence": 0.6756,
+      "display": "E major seventh",
+      "end": 8.4985,
+      "frame_count": 5,
+      "label": "E:maj7",
+      "mean_margin": 0.0991,
+      "mean_score": 0.6807,
+      "start": 8.2663
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 8.7307,
+      "frame_count": 5,
+      "label": "X",
+      "mean_margin": 0.0103,
+      "mean_score": 0.5838,
+      "start": 8.4985
+    },
+    {
+      "confidence": 0.5381,
+      "display": "B minor",
+      "end": 8.9629,
+      "frame_count": 5,
+      "label": "B:min",
+      "mean_margin": 0.0545,
+      "mean_score": 0.5963,
+      "start": 8.7307
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 9.0093,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.0135,
+      "mean_score": 0.5906,
+      "start": 8.9629
+    },
+    {
+      "confidence": 0.5225,
+      "display": "E minor seventh",
+      "end": 9.1951,
+      "frame_count": 4,
+      "label": "E:min7",
+      "mean_margin": 0.0385,
+      "mean_score": 0.6112,
+      "start": 9.0093
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 9.288,
+      "frame_count": 2,
+      "label": "X",
+      "mean_margin": 0.0175,
+      "mean_score": 0.5937,
+      "start": 9.1951
+    },
+    {
+      "confidence": 0.5017,
+      "display": "E minor seventh",
+      "end": 9.5202,
+      "frame_count": 5,
+      "label": "E:min7",
+      "mean_margin": 0.0324,
+      "mean_score": 0.5968,
+      "start": 9.288
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 10.6347,
+      "frame_count": 24,
+      "label": "X",
+      "mean_margin": 0.0141,
+      "mean_score": 0.5601,
+      "start": 9.5202
+    },
+    {
+      "confidence": 0.5515,
+      "display": "D suspended second",
+      "end": 11.0991,
+      "frame_count": 10,
+      "label": "D:sus2",
+      "mean_margin": 0.0589,
+      "mean_score": 0.6043,
+      "start": 10.6347
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 11.1456,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.044,
+      "mean_score": 0.5256,
+      "start": 11.0991
+    },
+    {
+      "confidence": 1.0,
+      "display": "No chord",
+      "end": 11.3778,
+      "frame_count": 5,
+      "label": "N",
+      "mean_margin": 0.0,
+      "mean_score": 0.0,
+      "start": 11.1456
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 11.4242,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.1445,
+      "mean_score": 0.5183,
+      "start": 11.3778
+    },
+    {
+      "confidence": 0.6935,
+      "display": "A major seventh",
+      "end": 11.4707,
+      "frame_count": 1,
+      "label": "A:maj7",
+      "mean_margin": 0.2307,
+      "mean_score": 0.5914,
+      "start": 11.4242
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 11.5171,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.1647,
+      "mean_score": 0.5714,
+      "start": 11.4707
+    },
+    {
+      "confidence": 0.5466,
+      "display": "A suspended second",
+      "end": 11.5635,
+      "frame_count": 1,
+      "label": "A:sus2",
+      "mean_margin": 0.0601,
+      "mean_score": 0.5952,
+      "start": 11.5171
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 11.61,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.0179,
+      "mean_score": 0.4984,
+      "start": 11.5635
+    },
+    {
+      "confidence": 0.5751,
+      "display": "G major seventh",
+      "end": 11.6564,
+      "frame_count": 1,
+      "label": "G:maj7",
+      "mean_margin": 0.0834,
+      "mean_score": 0.5815,
+      "start": 11.61
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 12.0279,
+      "frame_count": 8,
+      "label": "X",
+      "mean_margin": 0.0097,
+      "mean_score": 0.5559,
+      "start": 11.6564
+    },
+    {
+      "confidence": 0.5925,
+      "display": "A major seventh",
+      "end": 12.6317,
+      "frame_count": 13,
+      "label": "A:maj7",
+      "mean_margin": 0.0452,
+      "mean_score": 0.6896,
+      "start": 12.0279
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 13.1889,
+      "frame_count": 12,
+      "label": "X",
+      "mean_margin": 0.0091,
+      "mean_score": 0.6637,
+      "start": 12.6317
+    },
+    {
+      "confidence": 0.6206,
+      "display": "C# minor",
+      "end": 15.1394,
+      "frame_count": 42,
+      "label": "C#:min",
+      "mean_margin": 0.0667,
+      "mean_score": 0.6791,
+      "start": 13.1889
+    },
+    {
+      "confidence": 1.0,
+      "display": "No chord",
+      "end": 18.3902,
+      "frame_count": 71,
+      "label": "N",
+      "mean_margin": 0.0,
+      "mean_score": 0.0,
+      "start": 15.1394
+    }
+  ],
+  "timing_ms": {
+    "chord_analysis": 901.73,
+    "io": 1.76,
+    "total": 903.53
+  },
+  "tts": [
+    "Detected 32 harmonic segments.",
+    "The detected progression is A major seventh, A suspended second, A suspended fourth, Uncertain chord, A major seventh, F# minor, Uncertain chord, D major seventh, Uncertain chord, A major seventh, Uncertain chord, Uncertain chord, E major seventh, Uncertain chord, B minor, Uncertain chord, E minor seventh, Uncertain chord, E minor seventh, Uncertain chord, D suspended second, Uncertain chord, Uncertain chord, A major seventh, Uncertain chord, A suspended second, Uncertain chord, G major seventh, Uncertain chord, A major seventh, Uncertain chord, C# minor."
+  ]
+}

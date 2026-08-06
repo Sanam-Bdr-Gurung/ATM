@@ -1,0 +1,96 @@
+{
+  "accuracy": {
+    "exact_time_weighted": 0.242593,
+    "harmonic_exact_time_weighted": 0.055214,
+    "root_time_weighted": 0.462867,
+    "triad_family_time_weighted": 0.362668
+  },
+  "ambiguity": {
+    "prediction_x_on_reference_chord_rate": 0.321044,
+    "prediction_x_rate_evaluable": 0.257371
+  },
+  "boundaries": {
+    "f1": 0.085106,
+    "false_change_count": 85,
+    "matched_count": 4,
+    "matches": [
+      {
+        "absolute_error_sec": 0.069,
+        "predicted_sec": 1.579,
+        "reference_sec": 1.51
+      },
+      {
+        "absolute_error_sec": 0.0536,
+        "predicted_sec": 6.0836,
+        "reference_sec": 6.03
+      },
+      {
+        "absolute_error_sec": 0.0525,
+        "predicted_sec": 10.4025,
+        "reference_sec": 10.35
+      },
+      {
+        "absolute_error_sec": 0.015,
+        "predicted_sec": 14.675,
+        "reference_sec": 14.69
+      }
+    ],
+    "mean_absolute_error_sec": 0.047525,
+    "median_absolute_error_sec": 0.05305,
+    "missed_change_count": 1,
+    "precision": 0.044944,
+    "predicted_count": 89,
+    "recall": 0.8,
+    "reference_count": 5,
+    "tolerance_sec": 0.25
+  },
+  "confusion_duration_sec": {
+    "A:min -> A:maj7": 0.3715,
+    "A:min -> A:min": 0.5573,
+    "A:min -> A:sus2": 1.8575,
+    "A:min -> C:maj7": 0.643,
+    "A:min -> N": 0.069,
+    "A:min -> X": 1.0217,
+    "C:maj -> C:maj7": 3.2518,
+    "C:maj -> G#:maj7": 0.0465,
+    "C:maj -> G:maj": 0.0464,
+    "C:maj -> G:maj7": 0.6037,
+    "C:maj -> G:sus4": 0.1393,
+    "C:maj -> X": 0.2323,
+    "E:7 -> B:maj7": 0.5108,
+    "E:7 -> B:min": 0.6037,
+    "E:7 -> C:maj7": 0.0464,
+    "E:7 -> D:sus2": 0.3715,
+    "E:7 -> E:7": 0.418,
+    "E:7 -> E:maj": 0.0465,
+    "E:7 -> E:maj7": 3.158,
+    "E:7 -> F:maj7": 0.1708,
+    "E:7 -> G#:maj7": 0.1856,
+    "E:7 -> G#:min": 0.1858,
+    "E:7 -> N": 0.6285,
+    "E:7 -> X": 3.2044,
+    "F:maj -> C#:maj7": 0.3717,
+    "F:maj -> C:maj7": 0.1454,
+    "F:maj -> C:sus4": 0.1393,
+    "F:maj -> F:maj": 0.2786,
+    "F:maj -> F:maj7": 0.526,
+    "F:maj -> F:sus4": 0.0465,
+    "F:maj -> X": 2.8325,
+    "N -> N": 5.618345
+  },
+  "duration_sec": 28.328345,
+  "durations": {
+    "evaluable_sec": 28.328345,
+    "predicted_x_sec": 7.2909,
+    "reference_chord_sec": 22.71
+  },
+  "no_chord": {
+    "f1": 0.941554,
+    "false_negative_sec": 0.0,
+    "false_positive_sec": 0.6975,
+    "precision": 0.889563,
+    "recall": 1.0,
+    "true_positive_sec": 5.618345
+  },
+  "schema_version": 1
+}

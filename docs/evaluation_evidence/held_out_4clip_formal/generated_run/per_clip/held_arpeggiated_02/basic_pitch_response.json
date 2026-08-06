@@ -1,0 +1,248 @@
+{
+  "analysis": {
+    "activity_threshold": 0.16438768,
+    "ambiguity_margin": 0.02,
+    "basic_pitch_runtime": "COREML",
+    "bass_relative_weight": 0.15,
+    "classification_ms": 374.12,
+    "classified_chord_frames": 418,
+    "configuration_id": "development_8clip_grid_20260806",
+    "feature_extraction_ms": 4.19,
+    "feature_source": "basic_pitch_note_events",
+    "frame_count": 610,
+    "frame_step_sec": 0.04643991,
+    "minimum_note_confidence": 0.05,
+    "minimum_score": 0.58,
+    "minimum_segment_duration_sec": 0.6,
+    "model_configuration": {
+      "frame_threshold": 0.4,
+      "midi_high": 108,
+      "midi_low": 21,
+      "minimum_note_length_ms": 100.0,
+      "onset_threshold": 0.6
+    },
+    "model_inference_ms": 449.89,
+    "model_was_loaded_before_request": false,
+    "no_chord_frames": 31,
+    "note_event_count": 115,
+    "relative_activity_floor": 0.05,
+    "segmentation_ms": 0.57,
+    "uncertain_frames": 161,
+    "window_sec": 0.75
+  },
+  "audio_duration_sec": 28.328,
+  "engine_status": "shared_core_v1",
+  "latency_ms": 831.26,
+  "method": "basic_pitch",
+  "progression": [
+    "X",
+    "A:min",
+    "A:min7",
+    "C:maj",
+    "F:sus2",
+    "F:maj",
+    "X",
+    "F:maj",
+    "X",
+    "F:maj7",
+    "X",
+    "E:sus4",
+    "X",
+    "E:7",
+    "X",
+    "E:7",
+    "X"
+  ],
+  "real_time_factor": 0.0293,
+  "segments": [
+    {
+      "confidence": 1.0,
+      "display": "No chord",
+      "end": 1.4396,
+      "frame_count": 31,
+      "label": "N",
+      "mean_margin": 0.0,
+      "mean_score": 0.0,
+      "start": 0.0
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 2.1362,
+      "frame_count": 15,
+      "label": "X",
+      "mean_margin": 0.0006,
+      "mean_score": 0.8894,
+      "start": 1.4396
+    },
+    {
+      "confidence": 0.8919,
+      "display": "A minor",
+      "end": 5.9907,
+      "frame_count": 83,
+      "label": "A:min",
+      "mean_margin": 0.0975,
+      "mean_score": 0.9865,
+      "start": 2.1362
+    },
+    {
+      "confidence": 0.6486,
+      "display": "A minor seventh",
+      "end": 6.0372,
+      "frame_count": 1,
+      "label": "A:min7",
+      "mean_margin": 0.0268,
+      "mean_score": 0.8051,
+      "start": 5.9907
+    },
+    {
+      "confidence": 0.7828,
+      "display": "C major",
+      "end": 10.6347,
+      "frame_count": 99,
+      "label": "C:maj",
+      "mean_margin": 0.075,
+      "mean_score": 0.9289,
+      "start": 6.0372
+    },
+    {
+      "confidence": 0.7043,
+      "display": "F suspended second",
+      "end": 10.6812,
+      "frame_count": 1,
+      "label": "F:sus2",
+      "mean_margin": 0.0254,
+      "mean_score": 0.8825,
+      "start": 10.6347
+    },
+    {
+      "confidence": 0.7615,
+      "display": "F major",
+      "end": 13.0961,
+      "frame_count": 52,
+      "label": "F:maj",
+      "mean_margin": 0.0668,
+      "mean_score": 0.9548,
+      "start": 10.6812
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 13.1425,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.0158,
+      "mean_score": 0.9139,
+      "start": 13.0961
+    },
+    {
+      "confidence": 0.8473,
+      "display": "F major",
+      "end": 14.5357,
+      "frame_count": 30,
+      "label": "F:maj",
+      "mean_margin": 0.0722,
+      "mean_score": 0.9692,
+      "start": 13.1425
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 14.5821,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.0148,
+      "mean_score": 0.8515,
+      "start": 14.5357
+    },
+    {
+      "confidence": 0.852,
+      "display": "F major seventh",
+      "end": 14.9537,
+      "frame_count": 8,
+      "label": "F:maj7",
+      "mean_margin": 0.1695,
+      "mean_score": 0.86,
+      "start": 14.5821
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 15.0001,
+      "frame_count": 1,
+      "label": "X",
+      "mean_margin": 0.0076,
+      "mean_score": 0.7008,
+      "start": 14.9537
+    },
+    {
+      "confidence": 0.6371,
+      "display": "E suspended fourth",
+      "end": 15.0465,
+      "frame_count": 1,
+      "label": "E:sus4",
+      "mean_margin": 0.0452,
+      "mean_score": 0.749,
+      "start": 15.0001
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 15.2787,
+      "frame_count": 5,
+      "label": "X",
+      "mean_margin": 0.001,
+      "mean_score": 0.8377,
+      "start": 15.0465
+    },
+    {
+      "confidence": 0.8902,
+      "display": "E dominant seventh",
+      "end": 21.223,
+      "frame_count": 128,
+      "label": "E:7",
+      "mean_margin": 0.1242,
+      "mean_score": 0.9296,
+      "start": 15.2787
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 22.7091,
+      "frame_count": 32,
+      "label": "X",
+      "mean_margin": 0.0007,
+      "mean_score": 0.8555,
+      "start": 21.223
+    },
+    {
+      "confidence": 0.7517,
+      "display": "E dominant seventh",
+      "end": 23.963,
+      "frame_count": 27,
+      "label": "E:7",
+      "mean_margin": 0.0592,
+      "mean_score": 0.8706,
+      "start": 22.7091
+    },
+    {
+      "confidence": 0.0,
+      "display": "Uncertain chord",
+      "end": 28.3283,
+      "frame_count": 94,
+      "label": "X",
+      "mean_margin": 0.0002,
+      "mean_score": 0.8246,
+      "start": 23.963
+    }
+  ],
+  "timing_ms": {
+    "chord_analysis": 829.16,
+    "io": 1.91,
+    "total": 831.26
+  },
+  "tts": [
+    "Detected 17 harmonic segments.",
+    "The detected progression is Uncertain chord, A minor, A minor seventh, C major, F suspended second, F major, Uncertain chord, F major, Uncertain chord, F major seventh, Uncertain chord, E suspended fourth, Uncertain chord, E dominant seventh, Uncertain chord, E dominant seventh, Uncertain chord."
+  ]
+}

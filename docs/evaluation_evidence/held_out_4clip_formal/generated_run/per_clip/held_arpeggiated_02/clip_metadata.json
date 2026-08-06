@@ -1,0 +1,12 @@
+{
+  "annotation_author": "Sanam Gurung",
+  "annotation_path": "/Users/terma/Documents/sanam/thesis/chordassist/backend/evaluation_data/chords/annotations/held_arpeggiated_02.json",
+  "audio_path": "/Users/terma/Documents/sanam/thesis/chordassist/backend/evaluation_data/chords/audio/held_arpeggiated_02.wav",
+  "audio_sha256": "76dd43bd1a0e3a3fe8d7b7071ee40d46467ec53b4e650e4f4a18e1377e1c5dda",
+  "clip_id": "held_arpeggiated_02",
+  "duration_sec": 28.328345,
+  "include_in_primary_metrics": true,
+  "reference_segment_count": 6,
+  "source": "self_recorded_guitar",
+  "split": "held_out"
+}

@@ -1,0 +1,75 @@
+{
+  "accuracy": {
+    "exact_time_weighted": 0.727653,
+    "harmonic_exact_time_weighted": 0.84428,
+    "root_time_weighted": 0.854852,
+    "triad_family_time_weighted": 0.850762
+  },
+  "ambiguity": {
+    "prediction_x_on_reference_chord_rate": 0.120683,
+    "prediction_x_rate_evaluable": 0.244259
+  },
+  "boundaries": {
+    "f1": 0.272727,
+    "false_change_count": 14,
+    "matched_count": 3,
+    "matches": [
+      {
+        "absolute_error_sec": 0.0704,
+        "predicted_sec": 1.4396,
+        "reference_sec": 1.51
+      },
+      {
+        "absolute_error_sec": 0.0072,
+        "predicted_sec": 6.0372,
+        "reference_sec": 6.03
+      },
+      {
+        "absolute_error_sec": 0.1079,
+        "predicted_sec": 14.5821,
+        "reference_sec": 14.69
+      }
+    ],
+    "mean_absolute_error_sec": 0.061833,
+    "median_absolute_error_sec": 0.0704,
+    "missed_change_count": 2,
+    "precision": 0.176471,
+    "predicted_count": 17,
+    "recall": 0.6,
+    "reference_count": 5,
+    "tolerance_sec": 0.25
+  },
+  "confusion_duration_sec": {
+    "A:min -> A:min": 3.8545,
+    "A:min -> A:min7": 0.0393,
+    "A:min -> X": 0.6262,
+    "C:maj -> A:min7": 0.0072,
+    "C:maj -> C:maj": 4.3128,
+    "E:7 -> E:7": 7.1982,
+    "E:7 -> E:sus4": 0.0464,
+    "E:7 -> F:maj7": 0.2637,
+    "E:7 -> X": 2.0217,
+    "F:maj -> C:maj": 0.2847,
+    "F:maj -> F:maj": 3.8081,
+    "F:maj -> F:maj7": 0.1079,
+    "F:maj -> F:sus2": 0.0465,
+    "F:maj -> X": 0.0928,
+    "N -> N": 1.4396,
+    "N -> X": 4.178745
+  },
+  "duration_sec": 28.328345,
+  "durations": {
+    "evaluable_sec": 28.328345,
+    "predicted_x_sec": 6.919445,
+    "reference_chord_sec": 22.71
+  },
+  "no_chord": {
+    "f1": 0.407937,
+    "false_negative_sec": 4.178745,
+    "false_positive_sec": 0.0,
+    "precision": 1.0,
+    "recall": 0.256232,
+    "true_positive_sec": 1.4396
+  },
+  "schema_version": 1
+}

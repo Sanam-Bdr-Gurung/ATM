@@ -1,0 +1,20 @@
+{
+  "available_methods": [
+    "chroma",
+    "basic_pitch"
+  ],
+  "basic_pitch_loaded": false,
+  "chord_engine_status": "shared_core_chord_engine_v1",
+  "default_method": "chroma",
+  "ok": true,
+  "scope": "prevailing_chord_recognition",
+  "selected_configuration": {
+    "ambiguity_margin": 0.02,
+    "configuration_id": "development_8clip_grid_20260806",
+    "minimum_score": 0.58,
+    "minimum_segment_duration_sec": 0.6,
+    "selection_method": "predeclared_18_configuration_grid",
+    "selection_split": "development"
+  },
+  "service": "chordassist"
+}

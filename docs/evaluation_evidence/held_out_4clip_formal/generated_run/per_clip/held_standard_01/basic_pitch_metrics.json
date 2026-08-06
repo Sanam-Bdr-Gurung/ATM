@@ -1,0 +1,83 @@
+{
+  "accuracy": {
+    "exact_time_weighted": 0.805236,
+    "harmonic_exact_time_weighted": 0.878328,
+    "root_time_weighted": 0.88444,
+    "triad_family_time_weighted": 0.88444
+  },
+  "ambiguity": {
+    "prediction_x_on_reference_chord_rate": 0.0,
+    "prediction_x_rate_evaluable": 0.046041
+  },
+  "boundaries": {
+    "f1": 0.666667,
+    "false_change_count": 5,
+    "matched_count": 5,
+    "matches": [
+      {
+        "absolute_error_sec": 0.1724,
+        "predicted_sec": 1.8576,
+        "reference_sec": 2.03
+      },
+      {
+        "absolute_error_sec": 0.0154,
+        "predicted_sec": 4.3654,
+        "reference_sec": 4.35
+      },
+      {
+        "absolute_error_sec": 0.0098,
+        "predicted_sec": 6.7802,
+        "reference_sec": 6.79
+      },
+      {
+        "absolute_error_sec": 0.1049,
+        "predicted_sec": 9.1951,
+        "reference_sec": 9.3
+      },
+      {
+        "absolute_error_sec": 0.0579,
+        "predicted_sec": 14.7679,
+        "reference_sec": 14.71
+      }
+    ],
+    "mean_absolute_error_sec": 0.07208,
+    "median_absolute_error_sec": 0.0579,
+    "missed_change_count": 0,
+    "precision": 0.5,
+    "predicted_count": 10,
+    "recall": 1.0,
+    "reference_count": 5,
+    "tolerance_sec": 0.25
+  },
+  "confusion_duration_sec": {
+    "B:min -> B:min": 2.2291,
+    "B:min -> C:maj": 0.0098,
+    "B:min -> C:maj7": 0.0929,
+    "B:min -> G:maj7": 0.1082,
+    "C:maj -> C:maj": 2.4051,
+    "C:maj -> D:7": 0.1049,
+    "D:7 -> A:sus4": 1.1495,
+    "D:7 -> D:7": 4.2605,
+    "G:maj -> G:maj": 2.2425,
+    "G:maj -> G:maj7": 0.0775,
+    "N -> A:sus4": 0.684868,
+    "N -> G:maj": 0.1724,
+    "N -> N": 1.8576,
+    "N -> X": 0.743
+  },
+  "duration_sec": 16.137868,
+  "durations": {
+    "evaluable_sec": 16.137868,
+    "predicted_x_sec": 0.743,
+    "reference_chord_sec": 12.68
+  },
+  "no_chord": {
+    "f1": 0.698941,
+    "false_negative_sec": 1.600268,
+    "false_positive_sec": 0.0,
+    "precision": 1.0,
+    "recall": 0.53721,
+    "true_positive_sec": 1.8576
+  },
+  "schema_version": 1
+}

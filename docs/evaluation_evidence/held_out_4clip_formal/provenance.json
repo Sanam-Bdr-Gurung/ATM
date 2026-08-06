@@ -1,0 +1,53 @@
+{
+  "aggregate_results": {
+    "clip_count": 4,
+    "dataset_name": "chordassist_controlled_v1",
+    "interpretation_note": "Development results may guide threshold selection. Held-out results must not be used for further tuning. Exploratory results are reported separately and excluded from controlled primary averages.",
+    "methods": {
+      "basic_pitch": {
+        "boundary_f1": 0.296296,
+        "boundary_mean_absolute_error_sec": 0.065125,
+        "clip_count": 4,
+        "exact_time_weighted": 0.61062,
+        "harmonic_exact_time_weighted": 0.6671,
+        "median_real_time_factor": 0.022,
+        "median_server_total_ms": 615.785,
+        "no_chord_f1": 0.484768,
+        "prediction_x_rate_evaluable": 0.24046,
+        "root_time_weighted": 0.752875,
+        "triad_family_time_weighted": 0.729112
+      },
+      "chroma": {
+        "boundary_f1": 0.112676,
+        "boundary_mean_absolute_error_sec": 0.052975,
+        "clip_count": 4,
+        "exact_time_weighted": 0.227684,
+        "harmonic_exact_time_weighted": 0.071016,
+        "median_real_time_factor": 0.051,
+        "median_server_total_ms": 1537.055,
+        "no_chord_f1": 0.784375,
+        "prediction_x_rate_evaluable": 0.237017,
+        "root_time_weighted": 0.387014,
+        "triad_family_time_weighted": 0.307706
+      }
+    },
+    "schema_version": 1,
+    "split": "held_out"
+  },
+  "archived_at_utc": "2026-08-06T16:19:11.997251+00:00",
+  "clip_count": 4,
+  "configuration": {
+    "ambiguity_margin": 0.02,
+    "configuration_id": "development_8clip_grid_20260806",
+    "minimum_score": 0.58,
+    "minimum_segment_duration_sec": 0.6
+  },
+  "dataset_name": "chordassist_controlled_v1",
+  "evaluation_role": "first_valid_complete_formal_held_out_run",
+  "freeze_statement": "No threshold, template, feature or segmentation parameter was changed using held-out results.",
+  "git_branch": "feature/chord-first-recognition",
+  "git_commit": "f9fa0393f6f944b3ab621dbd4219dc4825debba3",
+  "original_result_directory": "evaluation_results/chords/20260806T161420Z_held_out",
+  "schema_version": 1,
+  "split": "held_out"
+}

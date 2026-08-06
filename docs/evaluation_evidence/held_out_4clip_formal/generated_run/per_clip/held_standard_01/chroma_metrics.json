@@ -1,0 +1,86 @@
+{
+  "accuracy": {
+    "exact_time_weighted": 0.323622,
+    "harmonic_exact_time_weighted": 0.139172,
+    "root_time_weighted": 0.326909,
+    "triad_family_time_weighted": 0.315923
+  },
+  "ambiguity": {
+    "prediction_x_on_reference_chord_rate": 0.322303,
+    "prediction_x_rate_evaluable": 0.253243
+  },
+  "boundaries": {
+    "f1": 0.186047,
+    "false_change_count": 34,
+    "matched_count": 4,
+    "matches": [
+      {
+        "absolute_error_sec": 0.1527,
+        "predicted_sec": 2.1827,
+        "reference_sec": 2.03
+      },
+      {
+        "absolute_error_sec": 0.0775,
+        "predicted_sec": 4.2725,
+        "reference_sec": 4.35
+      },
+      {
+        "absolute_error_sec": 0.0098,
+        "predicted_sec": 6.7802,
+        "reference_sec": 6.79
+      },
+      {
+        "absolute_error_sec": 0.012,
+        "predicted_sec": 9.288,
+        "reference_sec": 9.3
+      }
+    ],
+    "mean_absolute_error_sec": 0.063,
+    "median_absolute_error_sec": 0.04475,
+    "missed_change_count": 1,
+    "precision": 0.105263,
+    "predicted_count": 38,
+    "recall": 0.8,
+    "reference_count": 5,
+    "tolerance_sec": 0.25
+  },
+  "confusion_duration_sec": {
+    "B:min -> B:maj7": 0.1393,
+    "B:min -> B:min": 1.6254,
+    "B:min -> N": 0.1393,
+    "B:min -> X": 0.536,
+    "C:maj -> C:maj7": 2.1483,
+    "C:maj -> G#:maj7": 0.0464,
+    "C:maj -> G:maj7": 0.0929,
+    "C:maj -> N": 0.0465,
+    "C:maj -> X": 0.1759,
+    "D:7 -> A:maj7": 0.1392,
+    "D:7 -> C:maj7": 0.0344,
+    "D:7 -> F#:min": 1.0681,
+    "D:7 -> G#:maj7": 0.0465,
+    "D:7 -> N": 1.3817,
+    "D:7 -> X": 2.7401,
+    "G:maj -> B:maj7": 0.3251,
+    "G:maj -> B:min": 0.9752,
+    "G:maj -> G:maj": 0.1393,
+    "G:maj -> G:maj7": 0.0929,
+    "G:maj -> N": 0.1527,
+    "G:maj -> X": 0.6348,
+    "N -> N": 3.457868
+  },
+  "duration_sec": 16.137868,
+  "durations": {
+    "evaluable_sec": 16.137868,
+    "predicted_x_sec": 4.0868,
+    "reference_chord_sec": 12.68
+  },
+  "no_chord": {
+    "f1": 0.800809,
+    "false_negative_sec": 0.0,
+    "false_positive_sec": 1.7202,
+    "precision": 0.667791,
+    "recall": 1.0,
+    "true_positive_sec": 3.457868
+  },
+  "schema_version": 1
+}
