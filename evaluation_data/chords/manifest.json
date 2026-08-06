@@ -50,6 +50,13 @@
       "audio_path": "audio/dev_voicing_07.wav",
       "annotation_path": "annotations/dev_voicing_07.json",
       "include_in_primary_metrics": true
+    },
+    {
+      "clip_id": "dev_transition_08",
+      "split": "development",
+      "audio_path": "audio/dev_transition_08.wav",
+      "annotation_path": "annotations/dev_transition_08.json",
+      "include_in_primary_metrics": true
     }
   ]
 }
