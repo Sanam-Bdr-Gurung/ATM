@@ -1,0 +1,35 @@
+{
+  "clip_count": 8,
+  "dataset_name": "chordassist_controlled_v1",
+  "interpretation_note": "Development results may guide threshold selection. Held-out results must not be used for further tuning. Exploratory results are reported separately and excluded from controlled primary averages.",
+  "methods": {
+    "basic_pitch": {
+      "boundary_f1": 0.368932,
+      "boundary_mean_absolute_error_sec": 0.079892,
+      "clip_count": 8,
+      "exact_time_weighted": 0.703779,
+      "harmonic_exact_time_weighted": 0.681707,
+      "median_real_time_factor": 0.0214,
+      "median_server_total_ms": 462.29,
+      "no_chord_f1": 0.878528,
+      "prediction_x_rate_evaluable": 0.119304,
+      "root_time_weighted": 0.742569,
+      "triad_family_time_weighted": 0.734184
+    },
+    "chroma": {
+      "boundary_f1": 0.141129,
+      "boundary_mean_absolute_error_sec": 0.047331,
+      "clip_count": 8,
+      "exact_time_weighted": 0.306106,
+      "harmonic_exact_time_weighted": 0.116707,
+      "median_real_time_factor": 0.0494,
+      "median_server_total_ms": 1113.6,
+      "no_chord_f1": 0.855278,
+      "prediction_x_rate_evaluable": 0.277669,
+      "root_time_weighted": 0.326739,
+      "triad_family_time_weighted": 0.293153
+    }
+  },
+  "schema_version": 1,
+  "split": "development"
+}

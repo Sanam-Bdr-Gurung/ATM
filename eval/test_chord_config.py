@@ -57,7 +57,7 @@ class ChordConfigurationTests(
     ) -> None:
         self.assertEqual(
             SELECTED_CONFIG_ID,
-            "development_grid_20260805",
+            "development_8clip_grid_20260806",
         )
 
         self.assertEqual(
@@ -72,7 +72,7 @@ class ChordConfigurationTests(
 
         self.assertEqual(
             DEFAULT_MINIMUM_SEGMENT_DURATION_SEC,
-            0.40,
+            0.60,
         )
 
     def test_classifier_defaults_do_not_drift(

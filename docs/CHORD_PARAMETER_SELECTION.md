@@ -1,34 +1,88 @@
 # Shared Chord Parameter Selection
 
-## Selection date
+## Final selection date
 
-August 5, 2026
+August 6, 2026
 
-## Data used
+## Experimental role
 
-The configuration was selected using only the controlled development split:
+The shared chord-classifier and segmentation parameters were selected using
+only the controlled development split.
+
+No held-out or exploratory recording was consulted during parameter
+selection.
+
+## Chroma implementation correction
+
+Before parameter selection, the traditional chroma path was corrected to pass
+a power spectrogram to the STFT-chroma extractor.
+
+The corrected implementation was used for all subsequent development
+evaluation and parameter selection.
+
+## Pilot selection
+
+An initial pilot selection used three development clips:
 
 - `dev_clean_01`
 - `dev_continuous_02`
 - `dev_extended_03`
 
-No held-out or exploratory recording was consulted during selection.
+That pilot selected:
 
-## Corrected chroma baseline
+- Minimum score: `0.58`
+- Ambiguity margin: `0.020`
+- Minimum segment duration: `0.40` seconds
+- Configuration ID: `development_grid_20260805`
 
-Before parameter tuning, the chroma extractor was corrected to use a power spectrogram for STFT chroma. The corrected feature implementation was treated as the tuning baseline.
+The pilot configuration was explicitly treated as provisional because the
+three recordings were too limited for final parameter selection.
 
-## Parameter grid
+## Expanded development split
 
-The predeclared grid contained 18 configurations:
+Five additional recordings were pre-registered and annotated before their
+model outputs were inspected:
+
+- `dev_arpeggiated_04`
+- `dev_seventh_05`
+- `dev_repeated_06`
+- `dev_voicing_07`
+- `dev_transition_08`
+
+The final development split therefore contained eight controlled recordings.
+
+The clips covered:
+
+- deliberately muted chord separations;
+- sustained continuous transitions;
+- major and minor chords;
+- seventh, suspended and added-note qualities;
+- arpeggiation;
+- repeated strums;
+- alternate voicings;
+- natural string and fret noise;
+- moderate dynamic variation.
+
+## Fixed parameter grid
+
+The same predeclared 18-configuration grid was applied to all eight
+development clips:
 
 - Minimum score: `0.58`, `0.62`, `0.66`
 - Ambiguity margin: `0.020`, `0.035`, `0.050`
 - Minimum segment duration: `0.40`, `0.60` seconds
 
-All activity thresholds, feature windows, note-event thresholds, chord templates, and scoring weights remained fixed.
+The following settings remained fixed:
 
-## Selection score
+- activity thresholds;
+- chroma feature settings;
+- Basic Pitch inference settings;
+- note-event aggregation settings;
+- chord templates;
+- chord-scoring weights;
+- development ranking weights.
+
+## Development ranking utility
 
 Configurations were ranked using a balanced development utility combining:
 
@@ -37,40 +91,67 @@ Configurations were ranked using a balanced development utility combining:
 - triad-family accuracy;
 - no-chord F1;
 - boundary F1;
-- predicted uncertainty rate.
+- one minus the predicted uncertainty rate.
 
-The utility was used only for development-set configuration selection and is not a final evaluation metric.
+This utility was used only for configuration selection. It is not presented
+as a final evaluation metric.
 
-## Selected configuration
+## Final selected configuration
 
+- Configuration ID: `development_8clip_grid_20260806`
 - Minimum score: `0.58`
 - Ambiguity margin: `0.020`
-- Minimum segment duration: `0.40` seconds
-- Configuration ID: `development_grid_20260805`
+- Minimum segment duration: `0.60` seconds
+- Balanced development score: `0.5160`
 
-The `0.40`- and `0.60`-second configurations achieved identical measured development results. The shorter duration was selected because it preserves greater temporal resolution and avoids unnecessary suppression of legitimate short chord changes.
+## Comparison of the two leading configurations
 
-## Development comparison
+| Metric | 0.60-second hold | 0.40-second hold |
+|---|---:|---:|
+| Balanced score | 0.5160 | 0.5150 |
+| Chroma harmonic exact accuracy | 11.7% | 11.7% |
+| Chroma root accuracy | 32.7% | 32.7% |
+| Chroma predicted X rate | 27.8% | 27.8% |
+| Chroma boundary F1 | 14.1% | 14.1% |
+| Basic Pitch harmonic exact accuracy | 68.2% | 68.3% |
+| Basic Pitch root accuracy | 74.3% | 74.2% |
+| Basic Pitch predicted X rate | 11.9% | 12.6% |
+| Basic Pitch boundary F1 | 36.9% | 36.9% |
 
-| Method | Metric | Corrected baseline | Selected |
-|---|---|---:|---:|
-| Chroma | Root accuracy | 27.8% | 34.3% |
-| Chroma | Harmonic exact accuracy | 18.5% | 21.9% |
-| Chroma | Predicted X rate | 37.6% | 26.7% |
-| Chroma | Boundary F1 | 17.0% | 20.9% |
-| Basic Pitch | Root accuracy | 82.9% | 83.6% |
-| Basic Pitch | Harmonic exact accuracy | 76.9% | 77.3% |
-| Basic Pitch | Predicted X rate | 9.1% | 8.2% |
-| Basic Pitch | Boundary F1 | 47.6% | 50.8% |
+The advantage of the selected configuration was small. The 0.60-second
+configuration was selected because it ranked first under the predeclared
+utility, mainly through a slightly lower Basic Pitch uncertainty rate and a
+slightly higher root score.
 
-These figures are development-set observations and must not be presented as held-out performance.
+The result must be described as a marginal development-set preference rather
+than a substantial difference.
 
-## Provisional-status update
+## Freeze rule
 
-The initial parameter selection used three development clips and is therefore
-treated as a pilot selection. Five additional development recordings were
-pre-registered before further model analysis.
+After this configuration is committed:
 
-The same 18-configuration grid, parameter values and ranking utility will be
-rerun once using all eight development clips. That second selection will be
-the final frozen configuration used for held-out evaluation.
+- no classifier threshold may be changed based on held-out results;
+- no segmentation threshold may be changed based on held-out results;
+- chord templates and feature parameters remain frozen;
+- held-out performance is reported even when it is worse than development
+  performance.
+
+Corrections to evaluation code remain possible only when they address an
+actual implementation defect and are documented transparently.
+
+## Evidence
+
+Curated development evidence is preserved in:
+
+`docs/evaluation_evidence/development_8clip_selection/`
+
+The preserved evidence includes:
+
+- the provisional eight-clip API evaluation;
+- per-clip development metrics;
+- all 18 parameter configurations;
+- the top-ranked configurations;
+- provenance and selected-configuration metadata.
+
+All values in this document are development-set findings and must not be
+presented as held-out performance.
