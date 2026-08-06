@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "clip_id": "held_arpeggiated_02",
+  "split": "held_out",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 28.328345,
+  "recording_notes": "Standard-tuned guitar playing A minor, C major, F major and E dominant seventh using slow arpeggiation, natural sustain and direct transitions.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 1.51,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 1.51,
+      "end": 6.03,
+      "label": "A:min"
+    },
+    {
+      "start": 6.03,
+      "end": 10.35,
+      "label": "C:maj"
+    },
+    {
+      "start": 10.35,
+      "end": 14.69,
+      "label": "F:maj"
+    },
+    {
+      "start": 14.69,
+      "end": 24.22,
+      "label": "E:7"
+    },
+    {
+      "start": 24.22,
+      "end":  28.328345,
+      "label": "N",
+      "notes": "Final chord decay followed by silence"
+    }
+  ]
+}
