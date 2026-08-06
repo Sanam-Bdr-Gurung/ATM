@@ -57,6 +57,13 @@
       "audio_path": "audio/dev_transition_08.wav",
       "annotation_path": "annotations/dev_transition_08.json",
       "include_in_primary_metrics": true
+    },
+    {
+      "clip_id": "held_standard_01",
+      "split": "held_out",
+      "audio_path": "audio/held_standard_01.wav",
+      "annotation_path": "annotations/held_standard_01.json",
+      "include_in_primary_metrics": true
     }
   ]
 }

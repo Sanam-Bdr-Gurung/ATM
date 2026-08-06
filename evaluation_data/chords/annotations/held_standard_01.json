@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "clip_id": "held_standard_01",
+  "split": "held_out",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 16.137868,
+  "recording_notes": "Standard-tuned guitar playing G major, B minor, C major and D dominant seventh using continuous held strums and natural direct transitions.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.03,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 2.03,
+      "end": 4.35,
+      "label": "G:maj"
+    },
+    {
+      "start": 4.35,
+      "end": 6.79,
+      "label": "B:min"
+    },
+    {
+      "start": 6.79,
+      "end": 9.30,
+      "label": "C:maj"
+    },
+    {
+      "start": 9.30,
+      "end": 14.71,
+      "label": "D:7"
+    },
+    {
+      "start": 14.71,
+      "end": 16.137868,
+      "label": "N",
+      "notes": "Final chord decay followed by silence"
+    }
+  ]
+}
