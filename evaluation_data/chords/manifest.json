@@ -78,6 +78,13 @@
       "audio_path": "audio/held_extended_03.wav",
       "annotation_path": "annotations/held_extended_03.json",
       "include_in_primary_metrics": true
+    },
+    {
+      "clip_id": "held_mixed_04",
+      "split": "held_out",
+      "audio_path": "audio/held_mixed_04.wav",
+      "annotation_path": "annotations/held_mixed_04.json",
+      "include_in_primary_metrics": true
     }
   ]
 }
