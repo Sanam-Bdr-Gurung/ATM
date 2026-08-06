@@ -4,7 +4,7 @@
   "split": "development",
   "source": "self_recorded_guitar",
   "annotation_author": "Sanam Gurung",
-  "duration_sec": 15.418050,
+  "duration_sec": 15.418049886621315,
   "recording_notes": "Continuous standard-tuned guitar progression containing D major, A major, B minor and G major without intentional muted gaps.",
   "segments": [
     {
@@ -35,7 +35,7 @@
     },
     {
       "start": 13.41,
-      "end": 15.418050,
+      "end": 15.418049886621315,
       "label": "N",
       "notes": "Silence and decay after the final chord"
     }

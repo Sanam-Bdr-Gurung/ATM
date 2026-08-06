@@ -4,7 +4,7 @@
   "split": "development",
   "source": "self_recorded_guitar",
   "annotation_author": "Sanam Gurung",
-  "duration_sec": 22.523356,
+  "duration_sec": 22.523356009070294,
   "recording_notes": "Clean guitar recording with approximately four chord regions.",
   "segments": [
     {
@@ -53,7 +53,7 @@
     },
     {
       "start": 20.74,
-      "end": 22.523356,
+      "end": 22.523356009070294,
       "label": "N",
       "notes": "Silence and decay after the final chord"
     }

@@ -4,7 +4,7 @@
   "split": "development",
   "source": "self_recorded_guitar",
   "annotation_author": "Sanam Gurung",
-  "duration_sec": 32.577596,
+  "duration_sec": 32.57759637188209,
   "recording_notes": "Standard-tuned guitar playing an arpeggiated E minor, C major, G major and D major progression with natural sustain and direct transitions.",
   "segments": [
     {
@@ -19,23 +19,23 @@
       "label": "E:min"
     },
     {
-      "start": 8.54,  
-      "end": 14.50,
+      "start": 8.54,
+      "end": 14.5,
       "label": "C:maj"
     },
     {
-      "start": 14.50,
-      "end": 20.30,
+      "start": 14.5,
+      "end": 20.3,
       "label": "G:maj"
     },
     {
-      "start": 20.30,
+      "start": 20.3,
       "end": 30.01,
       "label": "D:maj"
     },
     {
       "start": 30.01,
-      "end": 32.577596,
+      "end": 32.57759637188209,
       "label": "N",
       "notes": "Final chord decay followed by silence"
     }

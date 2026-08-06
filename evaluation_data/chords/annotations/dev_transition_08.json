@@ -4,7 +4,7 @@
   "split": "development",
   "source": "self_recorded_guitar",
   "annotation_author": "Sanam Gurung",
-  "duration_sec": 28.398005,
+  "duration_sec": 28.398004535147393,
   "recording_notes": "Standard-tuned guitar playing E dominant seventh, A suspended second, D suspended fourth and B minor seventh with two dynamically varied strums per chord, natural sustain, fret noise and direct transitions.",
   "segments": [
     {
@@ -30,12 +30,12 @@
     },
     {
       "start": 17.94,
-      "end": 27.10,
+      "end": 27.1,
       "label": "B:min7"
     },
     {
-      "start": 27.10,
-      "end": 28.398005,
+      "start": 27.1,
+      "end": 28.398004535147393,
       "label": "N",
       "notes": "Final chord decay followed by silence"
     }

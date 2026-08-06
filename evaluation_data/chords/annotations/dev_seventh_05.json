@@ -4,7 +4,7 @@
   "split": "development",
   "source": "self_recorded_guitar",
   "annotation_author": "Sanam Gurung",
-  "duration_sec": 23.010975,
+  "duration_sec": 23.010975056689343,
   "recording_notes": "Standard-tuned guitar playing A minor seventh, D dominant seventh, G major seventh and C added ninth using gentle repeated strums and natural transitions.",
   "segments": [
     {
@@ -35,7 +35,7 @@
     },
     {
       "start": 20.59,
-      "end": 23.010975,
+      "end": 23.010975056689343,
       "label": "N",
       "notes": "Final chord decay followed by silence"
     }
