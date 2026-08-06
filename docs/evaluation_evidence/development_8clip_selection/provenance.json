@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-08-06T05:39:13.211312+00:00",
+  "development_clip_count": 8,
+  "git_branch": "feature/chord-first-recognition",
+  "git_commit_at_archival": "85ef5b9286d1293ea94eac36eea2cf1227d07f60",
+  "parameter_sweep_source": "evaluation_results/tuning/20260806T053034Z_development",
+  "provisional_evaluation_source": "evaluation_results/chords/20260806T052238Z_development",
+  "purpose": "Eight-clip development evaluation and final parameter selection evidence",
+  "schema_version": 1,
+  "selected_configuration": {
+    "ambiguity_margin": 0.02,
+    "balanced_development_score": 0.516,
+    "configuration_id": "development_8clip_grid_20260806",
+    "minimum_score": 0.58,
+    "minimum_segment_duration_sec": 0.6,
+    "rank": 1
+  },
+  "selection_note": "The first-ranked configuration was selected according to the predeclared balanced development utility. Its advantage over the second-ranked configuration was small."
+}

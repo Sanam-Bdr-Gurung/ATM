@@ -1,0 +1,1430 @@
+{
+  "dev_arpeggiated_04": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.739309,
+        "harmonic_exact_time_weighted": 0.741433,
+        "root_time_weighted": 0.758241,
+        "triad_family_time_weighted": 0.749837
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.176421,
+        "prediction_x_rate_evaluable": 0.191021
+      },
+      "boundaries": {
+        "f1": 0.214286,
+        "false_change_count": 20,
+        "matched_count": 3,
+        "matches": [
+          {
+            "absolute_error_sec": 0.1509,
+            "predicted_sec": 2.2291,
+            "reference_sec": 2.38
+          },
+          {
+            "absolute_error_sec": 0.175,
+            "predicted_sec": 14.675,
+            "reference_sec": 14.5
+          },
+          {
+            "absolute_error_sec": 0.0871,
+            "predicted_sec": 20.3871,
+            "reference_sec": 20.3
+          }
+        ],
+        "mean_absolute_error_sec": 0.137667,
+        "median_absolute_error_sec": 0.1509,
+        "missed_change_count": 2,
+        "precision": 0.130435,
+        "predicted_count": 23,
+        "recall": 0.6,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "C:maj -> C:maj": 4.3297,
+        "C:maj -> C:maj7": 0.2322,
+        "C:maj -> E:min": 1.0731,
+        "C:maj -> G:sus4": 0.2322,
+        "C:maj -> X": 0.0928,
+        "D:maj -> D:maj": 7.8484,
+        "D:maj -> D:sus4": 0.2322,
+        "D:maj -> X": 1.6294,
+        "E:min -> E:min": 3.7102,
+        "E:min -> X": 2.4498,
+        "G:maj -> C:maj": 0.175,
+        "G:maj -> E:min": 0.325,
+        "G:maj -> G:maj": 4.5975,
+        "G:maj -> X": 0.7025,
+        "N -> N": 3.599096,
+        "N -> X": 1.3485
+      },
+      "duration_sec": 32.577596,
+      "durations": {
+        "evaluable_sec": 32.577596,
+        "predicted_x_sec": 6.223,
+        "reference_chord_sec": 27.63
+      },
+      "no_chord": {
+        "f1": 0.84222,
+        "false_negative_sec": 1.3485,
+        "false_positive_sec": 0.0,
+        "precision": 1.0,
+        "recall": 0.727443,
+        "true_positive_sec": 3.599096
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.191791,
+        "harmonic_exact_time_weighted": 0.047068,
+        "root_time_weighted": 0.326077,
+        "triad_family_time_weighted": 0.294148
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.231944,
+        "prediction_x_rate_evaluable": 0.196718
+      },
+      "boundaries": {
+        "f1": 0.07619,
+        "false_change_count": 96,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.1278,
+            "predicted_sec": 2.5078,
+            "reference_sec": 2.38
+          },
+          {
+            "absolute_error_sec": 0.0514,
+            "predicted_sec": 8.5914,
+            "reference_sec": 8.54
+          },
+          {
+            "absolute_error_sec": 0.0572,
+            "predicted_sec": 14.4428,
+            "reference_sec": 14.5
+          },
+          {
+            "absolute_error_sec": 0.0407,
+            "predicted_sec": 20.3407,
+            "reference_sec": 20.3
+          }
+        ],
+        "mean_absolute_error_sec": 0.069275,
+        "median_absolute_error_sec": 0.0543,
+        "missed_change_count": 1,
+        "precision": 0.04,
+        "predicted_count": 100,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "C:maj -> B:sus4": 0.4693,
+        "C:maj -> C:maj7": 3.9009,
+        "C:maj -> E:min": 0.2787,
+        "C:maj -> G:maj7": 0.8824,
+        "C:maj -> X": 0.4287,
+        "D:maj -> A:sus4": 0.5572,
+        "D:maj -> D:maj": 0.6038,
+        "D:maj -> D:maj7": 1.7648,
+        "D:maj -> D:sus4": 0.0464,
+        "D:maj -> F#:min": 0.0465,
+        "D:maj -> N": 2.7962,
+        "D:maj -> X": 3.8951,
+        "E:min -> B:maj7": 1.904,
+        "E:min -> B:sus4": 1.667,
+        "E:min -> C:maj7": 0.0464,
+        "E:min -> E:maj7": 0.7894,
+        "E:min -> E:min": 0.1394,
+        "E:min -> G:maj7": 0.8823,
+        "E:min -> N": 0.1278,
+        "E:min -> X": 0.6037,
+        "G:maj -> B:maj7": 0.9752,
+        "G:maj -> B:min": 0.5572,
+        "G:maj -> B:min7": 0.0464,
+        "G:maj -> D:maj7": 0.5109,
+        "G:maj -> D:sus4": 0.4644,
+        "G:maj -> G:maj": 0.5573,
+        "G:maj -> G:maj7": 1.1611,
+        "G:maj -> G:sus2": 0.0464,
+        "G:maj -> X": 1.4811,
+        "N -> N": 4.947596
+      },
+      "duration_sec": 32.577596,
+      "durations": {
+        "evaluable_sec": 32.577596,
+        "predicted_x_sec": 6.4086,
+        "reference_chord_sec": 27.63
+      },
+      "no_chord": {
+        "f1": 0.771905,
+        "false_negative_sec": 0.0,
+        "false_positive_sec": 2.924,
+        "precision": 0.628538,
+        "recall": 1.0,
+        "true_positive_sec": 4.947596
+      },
+      "schema_version": 1
+    }
+  },
+  "dev_clean_01": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.856678,
+        "harmonic_exact_time_weighted": 0.952775,
+        "root_time_weighted": 0.957631,
+        "triad_family_time_weighted": 0.952775
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.041342,
+        "prediction_x_rate_evaluable": 0.032988
+      },
+      "boundaries": {
+        "f1": 0.636364,
+        "false_change_count": 7,
+        "matched_count": 7,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0385,
+            "predicted_sec": 3.1115,
+            "reference_sec": 3.15
+          },
+          {
+            "absolute_error_sec": 0.0845,
+            "predicted_sec": 6.5945,
+            "reference_sec": 6.51
+          },
+          {
+            "absolute_error_sec": 0.1647,
+            "predicted_sec": 7.1053,
+            "reference_sec": 7.27
+          },
+          {
+            "absolute_error_sec": 0.1113,
+            "predicted_sec": 11.3313,
+            "reference_sec": 11.22
+          },
+          {
+            "absolute_error_sec": 0.0157,
+            "predicted_sec": 11.7957,
+            "reference_sec": 11.78
+          },
+          {
+            "absolute_error_sec": 0.1074,
+            "predicted_sec": 16.5326,
+            "reference_sec": 16.64
+          },
+          {
+            "absolute_error_sec": 0.0651,
+            "predicted_sec": 20.8051,
+            "reference_sec": 20.74
+          }
+        ],
+        "mean_absolute_error_sec": 0.083886,
+        "median_absolute_error_sec": 0.0845,
+        "missed_change_count": 1,
+        "precision": 0.5,
+        "predicted_count": 14,
+        "recall": 0.875,
+        "reference_count": 8,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:min -> A:min": 3.8543,
+        "A:min -> E:sus4": 0.0157,
+        "C:maj -> C:maj": 3.36,
+        "E:min -> E:min": 4.0258,
+        "E:min -> E:sus4": 0.0742,
+        "G:maj -> G:maj": 3.3183,
+        "G:maj -> X": 0.6317,
+        "N -> A:min": 0.3718,
+        "N -> A:sus2": 1.1145,
+        "N -> C:maj": 0.123,
+        "N -> D:sus4": 0.1858,
+        "N -> E:min": 0.1074,
+        "N -> E:sus4": 0.2351,
+        "N -> G:maj": 0.1647,
+        "N -> G:sus4": 0.0929,
+        "N -> N": 4.736856,
+        "N -> X": 0.1113
+      },
+      "duration_sec": 22.523356,
+      "durations": {
+        "evaluable_sec": 22.523356,
+        "predicted_x_sec": 0.743,
+        "reference_chord_sec": 15.28
+      },
+      "no_chord": {
+        "f1": 0.79078,
+        "false_negative_sec": 2.5065,
+        "false_positive_sec": 0.0,
+        "precision": 1.0,
+        "recall": 0.653959,
+        "true_positive_sec": 4.736856
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.356752,
+        "harmonic_exact_time_weighted": 0.072945,
+        "root_time_weighted": 0.270478,
+        "triad_family_time_weighted": 0.267454
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.370975,
+        "prediction_x_rate_evaluable": 0.265991
+      },
+      "boundaries": {
+        "f1": 0.235294,
+        "false_change_count": 37,
+        "matched_count": 6,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0079,
+            "predicted_sec": 3.1579,
+            "reference_sec": 3.15
+          },
+          {
+            "absolute_error_sec": 0.0211,
+            "predicted_sec": 7.2911,
+            "reference_sec": 7.27
+          },
+          {
+            "absolute_error_sec": 0.0649,
+            "predicted_sec": 11.2849,
+            "reference_sec": 11.22
+          },
+          {
+            "absolute_error_sec": 0.0622,
+            "predicted_sec": 11.8422,
+            "reference_sec": 11.78
+          },
+          {
+            "absolute_error_sec": 0.0002,
+            "predicted_sec": 15.6502,
+            "reference_sec": 15.65
+          },
+          {
+            "absolute_error_sec": 0.0319,
+            "predicted_sec": 16.6719,
+            "reference_sec": 16.64
+          }
+        ],
+        "mean_absolute_error_sec": 0.031367,
+        "median_absolute_error_sec": 0.0265,
+        "missed_change_count": 2,
+        "precision": 0.139535,
+        "predicted_count": 43,
+        "recall": 0.75,
+        "reference_count": 8,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:min -> A:maj7": 0.0462,
+        "A:min -> A:min": 1.1146,
+        "A:min -> C:maj7": 0.0464,
+        "A:min -> E:maj7": 0.0465,
+        "A:min -> E:sus4": 0.325,
+        "A:min -> F:maj7": 0.6037,
+        "A:min -> N": 0.0622,
+        "A:min -> X": 1.6254,
+        "C:maj -> C:maj7": 2.5541,
+        "C:maj -> G#:maj7": 0.0465,
+        "C:maj -> G:maj7": 0.3715,
+        "C:maj -> N": 0.295,
+        "C:maj -> X": 0.0929,
+        "E:min -> B:maj7": 0.1393,
+        "E:min -> B:sus4": 1.6717,
+        "E:min -> G:maj7": 0.0929,
+        "E:min -> N": 1.3136,
+        "E:min -> X": 0.8825,
+        "G:maj -> B:min": 0.2786,
+        "G:maj -> D:sus4": 0.1393,
+        "G:maj -> G#:maj7": 0.0464,
+        "G:maj -> G:maj7": 0.418,
+        "G:maj -> X": 3.0677,
+        "N -> A:maj7": 0.0002,
+        "N -> N": 6.920656,
+        "N -> X": 0.3225
+      },
+      "duration_sec": 22.523356,
+      "durations": {
+        "evaluable_sec": 22.523356,
+        "predicted_x_sec": 5.991,
+        "reference_chord_sec": 15.28
+      },
+      "no_chord": {
+        "f1": 0.874106,
+        "false_negative_sec": 0.3227,
+        "false_positive_sec": 1.6708,
+        "precision": 0.805528,
+        "recall": 0.955449,
+        "true_positive_sec": 6.920656
+      },
+      "schema_version": 1
+    }
+  },
+  "dev_continuous_02": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.734045,
+        "harmonic_exact_time_weighted": 0.72703,
+        "root_time_weighted": 0.758247,
+        "triad_family_time_weighted": 0.753967
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.13179,
+        "prediction_x_rate_evaluable": 0.159644
+      },
+      "boundaries": {
+        "f1": 0.47619,
+        "false_change_count": 11,
+        "matched_count": 5,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0158,
+            "predicted_sec": 2.5542,
+            "reference_sec": 2.57
+          },
+          {
+            "absolute_error_sec": 0.0518,
+            "predicted_sec": 4.4118,
+            "reference_sec": 4.36
+          },
+          {
+            "absolute_error_sec": 0.0742,
+            "predicted_sec": 6.3158,
+            "reference_sec": 6.39
+          },
+          {
+            "absolute_error_sec": 0.0444,
+            "predicted_sec": 8.4056,
+            "reference_sec": 8.45
+          },
+          {
+            "absolute_error_sec": 0.2211,
+            "predicted_sec": 13.1889,
+            "reference_sec": 13.41
+          }
+        ],
+        "mean_absolute_error_sec": 0.08146,
+        "median_absolute_error_sec": 0.0518,
+        "missed_change_count": 0,
+        "precision": 0.3125,
+        "predicted_count": 16,
+        "recall": 1.0,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:maj -> A:add9": 0.0929,
+        "A:maj -> A:maj": 1.7647,
+        "A:maj -> A:sus4": 0.0464,
+        "A:maj -> B:min7": 0.0742,
+        "A:maj -> D:add9": 0.0518,
+        "B:min -> B:min": 1.8111,
+        "B:min -> B:min7": 0.1116,
+        "B:min -> G:maj": 0.0444,
+        "B:min -> G:maj7": 0.0929,
+        "D:maj -> D:add9": 0.0875,
+        "D:maj -> D:maj": 1.7025,
+        "G:maj -> D#:7": 0.0928,
+        "G:maj -> D:sus4": 0.8359,
+        "G:maj -> G:maj": 2.6027,
+        "G:maj -> X": 1.4286,
+        "N -> A:sus4": 0.0929,
+        "N -> D:maj": 0.0158,
+        "N -> N": 3.43655,
+        "N -> X": 1.0328
+      },
+      "duration_sec": 15.41805,
+      "durations": {
+        "evaluable_sec": 15.41805,
+        "predicted_x_sec": 2.4614,
+        "reference_chord_sec": 10.84
+      },
+      "no_chord": {
+        "f1": 0.857572,
+        "false_negative_sec": 1.1415,
+        "false_positive_sec": 0.0,
+        "precision": 1.0,
+        "recall": 0.750658,
+        "true_positive_sec": 3.43655
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.495721,
+        "harmonic_exact_time_weighted": 0.282749,
+        "root_time_weighted": 0.394142,
+        "triad_family_time_weighted": 0.394142
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.488395,
+        "prediction_x_rate_evaluable": 0.343377
+      },
+      "boundaries": {
+        "f1": 0.216216,
+        "false_change_count": 28,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0771,
+            "predicted_sec": 2.6471,
+            "reference_sec": 2.57
+          },
+          {
+            "absolute_error_sec": 0.0054,
+            "predicted_sec": 4.3654,
+            "reference_sec": 4.36
+          },
+          {
+            "absolute_error_sec": 0.0277,
+            "predicted_sec": 6.3623,
+            "reference_sec": 6.39
+          },
+          {
+            "absolute_error_sec": 0.0444,
+            "predicted_sec": 8.4056,
+            "reference_sec": 8.45
+          }
+        ],
+        "mean_absolute_error_sec": 0.03865,
+        "median_absolute_error_sec": 0.03605,
+        "missed_change_count": 1,
+        "precision": 0.125,
+        "predicted_count": 32,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:maj -> A:add9": 0.8823,
+        "A:maj -> A:maj7": 0.3252,
+        "A:maj -> G:sus2": 0.0054,
+        "A:maj -> X": 0.8171,
+        "B:min -> B:min": 1.3932,
+        "B:min -> F#:maj7": 0.1393,
+        "B:min -> G:maj7": 0.0928,
+        "B:min -> N": 0.0929,
+        "B:min -> X": 0.3418,
+        "D:maj -> A:maj7": 0.1857,
+        "D:maj -> D:maj": 1.4397,
+        "D:maj -> G:sus2": 0.0875,
+        "D:maj -> N": 0.0771,
+        "G:maj -> B:min": 0.0465,
+        "G:maj -> D:maj7": 0.0464,
+        "G:maj -> G#:maj7": 0.1393,
+        "G:maj -> G:maj": 0.2321,
+        "G:maj -> N": 0.3604,
+        "G:maj -> X": 4.1353,
+        "N -> N": 4.57805
+      },
+      "duration_sec": 15.41805,
+      "durations": {
+        "evaluable_sec": 15.41805,
+        "predicted_x_sec": 5.2942,
+        "reference_chord_sec": 10.84
+      },
+      "no_chord": {
+        "f1": 0.945243,
+        "false_negative_sec": 0.0,
+        "false_positive_sec": 0.5304,
+        "precision": 0.896172,
+        "recall": 1.0,
+        "true_positive_sec": 4.57805
+      },
+      "schema_version": 1
+    }
+  },
+  "dev_extended_03": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.597672,
+        "harmonic_exact_time_weighted": 0.551327,
+        "root_time_weighted": 0.737218,
+        "triad_family_time_weighted": 0.737218
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.023,
+        "prediction_x_rate_evaluable": 0.077058
+      },
+      "boundaries": {
+        "f1": 0.4,
+        "false_change_count": 11,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.2031,
+            "predicted_sec": 1.9969,
+            "reference_sec": 2.2
+          },
+          {
+            "absolute_error_sec": 0.0265,
+            "predicted_sec": 6.1765,
+            "reference_sec": 6.15
+          },
+          {
+            "absolute_error_sec": 0.0508,
+            "predicted_sec": 8.3592,
+            "reference_sec": 8.41
+          },
+          {
+            "absolute_error_sec": 0.0066,
+            "predicted_sec": 12.3066,
+            "reference_sec": 12.3
+          }
+        ],
+        "mean_absolute_error_sec": 0.07175,
+        "median_absolute_error_sec": 0.03865,
+        "missed_change_count": 1,
+        "precision": 0.266667,
+        "predicted_count": 15,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "C:maj7 -> C:maj": 1.7117,
+        "C:maj7 -> C:maj7": 2.0854,
+        "C:maj7 -> X": 0.0929,
+        "D:sus2 -> A:sus4": 1.84,
+        "D:sus4 -> A:sus4": 0.2789,
+        "D:sus4 -> D:sus4": 1.579,
+        "D:sus4 -> G:add9": 0.0929,
+        "D:sus4 -> G:maj": 0.1128,
+        "D:sus4 -> G:sus2": 0.0464,
+        "G:7 -> C:maj7": 0.0508,
+        "G:7 -> G:7": 1.904,
+        "G:7 -> G:maj": 0.1658,
+        "G:7 -> X": 0.1394,
+        "N -> A:sus4": 0.2031,
+        "N -> C:maj": 0.0066,
+        "N -> N": 2.716713,
+        "N -> X": 0.8359
+      },
+      "duration_sec": 13.862313,
+      "durations": {
+        "evaluable_sec": 13.862313,
+        "predicted_x_sec": 1.0682,
+        "reference_chord_sec": 10.1
+      },
+      "no_chord": {
+        "f1": 0.838618,
+        "false_negative_sec": 1.0456,
+        "false_positive_sec": 0.0,
+        "precision": 1.0,
+        "recall": 0.722086,
+        "true_positive_sec": 2.716713
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.542731,
+        "harmonic_exact_time_weighted": 0.372396,
+        "root_time_weighted": 0.398465,
+        "triad_family_time_weighted": 0.398436
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.252891,
+        "prediction_x_rate_evaluable": 0.184255
+      },
+      "boundaries": {
+        "f1": 0.173913,
+        "false_change_count": 37,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0291,
+            "predicted_sec": 2.2291,
+            "reference_sec": 2.2
+          },
+          {
+            "absolute_error_sec": 0.0003,
+            "predicted_sec": 4.0403,
+            "reference_sec": 4.04
+          },
+          {
+            "absolute_error_sec": 0.0199,
+            "predicted_sec": 6.1301,
+            "reference_sec": 6.15
+          },
+          {
+            "absolute_error_sec": 0.0421,
+            "predicted_sec": 8.4521,
+            "reference_sec": 8.41
+          }
+        ],
+        "mean_absolute_error_sec": 0.02285,
+        "median_absolute_error_sec": 0.0245,
+        "missed_change_count": 1,
+        "precision": 0.097561,
+        "predicted_count": 41,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "C:maj7 -> C:maj7": 2.9721,
+        "C:maj7 -> G#:maj7": 0.0464,
+        "C:maj7 -> G:maj7": 0.0421,
+        "C:maj7 -> G:sus4": 0.0465,
+        "C:maj7 -> N": 0.6436,
+        "C:maj7 -> X": 0.1393,
+        "D:sus2 -> A#:maj7": 0.0465,
+        "D:sus2 -> A:maj7": 0.2322,
+        "D:sus2 -> A:sus4": 0.743,
+        "D:sus2 -> D:sus2": 0.139,
+        "D:sus2 -> N": 0.0291,
+        "D:sus2 -> X": 0.6502,
+        "D:sus4 -> A#:maj7": 0.0928,
+        "D:sus4 -> A:maj7": 0.1858,
+        "D:sus4 -> D:sus2": 0.0003,
+        "D:sus4 -> D:sus4": 0.6501,
+        "D:sus4 -> G:maj7": 0.0199,
+        "D:sus4 -> X": 1.1611,
+        "G:7 -> B:maj7": 1.254,
+        "G:7 -> B:min": 0.1394,
+        "G:7 -> G:maj7": 0.263,
+        "G:7 -> X": 0.6036,
+        "N -> N": 3.762313
+      },
+      "duration_sec": 13.862313,
+      "durations": {
+        "evaluable_sec": 13.862313,
+        "predicted_x_sec": 2.5542,
+        "reference_chord_sec": 10.1
+      },
+      "no_chord": {
+        "f1": 0.917937,
+        "false_negative_sec": 0.0,
+        "false_positive_sec": 0.6727,
+        "precision": 0.848321,
+        "recall": 1.0,
+        "true_positive_sec": 3.762313
+      },
+      "schema_version": 1
+    }
+  },
+  "dev_repeated_06": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.680373,
+        "harmonic_exact_time_weighted": 0.667662,
+        "root_time_weighted": 0.67594,
+        "triad_family_time_weighted": 0.67005
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.202584,
+        "prediction_x_rate_evaluable": 0.19644
+      },
+      "boundaries": {
+        "f1": 0.258065,
+        "false_change_count": 22,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0438,
+            "predicted_sec": 2.1362,
+            "reference_sec": 2.18
+          },
+          {
+            "absolute_error_sec": 0.0372,
+            "predicted_sec": 6.0372,
+            "reference_sec": 6.0
+          },
+          {
+            "absolute_error_sec": 0.0247,
+            "predicted_sec": 9.8453,
+            "reference_sec": 9.87
+          },
+          {
+            "absolute_error_sec": 0.0038,
+            "predicted_sec": 13.7462,
+            "reference_sec": 13.75
+          }
+        ],
+        "mean_absolute_error_sec": 0.027375,
+        "median_absolute_error_sec": 0.03095,
+        "missed_change_count": 1,
+        "precision": 0.153846,
+        "predicted_count": 26,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:maj -> A:maj": 3.6714,
+        "A:maj -> E:sus4": 0.1486,
+        "D:maj -> A:sus4": 1.4376,
+        "D:maj -> D:maj": 4.5511,
+        "D:maj -> D:maj7": 0.0427,
+        "D:maj -> X": 0.2786,
+        "E:maj -> B:sus4": 0.5573,
+        "E:maj -> E:maj": 1.0681,
+        "E:maj -> E:sus4": 0.0372,
+        "E:maj -> F#:sus4": 0.0247,
+        "E:maj -> X": 2.1827,
+        "F#:min -> D:maj7": 0.0038,
+        "F#:min -> F#:min": 2.6472,
+        "F#:min -> F#:sus4": 0.0681,
+        "F#:min -> X": 1.1609,
+        "N -> A:maj": 0.0438,
+        "N -> A:sus4": 0.3736,
+        "N -> N": 3.181097,
+        "N -> X": 0.743
+      },
+      "duration_sec": 22.221497,
+      "durations": {
+        "evaluable_sec": 22.221497,
+        "predicted_x_sec": 4.3652,
+        "reference_chord_sec": 17.88
+      },
+      "no_chord": {
+        "f1": 0.845745,
+        "false_negative_sec": 1.1604,
+        "false_positive_sec": 0.0,
+        "precision": 1.0,
+        "recall": 0.732719,
+        "true_positive_sec": 3.181097
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.25379,
+        "harmonic_exact_time_weighted": 0.075313,
+        "root_time_weighted": 0.363607,
+        "triad_family_time_weighted": 0.316857
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.394687,
+        "prediction_x_rate_evaluable": 0.319758
+      },
+      "boundaries": {
+        "f1": 0.12987,
+        "false_change_count": 67,
+        "matched_count": 5,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0956,
+            "predicted_sec": 2.2756,
+            "reference_sec": 2.18
+          },
+          {
+            "absolute_error_sec": 0.0093,
+            "predicted_sec": 5.9907,
+            "reference_sec": 6.0
+          },
+          {
+            "absolute_error_sec": 0.0217,
+            "predicted_sec": 9.8917,
+            "reference_sec": 9.87
+          },
+          {
+            "absolute_error_sec": 0.0427,
+            "predicted_sec": 13.7927,
+            "reference_sec": 13.75
+          },
+          {
+            "absolute_error_sec": 0.0485,
+            "predicted_sec": 20.1085,
+            "reference_sec": 20.06
+          }
+        ],
+        "mean_absolute_error_sec": 0.04356,
+        "median_absolute_error_sec": 0.0427,
+        "missed_change_count": 0,
+        "precision": 0.069444,
+        "predicted_count": 72,
+        "recall": 1.0,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:maj -> A:maj7": 2.4613,
+        "A:maj -> E:sus4": 0.0929,
+        "A:maj -> N": 0.0956,
+        "A:maj -> X": 1.1702,
+        "D:maj -> A:maj7": 0.1857,
+        "D:maj -> D:maj": 1.3466,
+        "D:maj -> D:maj7": 1.8575,
+        "D:maj -> D:sus4": 0.0929,
+        "D:maj -> N": 0.3678,
+        "D:maj -> X": 2.4595,
+        "E:maj -> B:maj7": 0.8142,
+        "E:maj -> B:sus4": 1.7182,
+        "E:maj -> X": 1.3376,
+        "F#:min -> B:maj7": 0.0217,
+        "F#:min -> C#:sus4": 0.7896,
+        "F#:min -> F#:maj7": 0.743,
+        "F#:min -> G:maj7": 0.1393,
+        "F#:min -> N": 0.0967,
+        "F#:min -> X": 2.0897,
+        "N -> N": 4.292997,
+        "N -> X": 0.0485
+      },
+      "duration_sec": 22.221497,
+      "durations": {
+        "evaluable_sec": 22.221497,
+        "predicted_x_sec": 7.1055,
+        "reference_chord_sec": 17.88
+      },
+      "no_chord": {
+        "f1": 0.933809,
+        "false_negative_sec": 0.0485,
+        "false_positive_sec": 0.5601,
+        "precision": 0.884589,
+        "recall": 0.988829,
+        "true_positive_sec": 4.292997
+      },
+      "schema_version": 1
+    }
+  },
+  "dev_seventh_05": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.862857,
+        "harmonic_exact_time_weighted": 0.832274,
+        "root_time_weighted": 0.972229,
+        "triad_family_time_weighted": 0.969517
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.018259,
+        "prediction_x_rate_evaluable": 0.01817
+      },
+      "boundaries": {
+        "f1": 0.416667,
+        "false_change_count": 14,
+        "matched_count": 5,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0064,
+            "predicted_sec": 2.7864,
+            "reference_sec": 2.78
+          },
+          {
+            "absolute_error_sec": 0.0084,
+            "predicted_sec": 6.5016,
+            "reference_sec": 6.51
+          },
+          {
+            "absolute_error_sec": 0.0483,
+            "predicted_sec": 10.5883,
+            "reference_sec": 10.54
+          },
+          {
+            "absolute_error_sec": 0.0293,
+            "predicted_sec": 14.4893,
+            "reference_sec": 14.46
+          },
+          {
+            "absolute_error_sec": 0.0293,
+            "predicted_sec": 20.6193,
+            "reference_sec": 20.59
+          }
+        ],
+        "mean_absolute_error_sec": 0.02434,
+        "median_absolute_error_sec": 0.0293,
+        "missed_change_count": 0,
+        "precision": 0.263158,
+        "predicted_count": 19,
+        "recall": 1.0,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:min7 -> A:min": 2.3221,
+        "A:min7 -> A:min7": 1.3931,
+        "A:min7 -> D:7": 0.0084,
+        "A:min7 -> N": 0.0064,
+        "C:add9 -> C:add9": 6.1007,
+        "C:add9 -> C:maj7": 0.0293,
+        "D:7 -> D:7": 3.8461,
+        "D:7 -> G:sus4": 0.091,
+        "D:7 -> X": 0.0929,
+        "G:maj7 -> C:maj7": 0.0636,
+        "G:maj7 -> G:maj": 0.0929,
+        "G:maj7 -> G:maj7": 3.4829,
+        "G:maj7 -> G:sus4": 0.0483,
+        "G:maj7 -> X": 0.2323,
+        "N -> C:add9": 0.0293,
+        "N -> D:sus2": 0.0464,
+        "N -> N": 5.032375,
+        "N -> X": 0.0929
+      },
+      "duration_sec": 23.010975,
+      "durations": {
+        "evaluable_sec": 23.010975,
+        "predicted_x_sec": 0.4181,
+        "reference_chord_sec": 17.81
+      },
+      "no_chord": {
+        "f1": 0.98291,
+        "false_negative_sec": 0.1686,
+        "false_positive_sec": 0.0064,
+        "precision": 0.99873,
+        "recall": 0.967583,
+        "true_positive_sec": 5.032375
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.320881,
+        "harmonic_exact_time_weighted": 0.12256,
+        "root_time_weighted": 0.289916,
+        "triad_family_time_weighted": 0.222122
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.482381,
+        "prediction_x_rate_evaluable": 0.373352
+      },
+      "boundaries": {
+        "f1": 0.117647,
+        "false_change_count": 59,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0993,
+            "predicted_sec": 2.8793,
+            "reference_sec": 2.78
+          },
+          {
+            "absolute_error_sec": 0.038,
+            "predicted_sec": 6.548,
+            "reference_sec": 6.51
+          },
+          {
+            "absolute_error_sec": 0.0446,
+            "predicted_sec": 10.4954,
+            "reference_sec": 10.54
+          },
+          {
+            "absolute_error_sec": 0.0172,
+            "predicted_sec": 14.4428,
+            "reference_sec": 14.46
+          }
+        ],
+        "mean_absolute_error_sec": 0.049775,
+        "median_absolute_error_sec": 0.0413,
+        "missed_change_count": 1,
+        "precision": 0.063492,
+        "predicted_count": 63,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:min7 -> A:maj7": 0.4644,
+        "A:min7 -> A:min": 1.4016,
+        "A:min7 -> A:min7": 0.0929,
+        "A:min7 -> A:sus2": 0.0464,
+        "A:min7 -> E:sus4": 0.2787,
+        "A:min7 -> N": 0.0993,
+        "A:min7 -> X": 1.3467,
+        "C:add9 -> C:maj7": 0.3716,
+        "C:add9 -> C:sus2": 0.6966,
+        "C:add9 -> D:maj7": 0.2786,
+        "C:add9 -> G:maj7": 0.2322,
+        "C:add9 -> G:sus4": 0.0464,
+        "C:add9 -> N": 0.4351,
+        "C:add9 -> X": 4.0695,
+        "D:7 -> A#:maj7": 0.0464,
+        "D:7 -> A:maj7": 0.0465,
+        "D:7 -> A:min": 0.038,
+        "D:7 -> C:sus2": 0.2322,
+        "D:7 -> D:7": 1.5326,
+        "D:7 -> F#:maj7": 0.0464,
+        "D:7 -> F#:min": 0.1393,
+        "D:7 -> X": 1.9486,
+        "G:maj7 -> B:maj7": 1.6255,
+        "G:maj7 -> B:min": 0.5108,
+        "G:maj7 -> G:maj7": 0.5573,
+        "G:maj7 -> X": 1.2264,
+        "N -> N": 5.200975
+      },
+      "duration_sec": 23.010975,
+      "durations": {
+        "evaluable_sec": 23.010975,
+        "predicted_x_sec": 8.5912,
+        "reference_chord_sec": 17.81
+      },
+      "no_chord": {
+        "f1": 0.951135,
+        "false_negative_sec": 0.0,
+        "false_positive_sec": 0.5344,
+        "precision": 0.906824,
+        "recall": 1.0,
+        "true_positive_sec": 5.200975
+      },
+      "schema_version": 1
+    }
+  },
+  "dev_transition_08": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.523621,
+        "harmonic_exact_time_weighted": 0.45216,
+        "root_time_weighted": 0.519301,
+        "triad_family_time_weighted": 0.511234
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.207359,
+        "prediction_x_rate_evaluable": 0.18315
+      },
+      "boundaries": {
+        "f1": 0.30303,
+        "false_change_count": 23,
+        "matched_count": 5,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0036,
+            "predicted_sec": 2.7864,
+            "reference_sec": 2.79
+          },
+          {
+            "absolute_error_sec": 0.1032,
+            "predicted_sec": 7.4768,
+            "reference_sec": 7.58
+          },
+          {
+            "absolute_error_sec": 0.0232,
+            "predicted_sec": 13.0032,
+            "reference_sec": 12.98
+          },
+          {
+            "absolute_error_sec": 0.2,
+            "predicted_sec": 17.74,
+            "reference_sec": 17.94
+          },
+          {
+            "absolute_error_sec": 0.1602,
+            "predicted_sec": 27.2602,
+            "reference_sec": 27.1
+          }
+        ],
+        "mean_absolute_error_sec": 0.09804,
+        "median_absolute_error_sec": 0.1032,
+        "missed_change_count": 0,
+        "precision": 0.178571,
+        "predicted_count": 28,
+        "recall": 1.0,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:sus2 -> A:sus2": 0.2322,
+        "A:sus2 -> A:sus4": 0.0929,
+        "A:sus2 -> E:sus4": 4.4479,
+        "A:sus2 -> X": 0.627,
+        "B:min7 -> B:min": 1.0217,
+        "B:min7 -> B:min7": 3.6545,
+        "B:min7 -> D:maj": 0.836,
+        "B:min7 -> X": 3.6478,
+        "D:sus4 -> A:sus4": 0.0929,
+        "D:sus4 -> B:min7": 0.2,
+        "D:sus4 -> D:sus4": 4.5511,
+        "D:sus4 -> X": 0.116,
+        "E:7 -> B:sus4": 1.0681,
+        "E:7 -> E:7": 2.5542,
+        "E:7 -> E:maj": 0.4144,
+        "E:7 -> E:sus4": 0.1032,
+        "E:7 -> X": 0.6501,
+        "N -> E:maj": 0.0036,
+        "N -> G#:min": 0.0464,
+        "N -> N": 3.877805,
+        "N -> X": 0.1602
+      },
+      "duration_sec": 28.398005,
+      "durations": {
+        "evaluable_sec": 28.398005,
+        "predicted_x_sec": 5.2011,
+        "reference_chord_sec": 24.31
+      },
+      "no_chord": {
+        "f1": 0.973612,
+        "false_negative_sec": 0.2102,
+        "false_positive_sec": 0.0,
+        "precision": 1.0,
+        "recall": 0.948581,
+        "true_positive_sec": 3.877805
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.228985,
+        "harmonic_exact_time_weighted": 0.099329,
+        "root_time_weighted": 0.246845,
+        "triad_family_time_weighted": 0.204821
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.403085,
+        "prediction_x_rate_evaluable": 0.345059
+      },
+      "boundaries": {
+        "f1": 0.119403,
+        "false_change_count": 58,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.1822,
+            "predicted_sec": 2.9722,
+            "reference_sec": 2.79
+          },
+          {
+            "absolute_error_sec": 0.0103,
+            "predicted_sec": 7.5697,
+            "reference_sec": 7.58
+          },
+          {
+            "absolute_error_sec": 0.0696,
+            "predicted_sec": 13.0496,
+            "reference_sec": 12.98
+          },
+          {
+            "absolute_error_sec": 0.0322,
+            "predicted_sec": 17.9722,
+            "reference_sec": 17.94
+          }
+        ],
+        "mean_absolute_error_sec": 0.073575,
+        "median_absolute_error_sec": 0.0509,
+        "missed_change_count": 1,
+        "precision": 0.064516,
+        "predicted_count": 62,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:sus2 -> A:sus2": 0.4179,
+        "A:sus2 -> B:maj7": 0.5109,
+        "A:sus2 -> B:sus4": 1.4396,
+        "A:sus2 -> E:maj": 0.0465,
+        "A:sus2 -> E:maj7": 0.0361,
+        "A:sus2 -> E:sus4": 0.418,
+        "A:sus2 -> N": 0.1161,
+        "A:sus2 -> X": 2.4149,
+        "B:min7 -> B:maj7": 0.1393,
+        "B:min7 -> B:min": 2.5542,
+        "B:min7 -> G:maj7": 0.1393,
+        "B:min7 -> N": 2.8906,
+        "B:min7 -> X": 3.4366,
+        "D:sus4 -> A#:maj7": 0.0929,
+        "D:sus4 -> A:maj7": 0.0929,
+        "D:sus4 -> D:maj7": 0.8823,
+        "D:sus4 -> D:sus4": 1.9968,
+        "D:sus4 -> N": 0.2696,
+        "D:sus4 -> X": 1.6255,
+        "E:7 -> B:maj7": 2.2755,
+        "E:7 -> E:maj7": 0.0103,
+        "E:7 -> N": 0.1822,
+        "E:7 -> X": 2.322,
+        "N -> N": 4.088005
+      },
+      "duration_sec": 28.398005,
+      "durations": {
+        "evaluable_sec": 28.398005,
+        "predicted_x_sec": 9.799,
+        "reference_chord_sec": 24.31
+      },
+      "no_chord": {
+        "f1": 0.702738,
+        "false_negative_sec": 0.0,
+        "false_positive_sec": 3.4585,
+        "precision": 0.541708,
+        "recall": 1.0,
+        "true_positive_sec": 4.088005
+      },
+      "schema_version": 1
+    }
+  },
+  "dev_voicing_07": {
+    "basic_pitch": {
+      "accuracy": {
+        "exact_time_weighted": 0.557203,
+        "harmonic_exact_time_weighted": 0.552962,
+        "root_time_weighted": 0.631627,
+        "triad_family_time_weighted": 0.618833
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.028511,
+        "prediction_x_rate_evaluable": 0.094179
+      },
+      "boundaries": {
+        "f1": 0.37037,
+        "false_change_count": 17,
+        "matched_count": 5,
+        "matches": [
+          {
+            "absolute_error_sec": 0.1788,
+            "predicted_sec": 1.8112,
+            "reference_sec": 1.99
+          },
+          {
+            "absolute_error_sec": 0.004,
+            "predicted_sec": 4.226,
+            "reference_sec": 4.23
+          },
+          {
+            "absolute_error_sec": 0.0655,
+            "predicted_sec": 6.5945,
+            "reference_sec": 6.66
+          },
+          {
+            "absolute_error_sec": 0.0666,
+            "predicted_sec": 9.5666,
+            "reference_sec": 9.5
+          },
+          {
+            "absolute_error_sec": 0.2123,
+            "predicted_sec": 15.2323,
+            "reference_sec": 15.02
+          }
+        ],
+        "mean_absolute_error_sec": 0.10544,
+        "median_absolute_error_sec": 0.0666,
+        "missed_change_count": 0,
+        "precision": 0.227273,
+        "predicted_count": 22,
+        "recall": 1.0,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:min -> A:min": 2.0898,
+        "A:min -> A:min7": 0.1656,
+        "A:min -> A:sus4": 0.1667,
+        "A:min -> E:sus4": 0.3715,
+        "A:min -> X": 0.0464,
+        "C:7 -> A:min": 3.1114,
+        "C:7 -> A:min7": 0.0666,
+        "C:7 -> C:7": 0.743,
+        "C:7 -> C:maj": 0.6038,
+        "C:7 -> G#:maj": 0.8094,
+        "C:7 -> X": 0.1858,
+        "D:min -> A:sus4": 0.0655,
+        "D:min -> D:min": 2.1827,
+        "D:min -> D:min7": 0.0889,
+        "D:min -> X": 0.0929,
+        "F:maj -> D:min7": 0.004,
+        "F:maj -> F:maj": 2.1896,
+        "F:maj -> X": 0.0464,
+        "N -> F:maj": 0.1788,
+        "N -> G#:maj": 0.2123,
+        "N -> N": 2.136307,
+        "N -> X": 1.2074
+      },
+      "duration_sec": 16.764807,
+      "durations": {
+        "evaluable_sec": 16.764807,
+        "predicted_x_sec": 1.5789,
+        "reference_chord_sec": 13.03
+      },
+      "no_chord": {
+        "f1": 0.727735,
+        "false_negative_sec": 1.5985,
+        "false_positive_sec": 0.0,
+        "precision": 1.0,
+        "recall": 0.571999,
+        "true_positive_sec": 2.136307
+      },
+      "schema_version": 1
+    },
+    "chroma": {
+      "accuracy": {
+        "exact_time_weighted": 0.269863,
+        "harmonic_exact_time_weighted": 0.060583,
+        "root_time_weighted": 0.431243,
+        "triad_family_time_weighted": 0.384919
+      },
+      "ambiguity": {
+        "prediction_x_on_reference_chord_rate": 0.213845,
+        "prediction_x_rate_evaluable": 0.166205
+      },
+      "boundaries": {
+        "f1": 0.177778,
+        "false_change_count": 36,
+        "matched_count": 4,
+        "matches": [
+          {
+            "absolute_error_sec": 0.0534,
+            "predicted_sec": 2.0434,
+            "reference_sec": 1.99
+          },
+          {
+            "absolute_error_sec": 0.0889,
+            "predicted_sec": 4.3189,
+            "reference_sec": 4.23
+          },
+          {
+            "absolute_error_sec": 0.0191,
+            "predicted_sec": 6.6409,
+            "reference_sec": 6.66
+          },
+          {
+            "absolute_error_sec": 0.0727,
+            "predicted_sec": 9.4273,
+            "reference_sec": 9.5
+          }
+        ],
+        "mean_absolute_error_sec": 0.058525,
+        "median_absolute_error_sec": 0.06305,
+        "missed_change_count": 1,
+        "precision": 0.1,
+        "predicted_count": 40,
+        "recall": 0.8,
+        "reference_count": 5,
+        "tolerance_sec": 0.25
+      },
+      "confusion_duration_sec": {
+        "A:min -> A:maj7": 0.4644,
+        "A:min -> A:min": 0.0929,
+        "A:min -> A:sus2": 0.0928,
+        "A:min -> E:maj7": 0.0465,
+        "A:min -> E:sus4": 1.0681,
+        "A:min -> X": 1.0753,
+        "C:7 -> C:7": 0.0464,
+        "C:7 -> C:maj7": 2.5078,
+        "C:7 -> N": 1.9239,
+        "C:7 -> X": 1.0419,
+        "D:min -> A:maj7": 0.1394,
+        "D:min -> D:min": 0.6501,
+        "D:min -> D:min7": 1.161,
+        "D:min -> D:sus4": 0.0464,
+        "D:min -> X": 0.4331,
+        "F:maj -> A#:maj7": 0.0929,
+        "F:maj -> C#:maj7": 1.161,
+        "F:maj -> C:maj7": 0.0465,
+        "F:maj -> F#:maj7": 0.0928,
+        "F:maj -> F:maj7": 0.5573,
+        "F:maj -> N": 0.0534,
+        "F:maj -> X": 0.2361,
+        "N -> N": 3.734807
+      },
+      "duration_sec": 16.764807,
+      "durations": {
+        "evaluable_sec": 16.764807,
+        "predicted_x_sec": 2.7864,
+        "reference_chord_sec": 13.03
+      },
+      "no_chord": {
+        "f1": 0.790694,
+        "false_negative_sec": 0.0,
+        "false_positive_sec": 1.9773,
+        "precision": 0.653841,
+        "recall": 1.0,
+        "true_positive_sec": 3.734807
+      },
+      "schema_version": 1
+    }
+  }
+}
