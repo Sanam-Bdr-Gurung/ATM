@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "clip_id": "held_extended_03",
+  "split": "held_out",
+  "source": "self_recorded_guitar",
+  "annotation_author": "Sanam Gurung",
+  "duration_sec": 18.390204,
+  "recording_notes": "Standard-tuned guitar playing A suspended fourth, D major seventh, E minor seventh and A dominant seventh using gentle held strums and natural direct transitions.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.15,
+      "label": "N",
+      "notes": "Silence before playing"
+    },
+    {
+      "start": 2.15,
+      "end": 4.91,
+      "label": "A:sus4"
+    },
+    {
+      "start": 4.91,
+      "end": 8.19,
+      "label": "D:maj7"
+    },
+    {
+      "start": 8.19,
+      "end": 11.34,
+      "label": "E:min7"
+    },
+    {
+      "start": 11.34,
+      "end": 16.24,
+      "label": "A:7"
+    },
+    {
+      "start": 16.24,
+      "end": 18.390204,
+      "label": "N",
+      "notes": "Final chord decay followed by silence"
+    }
+  ]
+}
