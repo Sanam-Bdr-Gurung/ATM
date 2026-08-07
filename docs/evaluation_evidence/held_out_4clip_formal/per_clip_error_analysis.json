@@ -1,0 +1,415 @@
+{
+  "clips": {
+    "held_arpeggiated_02": {
+      "basic_pitch": {
+        "boundary_f1": 0.272727,
+        "boundary_mean_absolute_error_sec": 0.061833,
+        "boundary_precision": 0.176471,
+        "boundary_recall": 0.6,
+        "duration_sec": 28.328345,
+        "false_change_count": 14,
+        "harmonic_exact": 0.84428,
+        "missed_change_count": 2,
+        "no_chord_f1": 0.407937,
+        "overall_exact": 0.727653,
+        "prediction_x_on_reference_chord_rate": 0.120683,
+        "prediction_x_rate": 0.244259,
+        "root": 0.854852,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 2.0217,
+            "prediction": "X",
+            "reference": "E:7"
+          },
+          {
+            "duration_sec": 0.6262,
+            "prediction": "X",
+            "reference": "A:min"
+          },
+          {
+            "duration_sec": 0.2847,
+            "prediction": "C:maj",
+            "reference": "F:maj"
+          },
+          {
+            "duration_sec": 0.2637,
+            "prediction": "F:maj7",
+            "reference": "E:7"
+          },
+          {
+            "duration_sec": 0.1079,
+            "prediction": "F:maj7",
+            "reference": "F:maj"
+          }
+        ],
+        "top_no_chord_confusions": [
+          {
+            "duration_sec": 4.178745,
+            "prediction": "X",
+            "reference": "N"
+          }
+        ],
+        "triad_family": 0.850762
+      },
+      "chroma": {
+        "boundary_f1": 0.085106,
+        "boundary_mean_absolute_error_sec": 0.047525,
+        "boundary_precision": 0.044944,
+        "boundary_recall": 0.8,
+        "duration_sec": 28.328345,
+        "false_change_count": 85,
+        "harmonic_exact": 0.055214,
+        "missed_change_count": 1,
+        "no_chord_f1": 0.941554,
+        "overall_exact": 0.242593,
+        "prediction_x_on_reference_chord_rate": 0.321044,
+        "prediction_x_rate": 0.257371,
+        "root": 0.462867,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 3.2518,
+            "prediction": "C:maj7",
+            "reference": "C:maj"
+          },
+          {
+            "duration_sec": 3.2044,
+            "prediction": "X",
+            "reference": "E:7"
+          },
+          {
+            "duration_sec": 3.158,
+            "prediction": "E:maj7",
+            "reference": "E:7"
+          },
+          {
+            "duration_sec": 2.8325,
+            "prediction": "X",
+            "reference": "F:maj"
+          },
+          {
+            "duration_sec": 1.8575,
+            "prediction": "A:sus2",
+            "reference": "A:min"
+          }
+        ],
+        "top_no_chord_confusions": [],
+        "triad_family": 0.362668
+      }
+    },
+    "held_extended_03": {
+      "basic_pitch": {
+        "boundary_f1": 0.571429,
+        "boundary_mean_absolute_error_sec": 0.0942,
+        "boundary_precision": 0.444444,
+        "boundary_recall": 0.8,
+        "duration_sec": 18.390204,
+        "false_change_count": 5,
+        "harmonic_exact": 0.639042,
+        "missed_change_count": 1,
+        "no_chord_f1": 0.692114,
+        "overall_exact": 0.613354,
+        "prediction_x_on_reference_chord_rate": 0.016473,
+        "prediction_x_rate": 0.012621,
+        "root": 0.931391,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 4.1192,
+            "prediction": "A:maj",
+            "reference": "A:7"
+          },
+          {
+            "duration_sec": 0.418,
+            "prediction": "D:sus2",
+            "reference": "E:min7"
+          },
+          {
+            "duration_sec": 0.1559,
+            "prediction": "E:min7",
+            "reference": "D:maj7"
+          },
+          {
+            "duration_sec": 0.152,
+            "prediction": "A:sus4",
+            "reference": "D:maj7"
+          },
+          {
+            "duration_sec": 0.1393,
+            "prediction": "X",
+            "reference": "A:7"
+          }
+        ],
+        "top_no_chord_confusions": [
+          {
+            "duration_sec": 1.9644,
+            "prediction": "A:maj",
+            "reference": "N"
+          },
+          {
+            "duration_sec": 0.0602,
+            "prediction": "A:sus4",
+            "reference": "N"
+          }
+        ],
+        "triad_family": 0.931391
+      },
+      "chroma": {
+        "boundary_f1": 0.2,
+        "boundary_mean_absolute_error_sec": 0.039875,
+        "boundary_precision": 0.114286,
+        "boundary_recall": 0.8,
+        "duration_sec": 18.390204,
+        "false_change_count": 31,
+        "harmonic_exact": 0.227424,
+        "missed_change_count": 1,
+        "no_chord_f1": 0.851078,
+        "overall_exact": 0.408076,
+        "prediction_x_on_reference_chord_rate": 0.349354,
+        "prediction_x_rate": 0.267664,
+        "root": 0.319716,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 2.0307,
+            "prediction": "X",
+            "reference": "A:sus4"
+          },
+          {
+            "duration_sec": 1.9505,
+            "prediction": "C#:min",
+            "reference": "A:7"
+          },
+          {
+            "duration_sec": 1.5789,
+            "prediction": "X",
+            "reference": "E:min7"
+          },
+          {
+            "duration_sec": 1.1384,
+            "prediction": "N",
+            "reference": "A:7"
+          },
+          {
+            "duration_sec": 1.068,
+            "prediction": "X",
+            "reference": "A:7"
+          }
+        ],
+        "top_no_chord_confusions": [],
+        "triad_family": 0.273577
+      }
+    },
+    "held_mixed_04": {
+      "basic_pitch": {
+        "boundary_f1": 0.140351,
+        "boundary_mean_absolute_error_sec": 0.029825,
+        "boundary_precision": 0.076923,
+        "boundary_recall": 0.8,
+        "duration_sec": 44.907392,
+        "false_change_count": 48,
+        "harmonic_exact": 0.509863,
+        "missed_change_count": 1,
+        "no_chord_f1": 0.155881,
+        "overall_exact": 0.465736,
+        "prediction_x_on_reference_chord_rate": 0.369721,
+        "prediction_x_rate": 0.401234,
+        "root": 0.590835,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 8.6995,
+            "prediction": "X",
+            "reference": "E:sus4"
+          },
+          {
+            "duration_sec": 4.5976,
+            "prediction": "X",
+            "reference": "F#:min"
+          },
+          {
+            "duration_sec": 1.9505,
+            "prediction": "D:sus2",
+            "reference": "D:add9"
+          },
+          {
+            "duration_sec": 1.4395,
+            "prediction": "X",
+            "reference": "D:add9"
+          },
+          {
+            "duration_sec": 0.9753,
+            "prediction": "D:maj",
+            "reference": "D:add9"
+          }
+        ],
+        "top_no_chord_confusions": [
+          {
+            "duration_sec": 3.188892,
+            "prediction": "X",
+            "reference": "N"
+          },
+          {
+            "duration_sec": 1.1146,
+            "prediction": "E:sus4",
+            "reference": "N"
+          },
+          {
+            "duration_sec": 0.0295,
+            "prediction": "F#:min",
+            "reference": "N"
+          }
+        ],
+        "triad_family": 0.540072
+      },
+      "chroma": {
+        "boundary_f1": 0.074766,
+        "boundary_mean_absolute_error_sec": 0.0615,
+        "boundary_precision": 0.039216,
+        "boundary_recall": 0.8,
+        "duration_sec": 44.907392,
+        "false_change_count": 98,
+        "harmonic_exact": 0.003473,
+        "missed_change_count": 1,
+        "no_chord_f1": 0.61253,
+        "overall_exact": 0.10993,
+        "prediction_x_on_reference_chord_rate": 0.230411,
+        "prediction_x_rate": 0.205797,
+        "root": 0.386709,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 7.1054,
+            "prediction": "A:maj7",
+            "reference": "A:maj"
+          },
+          {
+            "duration_sec": 4.2263,
+            "prediction": "X",
+            "reference": "F#:min"
+          },
+          {
+            "duration_sec": 4.0403,
+            "prediction": "B:maj7",
+            "reference": "E:sus4"
+          },
+          {
+            "duration_sec": 3.9009,
+            "prediction": "D:maj7",
+            "reference": "D:add9"
+          },
+          {
+            "duration_sec": 2.6472,
+            "prediction": "X",
+            "reference": "D:add9"
+          }
+        ],
+        "top_no_chord_confusions": [],
+        "triad_family": 0.285979
+      }
+    },
+    "held_standard_01": {
+      "basic_pitch": {
+        "boundary_f1": 0.666667,
+        "boundary_mean_absolute_error_sec": 0.07208,
+        "boundary_precision": 0.5,
+        "boundary_recall": 1.0,
+        "duration_sec": 16.137868,
+        "false_change_count": 5,
+        "harmonic_exact": 0.878328,
+        "missed_change_count": 0,
+        "no_chord_f1": 0.698941,
+        "overall_exact": 0.805236,
+        "prediction_x_on_reference_chord_rate": 0.0,
+        "prediction_x_rate": 0.046041,
+        "root": 0.88444,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 1.1495,
+            "prediction": "A:sus4",
+            "reference": "D:7"
+          },
+          {
+            "duration_sec": 0.1082,
+            "prediction": "G:maj7",
+            "reference": "B:min"
+          },
+          {
+            "duration_sec": 0.1049,
+            "prediction": "D:7",
+            "reference": "C:maj"
+          },
+          {
+            "duration_sec": 0.0929,
+            "prediction": "C:maj7",
+            "reference": "B:min"
+          },
+          {
+            "duration_sec": 0.0775,
+            "prediction": "G:maj7",
+            "reference": "G:maj"
+          }
+        ],
+        "top_no_chord_confusions": [
+          {
+            "duration_sec": 0.743,
+            "prediction": "X",
+            "reference": "N"
+          },
+          {
+            "duration_sec": 0.684868,
+            "prediction": "A:sus4",
+            "reference": "N"
+          },
+          {
+            "duration_sec": 0.1724,
+            "prediction": "G:maj",
+            "reference": "N"
+          }
+        ],
+        "triad_family": 0.88444
+      },
+      "chroma": {
+        "boundary_f1": 0.186047,
+        "boundary_mean_absolute_error_sec": 0.063,
+        "boundary_precision": 0.105263,
+        "boundary_recall": 0.8,
+        "duration_sec": 16.137868,
+        "false_change_count": 34,
+        "harmonic_exact": 0.139172,
+        "missed_change_count": 1,
+        "no_chord_f1": 0.800809,
+        "overall_exact": 0.323622,
+        "prediction_x_on_reference_chord_rate": 0.322303,
+        "prediction_x_rate": 0.253243,
+        "root": 0.326909,
+        "top_chord_confusions": [
+          {
+            "duration_sec": 2.7401,
+            "prediction": "X",
+            "reference": "D:7"
+          },
+          {
+            "duration_sec": 2.1483,
+            "prediction": "C:maj7",
+            "reference": "C:maj"
+          },
+          {
+            "duration_sec": 1.3817,
+            "prediction": "N",
+            "reference": "D:7"
+          },
+          {
+            "duration_sec": 1.0681,
+            "prediction": "F#:min",
+            "reference": "D:7"
+          },
+          {
+            "duration_sec": 0.9752,
+            "prediction": "B:min",
+            "reference": "G:maj"
+          }
+        ],
+        "top_no_chord_confusions": [],
+        "triad_family": 0.315923
+      }
+    }
+  },
+  "schema_version": 1,
+  "source": "formal four-clip held-out evaluation"
+}
