@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "split": "exploratory_application_robustness",
+  "include_in_formal_metrics": false,
+  "clips": [
+    {
+      "clip_id": "exp_baseline_p1",
+      "audio_path": "evaluation_data/application_robustness/audio/exp_baseline_p1.wav",
+      "annotation_path": "evaluation_data/application_robustness/annotations/exp_baseline_p1.json",
+      "sha256": "<fill in: shasum -a 256 <file>>",
+      "performer_id": "performer_01",
+      "guitar_id": "guitar_01",
+      "capture_device": "samsung_phone_01",
+      "capture_mode": "app_recording",
+      "distance_m": 0.5,
+      "room_id": "room_01",
+      "playing_style": "deliberate",
+      "noise_condition": "quiet",
+      "progression_id": "P1",
+      "notes": ""
+    }
+  ]
+}
