@@ -115,6 +115,30 @@ Additional participants are identified only by neutral IDs
 (`performer_02`, `guitar_02`); no personally identifying information is
 stored.
 
+## Collection workflow (recommended)
+
+```text
+record in ChordAssist
+→ stop recording
+→ pull immediately
+   (frontend: ./tool/pull_chordassist_recording.sh <clip_id> <dest>)
+→ verify SHA (script prints it and the manifest values)
+→ annotate BEFORE prediction
+→ add manifest entry
+→ only then evaluate
+```
+
+**Warning:** the app's recording service intentionally keeps only the latest
+recording (one cache file, overwritten each time). Pull each clip before
+starting the next one, or the previous take is lost. The per-clip checklist
+lives in `TIER2_COLLECTION_WORKSHEET.md`.
+
+**Speaker playback is not Tier 2.** Real guitar → phone microphone is the
+Tier-2 intended-use condition. Recorded/YouTube audio → loudspeaker → room →
+phone microphone is the optional Tier-3 acoustic re-recording stress test.
+Laptop-speaker guitar may be used for device-functionality testing, but such
+recordings must never receive `exp_*` Tier-2 IDs.
+
 ## Metrics
 
 Computed by `eval/evaluate_application_robustness.py` (frozen backend API;
