@@ -129,7 +129,9 @@ record in ChordAssist
 ```
 
 **Warning:** the app's recording service intentionally keeps only the latest
-recording (one cache file, overwritten each time). Pull each clip before
+recording (one app-sandbox temp file, overwritten each time; its directory
+varies by device, so the pull script locates it by exact filename). Pull each
+clip before
 starting the next one, or the previous take is lost. The per-clip checklist
 lives in `TIER2_COLLECTION_WORKSHEET.md`.
 
